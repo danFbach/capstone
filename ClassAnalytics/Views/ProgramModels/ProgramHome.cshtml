@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "ProgramHome";
+}
+
+<h2>Program Home</h2>
+
+<div class="row">
+    <div class="col-xs-1">
+        @using (Html.BeginForm("Index", "ProgramModels"))
+        {
+            @Html.AntiForgeryToken()        
+                <input type="submit" value="Programs" class="btn btn-default" />
+        }
+    </div>
+    <div class="col-xs-1">
+        @using (Html.BeginForm("Index", "Course"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Courses" class="btn btn-default" />
+        }
+    </div>
+    <div class="col-xs-1">
+        @using (Html.BeginForm("Index", "Unit"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Units" class="btn btn-default" />
+        }
+    </div>
+    <div class="col-xs-1">
+        @using (Html.BeginForm("TasksHome", "Task"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Tasks Home" class="btn btn-default" />
+        }
+    </div>
+</div>

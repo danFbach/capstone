@@ -29,5 +29,13 @@ namespace ClassAnalytics.Models
         {
             return new ApplicationDbContext();
         }
+        public DbSet<ClassModel> classmodel { get; set; }
+        public DbSet<CourseModels> coursemodels { get; set; }
+        public DbSet<ProgramModels> programModels { get; set; }
+        public DbSet<StudentModels> studentModels { get; set; }
+        public DbSet<TaskModel> taskModel { get; set; }
+        public DbSet<UnitModels> unitModels { get; set; }
+
+        public System.Data.Entity.DbSet<ClassAnalytics.Models.TaskTypeModels> TaskTypeModels { get; set; }
     }
 }
