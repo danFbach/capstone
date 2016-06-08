@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProgramModelsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -189,6 +190,10 @@
     <Compile Include="Migrations\201606072104240_v2.1.5.Designer.cs">
       <DependentUpon>201606072104240_v2.1.5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606080144381_survey.cs" />
+    <Compile Include="Migrations\201606080144381_survey.Designer.cs">
+      <DependentUpon>201606080144381_survey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClassModel.cs" />
@@ -202,6 +207,8 @@
     <Compile Include="Models\ProgramModels.cs" />
     <Compile Include="Models\StudentModels.cs" />
     <Compile Include="Models\SurveyModel.cs" />
+    <Compile Include="Models\SurveyQuestion.cs" />
+    <Compile Include="Models\SurveyResultModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TaskTypeModels.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
@@ -405,6 +412,11 @@
     <Content Include="Views\GradeBook\Edit.cshtml" />
     <Content Include="Views\GradeBook\Index.cshtml" />
     <Content Include="Views\GradeBook\CreateOne.cshtml" />
+    <Content Include="Views\Survey\Create.cshtml" />
+    <Content Include="Views\Survey\Delete.cshtml" />
+    <Content Include="Views\Survey\Details.cshtml" />
+    <Content Include="Views\Survey\Edit.cshtml" />
+    <Content Include="Views\Survey\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -423,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606072104240_v2.1.5.resx">
       <DependentUpon>201606072104240_v2.1.5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606080144381_survey.resx">
+      <DependentUpon>201606080144381_survey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

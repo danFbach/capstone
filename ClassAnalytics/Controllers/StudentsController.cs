@@ -15,17 +15,28 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Students
-        public ActionResult Index()
+        public ActionResult Index(int? class_id)
         {
-            List<StudentModels> students = db.studentModels.ToList();
-            List<ClassStudentViewModel> viewModel = new List<ClassStudentViewModel>();
-
-            foreach(StudentModels student in students)
+            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
+            if (class_id != null)
             {
-                viewModel.Add(new ClassStudentViewModel() {student_Id = student.student_Id, fName = student.fName, lName = student.lName, ClassModel = db.classmodel.Find(student.class_Id)});
-            }            
+                List<StudentModels> students = db.studentModels.ToList();
+                List<ClassStudentViewModel> viewModel = new List<ClassStudentViewModel>();
 
-            return View(viewModel);
+                foreach (StudentModels student in students)
+                {
+                    if (student.class_Id == class_id)
+                    {
+                        viewModel.Add(new ClassStudentViewModel() { student_Id = student.student_Id, fName = student.fName, lName = student.lName, ClassModel = db.classmodel.Find(student.class_Id) });
+                    }
+                }
+                return View(viewModel);
+            }
+            else
+            {
+                List<ClassStudentViewModel> viewModel = new List<ClassStudentViewModel>();
+                return View(viewModel);
+            }            
         }
 
         // GET: Students/Details/5
@@ -109,6 +120,7 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             return View(studentModels);
         }
 
@@ -117,7 +129,7 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,fName,lName")] StudentModels studentModels)
+        public ActionResult Edit(StudentModels studentModels)
         {
             if (ModelState.IsValid)
             {

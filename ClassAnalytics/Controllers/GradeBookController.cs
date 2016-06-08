@@ -21,9 +21,10 @@ namespace ClassAnalytics.Controllers
             {
                 if(task_Id == null)
                 {
+                    
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel);
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels);
                     return View(gradeBookModel.ToList());
                 }
                 else
@@ -31,7 +32,7 @@ namespace ClassAnalytics.Controllers
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).ToList();
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
                     foreach(GradeBookModel grade in gradeBookModel)
                     {
                         if(grade.task_Id == task_Id)
@@ -49,7 +50,7 @@ namespace ClassAnalytics.Controllers
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "unit_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).ToList();
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
                     foreach (GradeBookModel grade in gradeBookModel)
                     {
                         if (grade.class_Id == class_id)
@@ -64,7 +65,7 @@ namespace ClassAnalytics.Controllers
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).ToList();
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
                     foreach (GradeBookModel grade in gradeBookModel)
                     {
                         if(grade.class_Id == class_id)

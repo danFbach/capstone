@@ -15,22 +15,33 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Course
-        public ActionResult Index()
+        public ActionResult Index(int? program_id)
         {
-            ProgCourseViewModel viewModel = new ProgCourseViewModel();
-            List<ProgCourseViewModel> viewModelList = new List<ProgCourseViewModel>();
-            var courses = db.coursemodels.ToList();
-            foreach(CourseModels course in courses)
+            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
+            if(program_id != null)
             {
-                viewModel.course_Id = course.course_Id;
-                viewModel.courseName = course.courseName;
-                viewModel.startDate = course.startDate;
-                viewModel.endDate = course.endDate;
-                viewModel.ProgramModels = db.programModels.Find(course.program_Id);
-                viewModelList.Add(viewModel);
+                List<ProgCourseViewModel> viewModelList = new List<ProgCourseViewModel>();
+                var courses = db.coursemodels.ToList();
+                foreach (CourseModels course in courses)
+                {
+                    if(course.program_Id == program_id)
+                    {
+                        ProgCourseViewModel viewModel = new ProgCourseViewModel();
+                        viewModel.course_Id = course.course_Id;
+                        viewModel.courseName = course.courseName;
+                        viewModel.startDate = course.startDate;
+                        viewModel.endDate = course.endDate;
+                        viewModel.ProgramModels = db.programModels.Find(course.program_Id);
+                        viewModelList.Add(viewModel);
+                    }                    
+                }
+                return View(viewModelList);
             }
-            
-            return View(viewModelList);
+            else
+            {
+                List<ProgCourseViewModel> viewModel = new List<ProgCourseViewModel>();
+                return View(viewModel);
+            }  
         }
 
         // GET: Course/Details/5

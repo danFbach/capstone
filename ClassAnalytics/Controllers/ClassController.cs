@@ -79,7 +79,7 @@ namespace ClassAnalytics.Controllers
                 new_class.ProgramModels = db.programModels.Find(viewModel.program_id);
                 db.classmodel.Add(new_class);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Students");
             }
 
             return View(viewModel);

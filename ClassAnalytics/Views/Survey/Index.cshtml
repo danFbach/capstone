@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ClassAnalytics.Models.SurveyModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentModels.fName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.surveyDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentModels.fName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.surveyDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.survey_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.survey_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.survey_Id })
+        </td>
+    </tr>
+}
+
+</table>

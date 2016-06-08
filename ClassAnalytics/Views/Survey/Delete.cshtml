@@ -1,0 +1,56 @@
+﻿@model ClassAnalytics.Models.SurveyModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SurveyModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentModels.fName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentModels.fName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surveyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surveyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.active)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

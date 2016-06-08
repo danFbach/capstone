@@ -9,7 +9,7 @@ namespace ClassAnalytics.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ClassAnalytics.Models.ApplicationDbContext context)

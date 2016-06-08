@@ -26,10 +26,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
+            @Html.DisplayName("Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskModel.taskName)
+            @Html.DisplayName("Task")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.assignment_notes)
@@ -40,26 +40,38 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudentModels.fName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskModel.taskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.assignment_notes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.grade)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.grade_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.grade_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.grade_Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        string unit = "Unit: " + item.TaskModel.UnitModels.unitName + " | Type: " + item.TaskModel.taskName;
+        string name = item.StudentModels.fName + " " + item.StudentModels.lName;
+        string grade = "";
+        if (item.grade != null)
+        {
+            grade = item.grade + "%";
+        }
+        else
+        {
+            grade = item.grade.ToString();
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.assignment_notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => grade)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.grade_Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.grade_Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.grade_Id })
+            </td>
+        </tr>
+    }
 
 </table>

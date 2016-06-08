@@ -36,6 +36,8 @@ namespace ClassAnalytics.Models
         public DbSet<TaskModel> taskModel { get; set; }
         public DbSet<UnitModels> unitModels { get; set; }
         public DbSet<GradeBookModel> gradeBookModel { get; set; }
+        public DbSet<SurveyModel> surveyModel { get; set; }
+        public DbSet<SurveyQuestion> surveyQuestion { get; set; }
 
         public System.Data.Entity.DbSet<ClassAnalytics.Models.TaskTypeModels> TaskTypeModels { get; set; }
     }
