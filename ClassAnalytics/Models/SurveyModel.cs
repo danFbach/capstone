@@ -8,7 +8,7 @@ namespace ClassAnalytics.Models
 {
     public class SurveyModel
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Display(Name = "Survey Name")]
@@ -16,8 +16,6 @@ namespace ClassAnalytics.Models
 
         [Display(Name = "Active")]
         public bool active { get; set; }
-        
-
     }
     public class SurveyQuestion
     {

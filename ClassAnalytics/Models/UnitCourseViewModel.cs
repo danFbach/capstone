@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ClassAnalytics.Models
 {
-    public class UnitModels
+    public class UnitCourseViewModel
     {
-        [Key]
         public int unit_Id { get; set; }
 
         [Display(Name = "Unit Name")]
@@ -20,7 +19,9 @@ namespace ClassAnalytics.Models
         [Display(Name = "End Date")]
         public DateTime endDate { get; set; }
 
+        [Display(Name = "Course")]
         public int course_Id { get; set; }
         public CourseModels CourseModels { get; set; }
+        public List<SelectListItem> course_list { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Tasks</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.taskName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.taskGrade)
+            @Html.DisplayNameFor(model => model.points)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.startDate)
@@ -35,7 +35,7 @@
             @Html.DisplayFor(modelItem => item.taskName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.taskGrade)
+            @Html.DisplayFor(modelItem => item.points)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.startDate)
@@ -55,3 +55,14 @@
 }
 
 </table>
+@using (Html.BeginForm("TasksHome", "Task"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Task Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

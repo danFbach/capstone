@@ -17,7 +17,20 @@ namespace ClassAnalytics.Controllers
         // GET: Course
         public ActionResult Index()
         {
-            return View(db.coursemodels.ToList());
+            ProgCourseViewModel viewModel = new ProgCourseViewModel();
+            List<ProgCourseViewModel> viewModelList = new List<ProgCourseViewModel>();
+            var courses = db.coursemodels.ToList();
+            foreach(CourseModels course in courses)
+            {
+                viewModel.course_Id = course.course_Id;
+                viewModel.courseName = course.courseName;
+                viewModel.startDate = course.startDate;
+                viewModel.endDate = course.endDate;
+                viewModel.ProgramModels = db.programModels.Find(course.program_Id);
+                viewModelList.Add(viewModel);
+            }
+            
+            return View(viewModelList);
         }
 
         // GET: Course/Details/5
@@ -38,7 +51,16 @@ namespace ClassAnalytics.Controllers
         // GET: Course/Create
         public ActionResult Create()
         {
-            return View();
+
+            var programs = db.programModels.ToList();
+            List<SelectListItem> program_list = new List<SelectListItem>();
+            ProgCourseViewModel viewModel = new ProgCourseViewModel();
+            foreach(ProgramModels program in programs)
+            {
+                program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
+            }
+            viewModel.programs = program_list;
+            return View(viewModel);
         }
 
         // POST: Course/Create
@@ -46,16 +68,31 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,courseName")] CourseModels courseModels)
+        public ActionResult Create(ProgCourseViewModel viewModel)
         {
+            CourseModels courseModels = new CourseModels();
             if (ModelState.IsValid)
             {
+                int program_id = Convert.ToInt32(viewModel.program_Id);
+                courseModels.courseName = viewModel.courseName;
+                courseModels.course_Id = viewModel.course_Id;
+                courseModels.startDate = viewModel.startDate;
+                courseModels.endDate = viewModel.endDate;
+                courseModels.program_Id = program_id;
+                courseModels.ProgramModels = db.programModels.Find(program_id);
                 db.coursemodels.Add(courseModels);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var programs = db.programModels.ToList();
+            List<SelectListItem> program_list = new List<SelectListItem>();
+            foreach (ProgramModels program in programs)
+            {
+                program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
+            }
+            viewModel.programs = program_list;
 
-            return View(courseModels);
+            return View(viewModel);
         }
 
         // GET: Course/Edit/5

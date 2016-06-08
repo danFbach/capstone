@@ -1,16 +1,19 @@
-﻿@model IEnumerable<ClassAnalytics.Models.UnitModels>
+﻿@model IEnumerable<ClassAnalytics.Models.UnitCourseViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Units</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.course_Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.unitName)
         </th>
@@ -25,6 +28,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseModels.courseName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.unitName)
         </td>
@@ -43,3 +49,14 @@
 }
 
 </table>
+@using (Html.BeginForm("ProgramHome", "ProgramModels"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Program Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

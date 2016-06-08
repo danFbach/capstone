@@ -8,8 +8,8 @@ namespace ClassAnalytics.Models
 {
     public class TaskModel
     {
-        [Required]
-        public int Id { get; set; }
+        [Key]
+        public int task_Id { get; set; }
 
         [Display(Name = "Task Name")]
         public string taskName { get; set; }

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Index</h2>
+<h2>Students</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -44,3 +44,15 @@
 }
 
 </table>
+
+@using (Html.BeginForm("ClassHome", "Class"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Class Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

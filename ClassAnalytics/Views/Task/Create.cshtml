@@ -25,24 +25,32 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TaskTypeModels, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.taskType_Id, Model.taskTypes,"Select The Type of Task: ", new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.taskType_Id, Model.taskTypes, "Select The Type of Task: ", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.taskType_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.unit_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.unit_Id, Model.Unit_List, "Select The Type of Task: ", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.unit_Id, "", new { @class = "text-danger" })
             </div>
         </div>
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.taskGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.points, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.taskGrade, new { htmlAttributes = new { @class = "form-control datepicker", @Id = "date" } })
-                @Html.ValidationMessageFor(model => model.taskGrade, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.points, new { htmlAttributes = new { @class = "form-control datepicker", @Id = "date" } })
+                @Html.ValidationMessageFor(model => model.points, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.startDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control", @Value = "", placeholder = "MM/DD/YYYY"} })
                 @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +58,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.endDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.endDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.endDate, new { htmlAttributes = new { @class = "form-control", @Value = "", placeholder = "MM/DD/YYYY" } })
                 @Html.ValidationMessageFor(model => model.endDate, "", new { @class = "text-danger" })
             </div>
         </div>

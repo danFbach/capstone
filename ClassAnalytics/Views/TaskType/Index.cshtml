@@ -37,3 +37,14 @@
 }
 
 </table>
+@using (Html.BeginForm("TasksHome", "Task"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Task Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

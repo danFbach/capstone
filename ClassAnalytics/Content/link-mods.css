@@ -1,0 +1,15 @@
+a.navbar_links {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+a.navbar_links:hover,
+a.navbar_links:focus {
+    color: #BBB;
+    text-decoration: underline;
+}
+a.navbar_links:focus {
+    color:#FFF;
+    outline: none;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}

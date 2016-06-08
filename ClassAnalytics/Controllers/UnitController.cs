@@ -17,7 +17,29 @@ namespace ClassAnalytics.Controllers
         // GET: Unit
         public ActionResult Index()
         {
-            return View(db.unitModels.ToList());
+            var units = db.unitModels.ToList();
+            var courses = db.coursemodels.ToList();
+            List<UnitCourseViewModel> viewModelList = new List<UnitCourseViewModel>();
+
+            foreach(UnitModels unit in units)
+            {
+                UnitCourseViewModel viewModel = new UnitCourseViewModel();
+                viewModel.unit_Id = Convert.ToInt32(unit.unit_Id);
+                viewModel.unitName = unit.unitName;
+                viewModel.startDate = unit.startDate;
+                viewModel.endDate = unit.endDate;
+                foreach (CourseModels course in courses)
+                {
+                    if(unit.course_Id == course.course_Id)
+                    {
+                        viewModel.CourseModels = db.coursemodels.Find(unit.course_Id);
+                        viewModel.course_Id = unit.course_Id;
+                    }
+                }
+                viewModelList.Add(viewModel);
+            }
+
+            return View(viewModelList);
         }
 
         // GET: Unit/Details/5
@@ -38,7 +60,15 @@ namespace ClassAnalytics.Controllers
         // GET: Unit/Create
         public ActionResult Create()
         {
-            return View();
+            UnitCourseViewModel viewModel = new UnitCourseViewModel();
+            List<SelectListItem> course_list = new List<SelectListItem>();
+            var courses = db.coursemodels.ToList();
+            foreach(CourseModels course in courses)
+            {
+                course_list.Add(new SelectListItem() { Text = course.courseName, Value = course.course_Id.ToString() });
+            }
+            viewModel.course_list = course_list;
+            return View(viewModel);
         }
 
         // POST: Unit/Create
@@ -46,31 +76,57 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,unitName,startDate,endDate")] UnitModels unitModels)
+        public ActionResult Create(UnitCourseViewModel viewModel)
         {
+            UnitModels unitModels = new UnitModels();
             if (ModelState.IsValid)
             {
+                unitModels.unit_Id = viewModel.unit_Id;
+                unitModels.unitName = viewModel.unitName;
+                unitModels.startDate = viewModel.startDate;
+                unitModels.endDate = viewModel.endDate;
+                unitModels.course_Id = Convert.ToInt32(viewModel.course_Id);
+
                 db.unitModels.Add(unitModels);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(unitModels);
+            return View(viewModel);
         }
 
         // GET: Unit/Edit/5
         public ActionResult Edit(int? id)
         {
+            var courses = db.coursemodels.ToList();
+            UnitCourseViewModel viewModel = new UnitCourseViewModel();
+            List<SelectListItem> course_list = new List<SelectListItem>();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             UnitModels unitModels = db.unitModels.Find(id);
+            
+            viewModel.unit_Id = Convert.ToInt32(unitModels.unit_Id);
+            viewModel.unitName = unitModels.unitName;
+            viewModel.startDate = unitModels.startDate;
+            viewModel.endDate = unitModels.endDate;
+            foreach (CourseModels course in courses)
+            {
+            course_list.Add(new SelectListItem() { Text = course.courseName, Value = course.course_Id.ToString() });
+                if (unitModels.course_Id == course.course_Id)
+                {
+                    viewModel.CourseModels = db.coursemodels.Find(unitModels.course_Id);
+                    viewModel.course_Id = unitModels.course_Id;
+                }
+            }
+            viewModel.course_list = course_list;
             if (unitModels == null)
             {
                 return HttpNotFound();
             }
-            return View(unitModels);
+            return View(viewModel);
         }
 
         // POST: Unit/Edit/5
@@ -78,15 +134,22 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,unitName,startDate,endDate")] UnitModels unitModels)
+        public ActionResult Edit(UnitCourseViewModel viewModel)
         {
+            UnitModels unitModels = new UnitModels();
             if (ModelState.IsValid)
             {
+                unitModels.unit_Id = viewModel.unit_Id;
+                unitModels.unitName = viewModel.unitName;
+                unitModels.startDate = viewModel.startDate;
+                unitModels.endDate = viewModel.endDate;
+                unitModels.course_Id = Convert.ToInt32(viewModel.course_Id);
+
                 db.Entry(unitModels).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(unitModels);
+            return View(viewModel);
         }
 
         // GET: Unit/Delete/5

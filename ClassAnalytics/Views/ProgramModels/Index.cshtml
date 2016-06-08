@@ -43,3 +43,14 @@
 }
 
 </table>
+@using (Html.BeginForm("ProgramHome", "ProgramModels"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Program Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

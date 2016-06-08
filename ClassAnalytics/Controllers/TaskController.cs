@@ -45,13 +45,20 @@ namespace ClassAnalytics.Controllers
         {
             TaskViewModel tasksVM = new TaskViewModel();
             var tasktypes = db.TaskTypeModels.ToList();
+            var units = db.unitModels.ToList();
             List<SelectListItem> tasks = new List<SelectListItem>();
-
+            List<SelectListItem> unit_list = new List<SelectListItem>();
             foreach(TaskTypeModels task in tasktypes)
             {
-                tasks.Add(new SelectListItem() { Text = task.taskType + " Weight: " + task.taskWeight, Value = task.taskType_Id.ToString() });
+                tasks.Add(new SelectListItem() { Text = task.taskType + " Weight: " + task.taskWeight + "%", Value = task.taskType_Id.ToString() });
             }
+            foreach(UnitModels unit in units)
+            {
+                unit_list.Add(new SelectListItem() { Text = "Name: " + unit.unitName, Value = unit.unit_Id.ToString() });
+            }
+
             tasksVM.taskTypes = tasks;
+            tasksVM.Unit_List = unit_list;
             return View(tasksVM);
         }
 
@@ -60,16 +67,28 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,taskName,taskGrade,startDate,endDate,taskNotes")] TaskModel taskModel)
+        public ActionResult Create(TaskViewModel viewModel)
         {
+            TaskModel taskModel = new TaskModel();
             if (ModelState.IsValid)
             {
+                int unit_id = Convert.ToInt32(viewModel.unit_Id);
+                int taskTypeid = Convert.ToInt16(viewModel.taskType_Id);
+                taskModel.task_Id = viewModel.Id;
+                taskModel.taskName = viewModel.taskName;
+                taskModel.taskType_Id = taskTypeid;
+                taskModel.points = viewModel.points;
+                taskModel.startDate = viewModel.startDate;
+                taskModel.endDate = viewModel.endDate;
+                taskModel.unit_Id = unit_id;
+                taskModel.taskNotes = viewModel.taskNotes;
+
                 db.taskModel.Add(taskModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(taskModel);
+            return View(viewModel);
         }
 
         // GET: Task/Edit/5

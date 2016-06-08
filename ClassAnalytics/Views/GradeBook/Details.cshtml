@@ -1,0 +1,50 @@
+﻿@model ClassAnalytics.Models.GradeBookModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GradeBookModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentModels.fName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentModels.fName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskModel.taskName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskModel.taskName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.assignment_notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.assignment_notes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.grade)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.grade_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

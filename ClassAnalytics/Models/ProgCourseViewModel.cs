@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassAnalytics.Models
 {
-    public class CourseModels
+    public class ProgCourseViewModel
     {
         [Key]
         public int course_Id { get; set; }
@@ -23,6 +23,9 @@ namespace ClassAnalytics.Models
         [Display(Name = "Course End Date")]
         [DataType(DataType.Date)]
         public string endDate { get; set; }
+
+        [Display(Name = "Programs")]
+        public List<SelectListItem> programs { get; set; }
 
         [Display(Name = "Program")]
         public int program_Id { get; set; }

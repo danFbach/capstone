@@ -19,8 +19,8 @@ namespace ClassAnalytics.Models
         public int taskType_Id { get; set; }
         public TaskTypeModels TaskTypeModels { get; set; }
 
-        [Display(Name = "Task Grade")]
-        public int taskGrade { get; set; }
+        [Display(Name = "Points")]
+        public int points { get; set; }
 
         [Display(Name = "Start Date")]
         public DateTime startDate { get; set; }
@@ -28,6 +28,7 @@ namespace ClassAnalytics.Models
         [Display(Name = "End Date")]
         public DateTime endDate { get; set; }
 
+        [Display(Name = "Unit")]
         public int unit_Id { get; set; }
         public UnitModels UnitModels { get; set; }
 
@@ -35,5 +36,6 @@ namespace ClassAnalytics.Models
         public string taskNotes { get; set; }
 
         public List<SelectListItem> taskTypes { get; set; }
+        public List<SelectListItem> Unit_List { get; set; }
     }
 }

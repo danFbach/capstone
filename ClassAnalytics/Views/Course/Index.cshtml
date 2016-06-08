@@ -1,18 +1,28 @@
-﻿@model IEnumerable<ClassAnalytics.Models.CourseModels>
+﻿@model IEnumerable<ClassAnalytics.Models.ProgCourseViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Courses</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.courseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.program_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.endDate)
         </th>
         <th></th>
     </tr>
@@ -23,6 +33,15 @@
             @Html.DisplayFor(modelItem => item.courseName)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.ProgramModels.programName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.endDate)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.course_Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.course_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.course_Id })
@@ -31,3 +50,14 @@
 }
 
 </table>
+@using (Html.BeginForm("ProgramHome","ProgramModels"))
+{
+    @Html.AntiForgeryToken()
+    <center>
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Return To Program Home" class="btn btn-default" />
+            </div>
+        </div>
+    </center>
+}

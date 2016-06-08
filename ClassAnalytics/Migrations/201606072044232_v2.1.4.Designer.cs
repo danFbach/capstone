@@ -7,13 +7,13 @@ namespace ClassAnalytics.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class FKfix : IMigrationMetadata
+    public sealed partial class v214 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FKfix));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(v214));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606062126168_FK fix"; }
+            get { return "201606072044232_v2.1.4"; }
         }
         
         string IMigrationMetadata.Source

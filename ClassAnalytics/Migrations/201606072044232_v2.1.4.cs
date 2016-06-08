@@ -3,7 +3,7 @@ namespace ClassAnalytics.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FKfix : DbMigration
+    public partial class v214 : DbMigration
     {
         public override void Up()
         {
@@ -16,7 +16,7 @@ namespace ClassAnalytics.Migrations
                         program_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.class_Id)
-                .ForeignKey("dbo.ProgramModels", t => t.program_id, cascadeDelete: true)
+                .ForeignKey("dbo.ProgramModels", t => t.program_id, cascadeDelete: false)
                 .Index(t => t.program_id);
             
             CreateTable(
@@ -36,34 +36,32 @@ namespace ClassAnalytics.Migrations
                     {
                         course_Id = c.Int(nullable: false, identity: true),
                         courseName = c.String(),
+                        startDate = c.String(nullable: false),
+                        endDate = c.String(nullable: false),
                         program_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.course_Id)
-                .ForeignKey("dbo.ProgramModels", t => t.program_Id, cascadeDelete: true)
+                .ForeignKey("dbo.ProgramModels", t => t.program_Id, cascadeDelete: false)
                 .Index(t => t.program_Id);
             
             CreateTable(
-                "dbo.AspNetRoles",
+                "dbo.GradeBookModels",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
+                        grade_Id = c.Int(nullable: false, identity: true),
+                        student_Id = c.Int(nullable: false),
+                        task_Id = c.Int(nullable: false),
+                        class_Id = c.Int(nullable: false),
+                        assignment_notes = c.String(),
+                        grade = c.Decimal(nullable: true, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .PrimaryKey(t => t.grade_Id)
+                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: false)
+                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
+                .ForeignKey("dbo.TaskModels", t => t.task_Id, cascadeDelete: false)
+                .Index(t => t.student_Id)
+                .Index(t => t.task_Id)
+                .Index(t => t.class_Id);
             
             CreateTable(
                 "dbo.StudentModels",
@@ -82,17 +80,17 @@ namespace ClassAnalytics.Migrations
                 "dbo.TaskModels",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        task_Id = c.Int(nullable: false, identity: true),
                         taskName = c.String(),
                         taskType_Id = c.Int(nullable: false),
-                        taskGrade = c.Int(nullable: false),
+                        points = c.Int(nullable: false),
                         startDate = c.DateTime(nullable: false),
                         endDate = c.DateTime(nullable: false),
                         unit_Id = c.Int(nullable: false),
                         taskNotes = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.TaskTypeModels", t => t.taskType_Id, cascadeDelete: true)
+                .PrimaryKey(t => t.task_Id)
+                .ForeignKey("dbo.TaskTypeModels", t => t.taskType_Id, cascadeDelete: false)
                 .ForeignKey("dbo.UnitModels", t => t.unit_Id, cascadeDelete: true)
                 .Index(t => t.taskType_Id)
                 .Index(t => t.unit_Id);
@@ -120,6 +118,29 @@ namespace ClassAnalytics.Migrations
                 .PrimaryKey(t => t.unit_Id)
                 .ForeignKey("dbo.CourseModels", t => t.course_Id, cascadeDelete: true)
                 .Index(t => t.course_Id);
+            
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -173,34 +194,41 @@ namespace ClassAnalytics.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.GradeBookModels", "task_Id", "dbo.TaskModels");
             DropForeignKey("dbo.TaskModels", "unit_Id", "dbo.UnitModels");
             DropForeignKey("dbo.UnitModels", "course_Id", "dbo.CourseModels");
             DropForeignKey("dbo.TaskModels", "taskType_Id", "dbo.TaskTypeModels");
+            DropForeignKey("dbo.GradeBookModels", "student_Id", "dbo.StudentModels");
             DropForeignKey("dbo.StudentModels", "class_Id", "dbo.ClassModels");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.GradeBookModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.CourseModels", "program_Id", "dbo.ProgramModels");
             DropForeignKey("dbo.ClassModels", "program_id", "dbo.ProgramModels");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.UnitModels", new[] { "course_Id" });
             DropIndex("dbo.TaskModels", new[] { "unit_Id" });
             DropIndex("dbo.TaskModels", new[] { "taskType_Id" });
             DropIndex("dbo.StudentModels", new[] { "class_Id" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.GradeBookModels", new[] { "class_Id" });
+            DropIndex("dbo.GradeBookModels", new[] { "task_Id" });
+            DropIndex("dbo.GradeBookModels", new[] { "student_Id" });
             DropIndex("dbo.CourseModels", new[] { "program_Id" });
             DropIndex("dbo.ClassModels", new[] { "program_id" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetRoles");
             DropTable("dbo.UnitModels");
             DropTable("dbo.TaskTypeModels");
             DropTable("dbo.TaskModels");
             DropTable("dbo.StudentModels");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.GradeBookModels");
             DropTable("dbo.CourseModels");
             DropTable("dbo.ProgramModels");
             DropTable("dbo.ClassModels");

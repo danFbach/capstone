@@ -21,13 +21,17 @@ namespace ClassAnalytics
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Content/jquery-ui.min.js",
+                      "~/Content/bootstrap-hover-dropdown.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/bootstrap-datepicker.css",
-                      "~/Content/bootstrap-datepicker.standalone.css"));
+                      "~/Content/bootstrap-datepicker.standalone.css",
+                      "~/Content/jquery-ui.css",
+                      "~/Content/link-mods.css"));
         }
     }
 }
