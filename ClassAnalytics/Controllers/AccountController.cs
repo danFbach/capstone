@@ -70,16 +70,27 @@ namespace ClassAnalytics.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                    return View(model);
+                
             }
-
+            var user = await UserManager.FindByNameAsync(model.Email);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+
+                    if (model.Password == "D3v$tudent")
+                    {
+                        string code = UserManager.GeneratePasswordResetToken(user.Id);
+
+                        return RedirectToAction("ResetPassword", new { code = code });
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -257,6 +268,9 @@ namespace ClassAnalytics.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+                UserManager.RemoveFromRole(user.Id, "0");
+                UserManager.AddToRole(user.Id, "Student");
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
@@ -267,7 +281,7 @@ namespace ClassAnalytics.Controllers
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
-        {
+        { 
             return View();
         }
 

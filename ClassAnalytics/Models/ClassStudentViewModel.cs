@@ -27,5 +27,9 @@ namespace ClassAnalytics.Models
 
         public List<SelectListItem> classList { get; set; }
         public List<SelectListItem> programList { get; set; }
+
+        [Display(Name = "Email Address")]
+        [DataType(DataType.EmailAddress)]
+        public string newEmail { get; set; }
     }
 }

@@ -19,19 +19,28 @@ namespace ClassAnalytics.Controllers
             return View();
         }
         // GET: Class
-        public ActionResult Index()
+        public ActionResult Index(int? program_id)
         {
+            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             var classes = db.classmodel.ToList();
             var programs = db.programModels.ToList();
             List<ProgClassViewModel> new_list = new List<ProgClassViewModel>();
             List<ProgramModels> progList = new List<ProgramModels>();
-            
-            foreach(ClassModel a_class in classes)
+            if(program_id!=null)
             {
-                new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
+                foreach (ClassModel a_class in classes)
+                {
+                    if (a_class.program_id == program_id)
+                    {
+                        new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
+                    }
+                }
+                return View(new_list);
             }
-            
-            return View(new_list);
+            else
+            {
+                return View(new_list);
+            }
         }
 
         // GET: Class/Details/5

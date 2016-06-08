@@ -22,5 +22,6 @@ namespace ClassAnalytics.Models
         [Display(Name = "Class")]
         public int class_Id { get; set; }
         public ClassModel ClassModel { get; set; }
+        public string student_account_Id { get; set; }
     }
 }

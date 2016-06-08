@@ -20,9 +20,9 @@
                 @Html.ActionLink("Edulytics - Admin", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <div class="nav navbar-nav">
                     <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Program Management</button>
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Programs</button>
                         <div class="dropdown-menu">@Html.ActionLink("Programs", "Index", "ProgramModels", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Courses", "Index", "Course", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Units", "Index", "Unit", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
@@ -31,17 +31,17 @@
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Class Management</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Classes", "Index", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Students", "Index", "Students", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("View Classes", "Index", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Create New Classes", "Create", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("View/Edit Students", "Index", "Students", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Grade Management</button>
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Grades</button>
                         <div class="dropdown-menu">@Html.ActionLink("Gradebook", "Index", "GradeBook", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Survey Management</button>
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Surveys</button>
                         <div class="dropdown-menu">@Html.ActionLink("Survey", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
-                </ul>
+                </div>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

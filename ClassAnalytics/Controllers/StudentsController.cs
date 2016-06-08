@@ -3,17 +3,56 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
+using System.Net.Mail;
+using SendGrid;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace ClassAnalytics.Controllers
 {
     public class StudentsController : Controller
     {
+        
+        private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        
 
+        public async Task warningMail(string emailaddress, string Password, string fName, string lName)
+        {
+
+            var myMessage = new SendGridMessage();
+            string resetURL = "http://localhost:5753/Account/Login";
+            string a_message = "Hey " + fName + " " + lName + ", your account for school has been created. <br><br>Your login is: <b>" + emailaddress + "</b><br>Your Password is: <b>" + Password + "</b><br><br>Acvtivate your account and reset your password <a href=\"" +  resetURL + "\">Here!</a>";
+            myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
+            myMessage.AddTo(emailaddress);
+            myMessage.Subject = "Hey " + fName + "! Edulytics Account Activation Enclosed";
+            myMessage.Html = a_message;
+            var credentials = new NetworkCredential("quikdevstudent", "Lexusi$3");
+            var transportWeb = new Web(credentials);
+            await transportWeb.DeliverAsync(myMessage);
+        }
+
+        public void AccountController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Students
         public ActionResult Index(int? class_id)
         {
@@ -57,11 +96,11 @@ namespace ClassAnalytics.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
+            ClassStudentViewModel viewModel = new ClassStudentViewModel();
             List<ClassModel> classes = db.classmodel.ToList();
             List<ProgramModels> programs = db.programModels.ToList();
             List<SelectListItem> a_classList = new List<SelectListItem>();
             List<SelectListItem> a_programList = new List<SelectListItem>();
-            ClassStudentViewModel viewModel = new ClassStudentViewModel();
 
             foreach (ClassModel a_class in classes)
             {
@@ -74,6 +113,7 @@ namespace ClassAnalytics.Controllers
             viewModel.classList = a_classList;
             viewModel.programList = a_programList;
 
+            ViewBag.StatusMessage = "";
             return View(viewModel);
         }
 
@@ -82,29 +122,63 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ClassStudentViewModel viewModel)
+        public async Task<ActionResult> Create(ClassStudentViewModel viewModel)
         {
+            RegisterViewModel model = new RegisterViewModel();
+            
             StudentModels student = new StudentModels();
             List<ClassModel> classList = db.classmodel.ToList();
             List<ProgramModels> programList = db.programModels.ToList();
+            List<SelectListItem> a_classList = new List<SelectListItem>();
+            List<SelectListItem> a_programList = new List<SelectListItem>();
 
             if (ModelState.IsValid)
             {
-                foreach(ClassModel classs in classList)
+                foreach(ClassModel a_class in classList)
                 {
-                    if(viewModel.ClassModel.class_Id == classs.class_Id)
+                    if(viewModel.class_Id == a_class.class_Id)
                     {
-                        student.ClassModel = classs;
+                        student.ClassModel = a_class;
                     }                    
                 }
+                IdentityUserRole role = new IdentityUserRole();
+                model.Email = viewModel.newEmail;
+                model.Password = "D3v$tudent";
+                model.ConfirmPassword = "D3v$tudent";
+                model.ConfirmPassword = model.Password;
+                string username = viewModel.fName.ToCharArray()[0].ToString().ToLower() + viewModel.lName;
                 student.student_Id = viewModel.student_Id;
                 student.fName = viewModel.fName;
                 student.lName = viewModel.lName;
-                db.studentModels.Add(student);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                role.RoleId = "New Student";
+                if (result.Succeeded)
+                {
+                    ViewBag.StatusMessage = "";
+                    UserManager.AddToRole(role.UserId, role.RoleId);
+                    student.student_account_Id = user.Id;
+    #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    warningMail(model.Email, model.Password, student.fName, student.lName);
+    #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    db.studentModels.Add(student);
+                    db.SaveChanges();
+                
+                    return RedirectToAction("Index");
+                }
             }
 
+            foreach (ClassModel a_class in classList)
+            {
+                a_classList.Add(new SelectListItem() { Text = a_class.className, Value = a_class.class_Id.ToString() });
+            }
+            foreach (ProgramModels program in programList)
+            {
+                a_programList.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
+            }
+            viewModel.classList = a_classList;
+            viewModel.programList = a_programList;
+            ViewBag.StatusMessage = "Email is already in use or Invalid.";
             return View(viewModel);
         }
 

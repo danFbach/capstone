@@ -4,11 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Classes</h2>
+@using (Html.BeginForm())
+{
+    <center><h2>Classes</h2></center>
+    <div class="row" style="margin-top:-45px;">
+        <div class="col-xs-10" style="width:250px;margin-left:0px;padding-bottom:10px;">
+            @Html.DropDownList("program_id", null, "Select a Program", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-8" style="width:150px;margin-left:0px;padding-bottom:10px;">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
