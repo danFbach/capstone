@@ -15,6 +15,12 @@
             @Html.DisplayNameFor(model => model.taskName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.taskType_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.course_Id)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.points)
         </th>
         <th>
@@ -30,9 +36,17 @@
     </tr>
 
 @foreach (var item in Model) {
+    //string course = item.CourseModels.courseName;
+    //string tasktype = item.TaskTypeModels.taskType;
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.taskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.taskType_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.course_Id)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.points)
@@ -47,9 +61,9 @@
             @Html.DisplayFor(modelItem => item.taskNotes)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.unit_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.unit_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.unit_Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.task_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.task_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.task_Id })
         </td>
     </tr>
 }

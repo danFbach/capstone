@@ -27,8 +27,8 @@ namespace ClassAnalytics.Models
         [Display(Name = "End Date")]
         public DateTime endDate { get; set; }
 
-        public int unit_Id { get; set; }
-        public UnitModels UnitModels { get; set; }
+        public int course_Id { get; set; }
+        public CourseModels CourseModels { get; set; }
 
         [Display(Name = "Notes")]
         public string taskNotes { get; set; }

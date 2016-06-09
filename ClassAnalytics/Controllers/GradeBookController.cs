@@ -7,12 +7,43 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ClassAnalytics.Controllers
 {
     public class GradeBookController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult Student_Index()
+        {
+            string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            List<GradeBookModel> indv_grades = new List<GradeBookModel>();
+            StudentModels currentStudent = new StudentModels();
+            var students = db.studentModels.ToList();
+            var all_grades = db.gradeBookModel.ToList();
+            foreach(StudentModels student in students)
+            {
+                if(student.student_account_Id == UserId)
+                {
+                    currentStudent = student;
+                    break;
+                }
+            }
+            foreach(GradeBookModel grade in all_grades)
+            {
+                if(grade.student_Id == currentStudent.student_Id)
+                {
+                    grade.ClassModel = db.classmodel.Find(grade.class_Id);
+                    grade.TaskModel = db.taskModel.Find(grade.task_Id);
+                    indv_grades.Add(grade);
+
+                }
+            }
+            return View(indv_grades);
+        }
+
+
 
         // GET: GradeBook
         public ActionResult Index(int? class_id, int? task_Id)
@@ -24,7 +55,7 @@ namespace ClassAnalytics.Controllers
                     
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels);
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels);
                     return View(gradeBookModel.ToList());
                 }
                 else
@@ -32,7 +63,7 @@ namespace ClassAnalytics.Controllers
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                     foreach(GradeBookModel grade in gradeBookModel)
                     {
                         if(grade.task_Id == task_Id)
@@ -49,8 +80,8 @@ namespace ClassAnalytics.Controllers
                 {
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-                    ViewBag.task_Id = new SelectList(db.taskModel, "unit_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
+                    ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                     foreach (GradeBookModel grade in gradeBookModel)
                     {
                         if (grade.class_Id == class_id)
@@ -65,7 +96,7 @@ namespace ClassAnalytics.Controllers
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
                     ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.UnitModels).ToList();
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                     foreach (GradeBookModel grade in gradeBookModel)
                     {
                         if(grade.class_Id == class_id)
@@ -111,12 +142,14 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOne(GradeBookModel gradeBookModel)
         {
-            int classid = Convert.ToInt32(db.studentModels.Find(gradeBookModel.student_Id).class_Id);
-            gradeBookModel.class_Id = classid;
+            gradeBookModel.StudentModels = db.studentModels.Find(gradeBookModel.student_Id);
+            gradeBookModel.class_Id = gradeBookModel.StudentModels.class_Id;
+            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
+            gradeBookModel.TaskModel.points = gradeBookModel.TaskModel.points;
             if (ModelState.IsValid)
             {
-                if (gradeBookModel.grade > 100) { gradeBookModel.grade = 100; }
-                if (gradeBookModel.grade < 0) { gradeBookModel.grade = 0; }
+                if (gradeBookModel.TaskModel.points < gradeBookModel.pointsEarned) { gradeBookModel.pointsEarned = gradeBookModel.TaskModel.points; }
+                if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
                 db.gradeBookModel.Add(gradeBookModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -130,6 +163,7 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook/Create
         public ActionResult Create()
         {
+
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             return View();
@@ -151,8 +185,11 @@ namespace ClassAnalytics.Controllers
                     {
                         gradeBookModel.StudentModels = student;
                         gradeBookModel.student_Id = student.student_Id;
-                        if (gradeBookModel.grade > 100) { gradeBookModel.grade = 100; }
-                        if (gradeBookModel.grade < 0) { gradeBookModel.grade = 0; }
+                        if(gradeBookModel.pointsEarned != null)
+                        {
+                            if (gradeBookModel.TaskModel.points < gradeBookModel.pointsEarned) { gradeBookModel.pointsEarned = gradeBookModel.TaskModel.points; }
+                            if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
+                        }
                         db.gradeBookModel.Add(gradeBookModel);
                         db.SaveChanges();
                     }
@@ -179,6 +216,8 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
+            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
+            
             ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", gradeBookModel.student_Id);
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName", gradeBookModel.task_Id);
             return View(gradeBookModel);
@@ -193,12 +232,14 @@ namespace ClassAnalytics.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (gradeBookModel.grade > 100) { gradeBookModel.grade = 100; }
-                if (gradeBookModel.grade < 0) { gradeBookModel.grade = 0; }
+                gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
+                if (gradeBookModel.TaskModel.points < gradeBookModel.pointsEarned) { gradeBookModel.pointsEarned = gradeBookModel.TaskModel.points; }
+                if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
                 db.Entry(gradeBookModel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            gradeBookModel.TaskModel.points = db.taskModel.Find(gradeBookModel.grade_Id).points;
             ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", gradeBookModel.student_Id);
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName", gradeBookModel.task_Id);
             return View(gradeBookModel);

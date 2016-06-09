@@ -7,42 +7,37 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create a New Survey", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
+            @Html.DisplayNameFor(model => model.CourseModels.courseName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SurveyName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.surveyDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.active)
+            @Html.Name("Number of Questions")
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.StudentModels.fName)
+            @Html.DisplayFor(modelItem => item.CourseModels.courseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SurveyName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.surveyDate)
+            @Html.DisplayFor(modelItem => item.question_list.Count)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.survey_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.survey_Id }) |
+            @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
+            @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id}) | 
             @Html.ActionLink("Delete", "Delete", new { id=item.survey_Id })
         </td>
     </tr>

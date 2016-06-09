@@ -15,11 +15,107 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult Activate(int id)
+        {
+            SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
+            joinSurvey.active = true;
+            db.SaveChanges();
+
+            return RedirectToAction("Index_Class_Survey");
+        }
+        public ActionResult Deactivate(int id)
+        {
+            SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
+            joinSurvey.active = false;
+            db.SaveChanges();
+            return RedirectToAction("Index_Class_Survey");
+        }
+
+        public ActionResult Index_Class_Survey()
+        {
+            return View(db.surveyJoinTableModel.ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create_Join(int id)
+        {
+            SurveyJoinTableModel survey = new SurveyJoinTableModel();
+            SurveyModel a_survey = db.surveyModel.Find(id);
+            ViewBag.class_Id = new SelectList(db.classmodel,"class_Id","className");
+            survey.SurveyModel = a_survey;
+            return View(survey);
+        }
+        public ActionResult Create_Join(SurveyJoinTableModel survey)
+        {
+            if (ModelState.IsValid)
+            {
+                db.surveyJoinTableModel.Add(survey);
+                db.SaveChanges();
+                return RedirectToAction("Index_Class_Survey");
+            }
+            SurveyModel a_survey = db.surveyModel.Find(survey.survey_Id);
+            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
+            survey.SurveyModel = a_survey;
+            return View(survey);
+        }
+
+
+        public ActionResult Create_Question(int id)
+        {
+            SurveyQuestion surveyQuestion = new SurveyQuestion();
+            string info = db.surveyModel.Find(id).SurveyName;
+            ViewBag.surveyInfo = "Name: " + info + " #" + id;
+            surveyQuestion.survey_Id = id;
+            return View(surveyQuestion);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create_Question(SurveyQuestion surveyQuestion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.surveyQuestion.Add(surveyQuestion);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            int id = surveyQuestion.survey_Id;
+            string info = db.surveyModel.Find(id).SurveyName;
+            ViewBag.surveyInfo = "Name: " + info + " #" + id;
+            surveyQuestion.survey_Id = id;
+            return View();
+        }
         // GET: Survey
         public ActionResult Index()
         {
-            var surveyModel = db.surveyModel.Include(s => s.StudentModels);
-            return View(surveyModel.ToList());
+            List<SurveyModel> survey_list = new List<SurveyModel>();
+            var courses = db.coursemodels.ToList();
+            var surveys = db.surveyModel.ToList();
+            var questions = db.surveyQuestion.ToList();
+            
+            foreach (SurveyModel survey in surveys)
+            {
+                if(survey.question_list != null)
+                {
+                    survey.question_list.Clear();
+                }                
+                foreach(SurveyQuestion question in questions)
+                {
+                    if(question.survey_Id == survey.survey_Id)
+                    {
+                        survey.question_list.Add(question);
+                    }
+                }
+                foreach(CourseModels course in courses)
+                {
+                    if(course.course_Id == survey.course_Id)
+                    {
+                        survey.CourseModels = course;
+                        survey_list.Add(survey);
+                    }
+                }
+            }            
+            return View(survey_list);
         }
 
         // GET: Survey/Details/5
@@ -40,7 +136,7 @@ namespace ClassAnalytics.Controllers
         // GET: Survey/Create
         public ActionResult Create()
         {
-            ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName");
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
             return View();
         }
 
@@ -49,7 +145,7 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "survey_Id,SurveyName,surveyDate,active,student_Id")] SurveyModel surveyModel)
+        public ActionResult Create(SurveyModel surveyModel)
         {
             if (ModelState.IsValid)
             {
@@ -57,8 +153,7 @@ namespace ClassAnalytics.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", surveyModel.student_Id);
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
             return View(surveyModel);
         }
 
@@ -74,7 +169,7 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", surveyModel.student_Id);
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
             return View(surveyModel);
         }
 
@@ -83,7 +178,7 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "survey_Id,SurveyName,surveyDate,active,student_Id")] SurveyModel surveyModel)
+        public ActionResult Edit(SurveyModel surveyModel)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +186,7 @@ namespace ClassAnalytics.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", surveyModel.student_Id);
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
             return View(surveyModel);
         }
 

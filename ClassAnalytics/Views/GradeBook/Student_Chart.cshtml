@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
+
+@{
+    ViewBag.Title = "Student_Chart";
+}
+
+<h2>Student_Chart</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassModel.className)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentModels.fName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskModel.taskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.assignment_notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.possiblePoints)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pointsEarned)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.grade)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassModel.className)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentModels.fName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskModel.taskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.assignment_notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.possiblePoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pointsEarned)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.grade)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.grade_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.grade_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.grade_Id })
+        </td>
+    </tr>
+}
+
+</table>

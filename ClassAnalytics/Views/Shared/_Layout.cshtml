@@ -20,9 +20,20 @@
                 @Html.ActionLink("Edulytics - Student", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
+                <div class="nav navbar-nav">
+                    <div class="btn-group" id="button_fade">
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Grades</button>
+                        <div class="dropdown-menu">@Html.ActionLink("View Grades", "Student_Index", "GradeBook", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Grade Charts", "Student_Chart", "GradeBook", new { area = "" }, new { @class = "navbar_links" })</div>
+                    </div>
+                    <div class="btn-group" id="button_fade">
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Survey</button>
+                        <div class="dropdown-menu">@Html.ActionLink("Current Survey", "Active_Survey", "Surveys", new { area = "" }, new { @class = "navbar_links" })</div>
+                    </div>
+                    <div class="btn-group" id="button_fade">
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Communicate</button>
+                        <div class="dropdown-menu">@Html.ActionLink("Message Instructor", "Message_Instructor", "Shared", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Message Student", "Message_Student", "Shared", new { area = "" }, new { @class = "navbar_links" })</div>
+                    </div>
+                </div>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

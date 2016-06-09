@@ -195,13 +195,12 @@
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
-    <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606081709054_2.1.8-seeded.cs" />
-    <Compile Include="Migrations\201606081709054_2.1.8-seeded.Designer.cs">
-      <DependentUpon>201606081709054_2.1.8-seeded.cs</DependentUpon>
+    <Compile Include="Migrations\201606092256173_2.2.2-seeded.cs" />
+    <Compile Include="Migrations\201606092256173_2.2.2-seeded.Designer.cs">
+      <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -215,14 +214,13 @@
     <Compile Include="Models\ProgCourseViewModel.cs" />
     <Compile Include="Models\ProgramModels.cs" />
     <Compile Include="Models\StudentModels.cs" />
+    <Compile Include="Models\SurveyJoinTableModel.cs" />
     <Compile Include="Models\SurveyModel.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
-    <Compile Include="Models\SurveyResultModel.cs" />
+    <Compile Include="Models\SurveyStudentModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TaskTypeModels.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
-    <Compile Include="Models\UnitCourseViewModel.cs" />
-    <Compile Include="Models\UnitModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -342,6 +340,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -393,11 +392,6 @@
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\ProgramModels\ProgramHome.cshtml" />
-    <Content Include="Views\Unit\Create.cshtml" />
-    <Content Include="Views\Unit\Delete.cshtml" />
-    <Content Include="Views\Unit\Details.cshtml" />
-    <Content Include="Views\Unit\Edit.cshtml" />
-    <Content Include="Views\Unit\Index.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Task\Delete.cshtml" />
     <Content Include="Views\Task\Details.cshtml" />
@@ -421,12 +415,16 @@
     <Content Include="Views\GradeBook\Edit.cshtml" />
     <Content Include="Views\GradeBook\Index.cshtml" />
     <Content Include="Views\GradeBook\CreateOne.cshtml" />
+    <Content Include="Views\Shared\_New_Student_Layout.cshtml" />
+    <Content Include="Views\GradeBook\Student_Index.cshtml" />
+    <Content Include="Views\GradeBook\Student_Chart.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
     <Content Include="Views\Survey\Details.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
-    <Content Include="Views\Survey\Index.cshtml" />
-    <Content Include="Views\Shared\_New_Student_Layout.cshtml" />
+    <Content Include="Views\Survey\Create_Question.cshtml" />
+    <Content Include="Views\Survey\Index_Class_Survey.cshtml" />
+    <Content Include="Views\Survey\Create_Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -440,8 +438,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606081709054_2.1.8-seeded.resx">
-      <DependentUpon>201606081709054_2.1.8-seeded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606092256173_2.2.2-seeded.resx">
+      <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

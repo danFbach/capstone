@@ -14,7 +14,7 @@
         <h4>TaskModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.task_Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.taskName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -25,10 +25,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.taskGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.taskType_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.taskGrade, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.taskGrade, "", new { @class = "text-danger" })
+                @Html.DropDownList("taskType_Id", null, "Select Type of Task", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.taskType_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.course_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("course_Id", null, "Select a Course", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.points, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.points, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.points, "", new { @class = "text-danger" })
             </div>
         </div>
 

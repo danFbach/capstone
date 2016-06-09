@@ -32,22 +32,29 @@
             @Html.DisplayName("Task")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.assignment_notes)
+            @Html.DisplayNameFor(model => model.TaskModel.points)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pointsEarned)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.assignment_notes)
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        string unit = "Unit: " + item.TaskModel.UnitModels.unitName + " | Type: " + item.TaskModel.taskName;
+        string unit = "Course: " + item.TaskModel.CourseModels.courseName + " | Type: " + item.TaskModel.taskName;
         string name = item.StudentModels.fName + " " + item.StudentModels.lName;
         string grade = "";
-        if (item.grade != null)
+        if (item.pointsEarned != null)
         {
-            grade = item.grade + "%";
+            grade = ((item.pointsEarned / item.TaskModel.points)* 100).ToString();
+            grade += "%";
         }
         else
         {
@@ -61,10 +68,16 @@
                 @Html.DisplayFor(modelItem => unit)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.assignment_notes)
+                @Html.DisplayFor(modelItem => item.TaskModel.points)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pointsEarned)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.assignment_notes)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.grade_Id }) |

@@ -29,10 +29,10 @@ namespace ClassAnalytics.Controllers
             var myMessage = new SendGridMessage();
             string resetURL = "http://localhost:5753/Account/Login";
             string a_message = "Hey " + fName + " " + lName + ", your account for school has been created. <br><br>Your login is: <b>" + emailaddress + "</b><br>Your Password is: <b>" + Password + "</b><br><br>Acvtivate your account and reset your password <a href=\"" +  resetURL + "\">Here!</a>";
+            myMessage.Html = a_message;
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.AddTo(emailaddress);
             myMessage.Subject = "Hey " + fName + "! Edulytics Account Activation Enclosed";
-            myMessage.Html = a_message;
             var credentials = new NetworkCredential("quikdevstudent", "Lexusi$3");
             var transportWeb = new Web(credentials);
             await transportWeb.DeliverAsync(myMessage);

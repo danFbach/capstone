@@ -34,18 +34,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.assignment_notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TaskModel.points, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.assignment_notes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.assignment_notes, "", new { @class = "text-danger" })
+                @Html.ValueFor(model => model.TaskModel.points)
+                @Html.ValidationMessageFor(model => model.TaskModel.points, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.grade, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.pointsEarned, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.grade, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.grade, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.pointsEarned, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.pointsEarned, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.assignment_notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.assignment_notes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.assignment_notes, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ClassAnalytics.Models.SurveyJoinTableModel>
+
+@{
+    ViewBag.Title = "Index_Class_Survey";
+}
+
+<h2>Index_Class_Survey</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassModel.className)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyModel.SurveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    string active = "";
+    if (item.active == false)
+    {
+        active = "Activate";
+    }
+    else
+    {
+        active = "Deactivate";
+    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassModel.className)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.survey_join_Id }) | 
+            @Html.ActionLink(active, active, new { id = item.survey_join_Id }) | 
+            @Html.ActionLink("Delete", "Delete", new { id=item.survey_join_Id })
+        </td>
+    </tr>
+}
+
+</table>

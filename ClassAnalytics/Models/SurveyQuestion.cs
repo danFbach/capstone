@@ -13,12 +13,9 @@ namespace ClassAnalytics.Models
         
         [Display(Name = "Question")]
         public string question { get; set; }
-
-        [Display(Name = "Answer")]
-        public bool answer { get; set; }
-
+        
         [Display(Name = "Survey Id")]
-        public int? survey_Id { get; set; }
+        public int survey_Id { get; set; }
         public SurveyModel survey { get; set; }
 
     }

@@ -19,11 +19,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.taskGrade)
+            @Html.DisplayNameFor(model => model.points)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.taskGrade)
+            @Html.DisplayFor(model => model.points)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.course_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.course_Id)
         </dd>
 
         <dt>
@@ -53,6 +61,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.task_Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
