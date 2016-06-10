@@ -4,18 +4,18 @@
     ViewBag.Title = "Create_Join";
 }
 
-<h2>Create_Join</h2>
+<h2>Add Class to Survey</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>SurveyJoinTableModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.survey_Id)
         <div class="form-group">
-            @Html.LabelFor(model => model.class_Id, "class_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Class", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("class_Id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.class_Id, "", new { @class = "text-danger" })
@@ -23,10 +23,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.survey_Id, "survey_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Survey", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("survey_Id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.survey_Id, "", new { @class = "text-danger" })
+                @Html.DisplayTextFor(model => model.SurveyModel.SurveyName)
+                @Html.ValidationMessageFor(model => model.SurveyModel.survey_Id, "", new { @class = "text-danger" })
             </div>
         </div>
 

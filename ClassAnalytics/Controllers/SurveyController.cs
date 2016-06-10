@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ClassAnalytics.Models;
 
 namespace ClassAnalytics.Controllers
@@ -15,6 +16,83 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult fill_out_survey(int id)
+        {
+            SurveyQAViewModel a_survey = new SurveyQAViewModel();
+            a_survey.SurveyModel = db.surveyModel.Find(id);
+            List<SurveyAnswers> student_surveys = db.surveyAnswers.ToList();
+            string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var students = db.studentModels.ToList();
+            StudentModels current_student = new StudentModels();
+            a_survey.answer_list = new List<SurveyAnswers>();
+
+            foreach (StudentModels student in students)
+            {
+                if (student.student_account_Id == UserId)
+                {
+                    current_student = student;
+                }
+            }            
+            a_survey.StudentModels = db.studentModels.Find(current_student.student_Id);
+            foreach (SurveyAnswers answer in student_surveys)
+            {
+                answer.SurveyQuestion = db.surveyQuestion.Find(answer.question_Id);
+                if(answer.SurveyQuestion.survey_Id == id)
+                {
+                    if(answer.student_Id == current_student.student_Id)
+                    {
+                        a_survey.answer_list.Add(answer);
+                    }
+                }
+            }
+            return View(a_survey);
+        }
+
+        [HttpPost]
+        public ActionResult fill_out_survey(SurveyQAViewModel qa)
+        {
+            foreach(SurveyAnswers answer in qa.answer_list)
+            {
+                SurveyAnswers a = db.surveyAnswers.Find(answer.answer_Id);
+                a.answer = answer.answer;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Student_Index");
+        }
+        public ActionResult Student_Index(int? id)
+        {
+            string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var students = db.studentModels.ToList();
+            var surveys = db.surveyJoinTableModel.ToList();
+            StudentModels current_student = new StudentModels();
+            List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
+            foreach (StudentModels student in students)
+            {
+                if (student.student_account_Id == UserId)
+                {
+                    current_student = student;
+                }
+            }
+            int student_class_Id = current_student.class_Id;
+            foreach (SurveyJoinTableModel survey in surveys)
+            {
+                if (survey.class_Id == student_class_Id)
+                {
+                    survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                    survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                    survey_list.Add(survey);
+                }
+            }
+            if (id == null)
+            {
+                ViewBag.StatusMessage = "";
+                return View(survey_list);
+            }else
+            {
+                ViewBag.StatusMessage = "This survey is not currently active.";
+                return View(survey_list);
+            }
+        }
         public ActionResult Activate(int id)
         {
             SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
@@ -33,23 +111,51 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult Index_Class_Survey()
         {
-            return View(db.surveyJoinTableModel.ToList());
+            List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
+            var joinSurvey = db.surveyJoinTableModel.ToList();
+            foreach(SurveyJoinTableModel survey in joinSurvey)
+            {
+                survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                survey_list.Add(survey);
+            }
+
+            return View(survey_list);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create_Join(int id)
         {
-            SurveyJoinTableModel survey = new SurveyJoinTableModel();
+            SurveyJoinTableModel joinSurvey = new SurveyJoinTableModel();
             SurveyModel a_survey = db.surveyModel.Find(id);
             ViewBag.class_Id = new SelectList(db.classmodel,"class_Id","className");
-            survey.SurveyModel = a_survey;
-            return View(survey);
+            joinSurvey.SurveyModel = a_survey;
+            joinSurvey.survey_Id = id;
+            return View(joinSurvey);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create_Join(SurveyJoinTableModel survey)
         {
+            List <SurveyQuestion> questions = db.surveyQuestion.ToList();
             if (ModelState.IsValid)
             {
+                var students = db.studentModels.ToList();
+                foreach(StudentModels student in students)
+                {
+                    if(student.class_Id == survey.class_Id)
+                    {
+                        foreach(SurveyQuestion question in questions)
+                        {
+                            if(question.survey_Id == survey.survey_Id)
+                            {
+                                SurveyAnswers answer = new SurveyAnswers();
+                                answer.question_Id = question.question_Id;
+                                answer.student_Id = student.student_Id;
+                                db.surveyAnswers.Add(answer);
+                            }
+                        }
+                    }
+                }
                 db.surveyJoinTableModel.Add(survey);
                 db.SaveChanges();
                 return RedirectToAction("Index_Class_Survey");

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ClassAnalytics.Models.SurveyJoinTableModel>
+
+@{
+    ViewBag.Title = "Student_Index";
+}
+
+<h2>Student_Index</h2>
+<p class="text-danger">@ViewBag.StatusMessage</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassModel.className)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyModel.SurveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    string survey = "";
+    string link = "";
+    if(item.active == true)
+    {
+        survey = "Fill Out Survey";
+        link = "fill_out_survey";
+    }
+    else
+    {
+        survey = "Not Available";
+        link = "Student_Index";
+    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassModel.className)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.ActionLink(survey, link, new { id=item.survey_Id })
+        </td>
+    </tr>
+}
+
+</table>

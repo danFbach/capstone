@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyJoinTableModel>
 
 @{
-    ViewBag.Title = "Index_Class_Survey";
+    ViewBag.Title = "Survey De/Activate";
 }
 
-<h2>Index_Class_Survey</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Return to Surveys", "Index")
 </p>
 <table class="table">
     <tr>
@@ -23,33 +23,33 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    string active = "";
-    if (item.active == false)
+    @foreach (var item in Model)
     {
-        active = "Activate";
+        string active = "";
+        if (item.active == false)
+        {
+            active = "Activate";
+        }
+        else
+        {
+            active = "Deactivate";
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassModel.className)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.active)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.survey_join_Id }) |
+                @Html.ActionLink(active, active, new { id = item.survey_join_Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.survey_join_Id })
+            </td>
+        </tr>
     }
-    else
-    {
-        active = "Deactivate";
-    }
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClassModel.className)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.survey_join_Id }) | 
-            @Html.ActionLink(active, active, new { id = item.survey_join_Id }) | 
-            @Html.ActionLink("Delete", "Delete", new { id=item.survey_join_Id })
-        </td>
-    </tr>
-}
 
 </table>

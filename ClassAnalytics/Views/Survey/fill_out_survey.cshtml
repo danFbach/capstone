@@ -1,0 +1,44 @@
+﻿@model ClassAnalytics.Models.SurveyQAViewModel
+
+@{
+    ViewBag.Title = "fill_out_survey";
+    string student_name = Model.StudentModels.fName + " " + Model.StudentModels.fName;
+}
+
+<h2>@Html.DisplayFor(model => model.SurveyModel.SurveyName), @Html.DisplayFor(model => student_name)</h2>
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                <h4>Questions</h4>
+            </th>
+            <th>
+                <h4>Answers</h4>
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.SurveyModel.question_list.Count; i++)
+        {
+            <tr>
+                @Html.HiddenFor(model => model.answer_list[i].answer_Id)
+                <td>
+                    @Html.DisplayFor(modelItem => Model.SurveyModel.question_list[i].question)
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => Model.answer_list[i].answer)
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+
+   

@@ -34,6 +34,7 @@ namespace ClassAnalytics.Models
         public DbSet<GradeBookModel> gradeBookModel { get; set; }
         public DbSet<ProgramModels> programModels { get; set; }
         public DbSet<StudentModels> studentModels { get; set; }
+        public DbSet<SurveyAnswers> surveyAnswers { get; set; }
         public DbSet<SurveyJoinTableModel> surveyJoinTableModel { get; set; }
         public DbSet<SurveyModel> surveyModel { get; set; }
         public DbSet<SurveyQuestion> surveyQuestion { get; set; }

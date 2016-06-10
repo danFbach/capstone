@@ -214,8 +214,10 @@
     <Compile Include="Models\ProgCourseViewModel.cs" />
     <Compile Include="Models\ProgramModels.cs" />
     <Compile Include="Models\StudentModels.cs" />
+    <Compile Include="Models\SurveyAnswers.cs" />
     <Compile Include="Models\SurveyJoinTableModel.cs" />
     <Compile Include="Models\SurveyModel.cs" />
+    <Compile Include="Models\SurveyQAViewModel.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
     <Compile Include="Models\SurveyStudentModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
@@ -425,6 +427,8 @@
     <Content Include="Views\Survey\Create_Question.cshtml" />
     <Content Include="Views\Survey\Index_Class_Survey.cshtml" />
     <Content Include="Views\Survey\Create_Join.cshtml" />
+    <Content Include="Views\Survey\Student_Index.cshtml" />
+    <Content Include="Views\Survey\fill_out_survey.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
