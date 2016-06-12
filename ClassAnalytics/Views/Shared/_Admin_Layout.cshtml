@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Edulytics Admin</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -35,11 +35,11 @@
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Grades</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Gradebook", "Index", "GradeBook", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("Gradebook", "Index", "GradeBook", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Surveys</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Survey", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("Survey", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                 </div>
                 @Html.Partial("_LoginPartial")

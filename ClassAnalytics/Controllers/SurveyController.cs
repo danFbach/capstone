@@ -16,6 +16,40 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult SurveyBarChart()
+        {
+            int? survey_id = 1;
+            ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
+            SurveyModel survey = db.surveyModel.Find(survey_id);
+            List<SurveyChartModel> charts = new List<SurveyChartModel>();
+            var questions = db.surveyQuestion.ToList();
+            var answers = db.surveyAnswers.ToList();
+            List<List<Object>> answerList = new List<List<object>>();
+
+            foreach(SurveyQuestion question in questions)
+            {
+                SurveyChartModel chart = new SurveyChartModel();
+                chart.question = question.question;
+                chart.question_id = question.question_Id;
+                chart.answer_count = 0;
+                if (question.survey_Id == survey_id)
+                {
+                    foreach (SurveyAnswers answer in answers)
+                    {
+                        if (answer.question_Id == question.question_Id)
+                        {
+                            if(answer.answer == true)
+                            {
+                                chart.answer_count += 1;
+                            }
+                        }
+                    }
+                    charts.Add(chart);
+                }
+            }
+            return View(charts);
+        }
+
         public ActionResult fill_out_survey(int id)
         {
             SurveyQAViewModel a_survey = new SurveyQAViewModel();
@@ -109,18 +143,67 @@ namespace ClassAnalytics.Controllers
             return RedirectToAction("Index_Class_Survey");
         }
 
-        public ActionResult Index_Class_Survey()
+        public ActionResult Index_Class_Survey(int? class_id, bool? active)
         {
-            List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
             var joinSurvey = db.surveyJoinTableModel.ToList();
-            foreach(SurveyJoinTableModel survey in joinSurvey)
+            List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
+            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
+            if(class_id == null)
             {
-                survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
-                survey.ClassModel = db.classmodel.Find(survey.class_Id);
-                survey_list.Add(survey);
+                if(active == null)
+                {
+                    foreach (SurveyJoinTableModel survey in joinSurvey)
+                    {
+                        survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                        survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                        survey_list.Add(survey);
+                    }
+                }
+                else
+                {
+                    foreach (SurveyJoinTableModel survey in joinSurvey)
+                    {
+                        if(survey.active == active)
+                        {
+                            survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                            survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                            survey_list.Add(survey);
+                        }
+                    }
+                }
+                    return View(survey_list);                
             }
-
-            return View(survey_list);
+            else
+            {
+                if(active == null)
+                {
+                    foreach (SurveyJoinTableModel survey in joinSurvey)
+                    {
+                        if (survey.class_Id == class_id)
+                        {
+                            survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                            survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                            survey_list.Add(survey);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (SurveyJoinTableModel survey in joinSurvey)
+                    {
+                        if(survey.active == active)
+                        {
+                            if (survey.class_Id == class_id)
+                            {
+                                survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
+                                survey.ClassModel = db.classmodel.Find(survey.class_Id);
+                                survey_list.Add(survey);
+                            }
+                        }
+                    }
+                }
+                return View(survey_list);
+            }            
         }
 
         public ActionResult Create_Join(int id)
@@ -198,7 +281,8 @@ namespace ClassAnalytics.Controllers
             var courses = db.coursemodels.ToList();
             var surveys = db.surveyModel.ToList();
             var questions = db.surveyQuestion.ToList();
-            
+
+
             foreach (SurveyModel survey in surveys)
             {
                 if(survey.question_list != null)
@@ -217,9 +301,9 @@ namespace ClassAnalytics.Controllers
                     if(course.course_Id == survey.course_Id)
                     {
                         survey.CourseModels = course;
-                        survey_list.Add(survey);
                     }
                 }
+                survey_list.Add(survey);
             }            
             return View(survey_list);
         }

@@ -215,6 +215,7 @@
     <Compile Include="Models\ProgramModels.cs" />
     <Compile Include="Models\StudentModels.cs" />
     <Compile Include="Models\SurveyAnswers.cs" />
+    <Compile Include="Models\SurveyChartModel.cs" />
     <Compile Include="Models\SurveyJoinTableModel.cs" />
     <Compile Include="Models\SurveyModel.cs" />
     <Compile Include="Models\SurveyQAViewModel.cs" />
@@ -399,7 +400,6 @@
     <Content Include="Views\Task\Details.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
-    <Content Include="Views\Task\TasksHome.cshtml" />
     <Content Include="Views\TaskType\Create.cshtml" />
     <Content Include="Views\TaskType\Delete.cshtml" />
     <Content Include="Views\TaskType\Details.cshtml" />
@@ -429,6 +429,8 @@
     <Content Include="Views\Survey\Create_Join.cshtml" />
     <Content Include="Views\Survey\Student_Index.cshtml" />
     <Content Include="Views\Survey\fill_out_survey.cshtml" />
+    <Content Include="Views\GradeBook\AdminCharts.cshtml" />
+    <Content Include="Views\Survey\SurveyBarChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

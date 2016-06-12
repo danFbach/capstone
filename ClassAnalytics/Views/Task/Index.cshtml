@@ -3,12 +3,24 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="col-sm-12" style="text-align:center;">
+    <h2>Tasks</h2>
+</div>
 
-<h2>Tasks</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@using (Html.BeginForm())
+{
+    <div class="row" style="margin-top:-40px;">
+        <div class="col-xs-4" style="width:200px;padding-bottom:10px;">
+            @Html.DropDownList("course_id", null, "Select a Course", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-2" style="width:150px;margin-left:-20px;">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div class="col-sm-12" style="text-align:right;margin-top:-40px;">
+    <h4>@Html.ActionLink("New Task", "Create")</h4>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -18,7 +30,7 @@
             @Html.DisplayNameFor(model => model.taskType_Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.course_Id)
+            @Html.DisplayName("Course")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.points)
@@ -36,17 +48,15 @@
     </tr>
 
 @foreach (var item in Model) {
-    //string course = item.CourseModels.courseName;
-    //string tasktype = item.TaskTypeModels.taskType;
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.taskName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.taskType_Id)
+            @Html.DisplayFor(modelItem => item.TaskTypeModels.taskType)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.course_Id)
+            @Html.DisplayFor(modelItem => item.CourseModels.courseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.points)
@@ -62,7 +72,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.task_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.task_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.task_Id })
         </td>
     </tr>

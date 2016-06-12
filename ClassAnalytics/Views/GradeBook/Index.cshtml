@@ -1,13 +1,12 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Grades";
 }
-
-<h2>Index</h2>
+<h2>Grades</h2>
 @using (Html.BeginForm())
 {
-    <div class="row" style="width:100%;">
+    <div class="row" style="width:100%;padding-left:125px;padding-bottom:10px;margin-top:-45px;">
         <div class="col-xs-10" style="width:250px;">
             @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
         </div>

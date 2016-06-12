@@ -35,12 +35,15 @@ namespace ClassAnalytics.Controllers
                         new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
                     }
                 }
-                return View(new_list);
             }
             else
             {
-                return View(new_list);
+                foreach (ClassModel a_class in classes)
+                {
+                    new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
+                }
             }
+            return View(new_list);
         }
 
         // GET: Class/Details/5

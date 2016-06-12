@@ -7,7 +7,12 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create a New Survey", "Create")
+    <div class="col-sm-6" style="text-align:left;">
+        @Html.ActionLink("Create a New Survey", "Create")
+    </div>
+    <div class="col-sm-6" style="text-align:right;">
+        @Html.ActionLink("See surveys assigned to Classes", "Index_Class_Survey")
+    </div>
 </p>
 <table class="table">
     <tr>
@@ -25,17 +30,27 @@
 
 @foreach (var item in Model)
 {
+    string courseName = "No Course";
+    int questionCount = 0;
+    if(item.question_list != null)
+    {
+        questionCount = item.question_list.Count();
+    }
+    if(item.course_Id != null)
+    {
+        courseName = item.CourseModels.courseName;
+    }
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CourseModels.courseName)
+            @Html.DisplayFor(modelItem => courseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SurveyName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.question_list.Count)
+            @Html.DisplayFor(modelItem => questionCount)
         </td>
-        <td>
+        <td style="text-align:right;">
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
             @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id}) | 
             @Html.ActionLink("Delete", "Delete", new { id=item.survey_Id })

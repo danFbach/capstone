@@ -15,6 +15,41 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult AdminCharts(int? class_id,int? task_id)
+        {
+            var grades = db.gradeBookModel.ToList();
+            List<GradeBookModel> grade_list = new List<GradeBookModel>();
+            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
+            ViewBag.task_id = new SelectList(db.taskModel, "task_Id", "taskName");
+            foreach(GradeBookModel grade in grades)
+            {
+                grade.TaskModel = db.taskModel.Find(grade.task_Id);
+                if(class_id == null)
+                {
+                    if(task_id == null)
+                    {
+                        grade_list.Add(grade);
+                    }
+                    else if(grade.task_Id == task_id)
+                    {
+                        grade_list.Add(grade);
+                    }
+                }
+                else if(grade.class_Id == class_id)
+                {
+                    if(task_id == null)
+                    {
+                        grade_list.Add(grade);
+                    }
+                    else if(grade.task_Id == task_id)
+                    {
+                        grade_list.Add(grade);
+                    }
+                }
+            }
+            return View(grade_list);
+        }
+
         public ActionResult Student_Index()
         {
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
@@ -48,21 +83,18 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook
         public ActionResult Index(int? class_id, int? task_Id)
         {
-            if(class_id == null)
+            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
+            ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
+            if (class_id == null)
             {
                 if(task_Id == null)
                 {
-                    
-                    ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-                    ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
                     var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels);
                     return View(gradeBookModel.ToList());
                 }
                 else
                 {
                     List<GradeBookModel> grades = new List<GradeBookModel>();
-                    ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-                    ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
                     var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                     foreach(GradeBookModel grade in gradeBookModel)
                     {
@@ -212,13 +244,12 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GradeBookModel gradeBookModel = db.gradeBookModel.Find(id);
+            StudentModels student = db.studentModels.Find(gradeBookModel.student_Id);
             if (gradeBookModel == null)
             {
                 return HttpNotFound();
             }
-            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
-            
-            ViewBag.student_Id = new SelectList(db.studentModels, "student_Id", "fName", gradeBookModel.student_Id);
+            ViewBag.Student = student.fName + " " + student.lName;
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName", gradeBookModel.task_Id);
             return View(gradeBookModel);
         }

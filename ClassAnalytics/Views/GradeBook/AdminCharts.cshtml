@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
+
+@{
+    ViewBag.Title = "AdminCharts";
+    List<List<Object>> grades = new List<List<Object>>();
+}
+@{
+    foreach (var item in Model)
+    {
+        decimal? grade = (item.pointsEarned / item.TaskModel.points) * 100;
+        grades.Add(new List<Object> { item.student_Id, grade });
+    }
+}
+
+
+<h2>Grade Charts</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row" style="margin-top:-45px;padding-left:200px;padding-bottom:10px;">
+        <div class="col-xs-4" style="width:200px;">
+            @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-4" style="width:200px;margin-left:-15px;">
+            @Html.DropDownList("task_id", null, "Select a Task", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-2" style="width:150px;margin-left:-20px;">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            var grades_list = @Html.Raw(Json.Encode(grades));            
+            var grade_array = [];
+            for(i=0;i<grades_list.length;i++){
+                grade_array[grade_array.length] = [grades_list[i][0],grades_list[i][1]];
+            }
+            data.addColumn('number', 'Student');
+            data.addColumn('number', 'Grade');
+            for(i = 0; i < grade_array.length; i++)
+                data.addRow([grade_array[i][0], grade_array[i][1]]);
+            var options = {
+                title: 'Student Grades',
+                hAxis: {title: 'Student', minValue: 0, maxValue: grade_array.length},
+                vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
+                legend: 'none'
+            };
+
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</body>

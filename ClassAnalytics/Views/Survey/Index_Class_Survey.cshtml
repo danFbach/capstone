@@ -3,12 +3,28 @@
 @{
     ViewBag.Title = "Survey De/Activate";
 }
-
-<h2>@ViewBag.Title</h2>
-
-<p>
+<div style="text-align:left;">
     @Html.ActionLink("Return to Surveys", "Index")
-</p>
+</div>        
+<center><h2 style="margin-top:-15px;">@ViewBag.Title</h2></center>
+@using (Html.BeginForm())
+{
+    <div class="row" style="width:100%;margin-left:10px;margin-top:-25px;padding-bottom:5px;">
+        <div class="col-xs-4" style="width:180px;margin-left:-25px;">
+            @Html.DropDownList("class_id", null, "All Classes", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-4" style="width:180px;margin-left:-25px;">
+            @Html.DropDownList("active", new SelectList(new List<Object>
+                       {
+                       new { value = true , text = "Active" },
+                       new { value = false , text = "Inactive"  }
+                       }, "value", "text", 2), "Active/Inactive", new { @class = "form-control" })
+        </div>
+        <div class="col-xs-1" style="width:150px;margin-left:-25px;padding-right:-15px;">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+}
 <table class="table">
     <tr>
         <th>

@@ -14,15 +14,28 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult TasksHome()
-        {
-            return View("TasksHome");
-        }
-
         // GET: Task
-        public ActionResult Index()
+        public ActionResult Index(int? course_id)
         {
-            return View(db.taskModel.ToList());
+            ViewBag.course_id = new SelectList(db.coursemodels, "course_Id", "courseName");
+            ViewBag.roles = new SelectList(db.Roles, "Id", "Name");
+            List<TaskModel> tasks = db.taskModel.ToList();
+            List<TaskModel> new_tasks = new List<TaskModel>();
+            foreach(TaskModel task in tasks)
+            {
+                task.TaskTypeModels = db.TaskTypeModels.Find(task.taskType_Id);
+                task.CourseModels = db.coursemodels.Find(task.course_Id);
+                if (course_id == null)
+                {
+                    new_tasks.Add(task);
+                }
+                else if(task.course_Id == course_id)
+                {
+                   new_tasks.Add(task);
+                }
+            }
+
+            return View(new_tasks);
         }
 
         // GET: Task/Details/5
