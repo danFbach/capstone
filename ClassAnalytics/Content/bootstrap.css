@@ -1999,7 +1999,7 @@ textarea.input-lg {
 
 .btn {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 0px 0px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2025,7 +2025,8 @@ textarea.input-lg {
 
 .btn:hover,
 .btn:focus {
-  color: #333333;
+  color: #FFF;
+  background-color:#BBB;
   text-decoration: none;
 }
 
@@ -2049,9 +2050,10 @@ fieldset[disabled] .btn {
 }
 
 .btn-default {
-  color: #333333;
-  background-color: #ffffff;
+  color: #FFF;
+  background-color: transparent;
   border-color: #cccccc;
+  height:100%;
 }
 
 .btn-default:hover,
@@ -2059,10 +2061,10 @@ fieldset[disabled] .btn {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #FFF;
-  background-color: #511;
+  color: #511;
+  background-color: #bbb;
+  height:100%;
   text-align:center;
-  border-color: #adadad;
 }
 
 .btn-default:active,
@@ -3342,7 +3344,7 @@ input[type="button"].btn-block {
 .dropup .caret,
 .navbar-fixed-bottom .dropdown .caret {
   border-top: 0 dotted;
-  border-bottom: 4px solid #000000;
+  border-bottom: 10px solid #000000;
   content: "";
 }
 
@@ -4504,12 +4506,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #511;
-  border-color: #080808;
+  background-color: transparent;
+  border-color: #000;
 }
 
 .navbar-inverse .navbar-brand {
-  color: #999999;
+  color: #BBB;
 }
 
 .navbar-inverse .navbar-brand:hover,

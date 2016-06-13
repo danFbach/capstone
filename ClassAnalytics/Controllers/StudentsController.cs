@@ -139,7 +139,7 @@ namespace ClassAnalytics.Controllers
                     if(viewModel.class_Id == a_class.class_Id)
                     {
                         student.ClassModel = a_class;
-                    }                    
+                    }
                 }
                 IdentityUserRole role = new IdentityUserRole();
                 model.Email = viewModel.newEmail;

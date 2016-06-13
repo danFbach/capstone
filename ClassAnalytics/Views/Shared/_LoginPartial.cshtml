@@ -7,16 +7,21 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <div class="navbar-collapse collapse">
+                <div class="nav navbar-nav">
+                    <div class="btn-group" id="button_fade">
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px"> Account </button>
+                        <div class="dropdown-menu">@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { @class="navbar_links", title = "Manage" })<br><a class="navbar_links" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></div>
+                    </div>
+                </div>
+            </div>
+        </li>         
     </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
