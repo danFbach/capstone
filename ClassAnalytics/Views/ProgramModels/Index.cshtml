@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.ProgramModels>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Programs";
 }
 
-<h2>Index</h2>
+<center><h2 style="padding-bottom:10px;">@ViewBag.Title</h2></center>
 
-<p>
+<h4 style="margin-top:-30px;">
     @Html.ActionLink("Create New", "Create")
-</p>
+</h4>
 <table class="table">
     <tr>
         <th>
@@ -35,22 +35,10 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.program_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.program_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.program_Id })
+            @Html.ActionLink("Modify", "Edit", new { id=item.program_Id }) |
+            @Html.ActionLink("Remove", "Delete", new { id=item.program_Id })
         </td>
     </tr>
 }
 
 </table>
-@using (Html.BeginForm("ProgramHome", "ProgramModels"))
-{
-    @Html.AntiForgeryToken()
-    <center>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="submit" value="Return To Program Home" class="btn btn-default" />
-            </div>
-        </div>
-    </center>
-}

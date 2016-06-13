@@ -114,6 +114,8 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CourseModels courseModels = db.coursemodels.Find(id);
+            courseModels.ProgramModels = db.programModels.Find(courseModels.program_Id);
+            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if (courseModels == null)
             {
                 return HttpNotFound();
@@ -126,7 +128,7 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,courseName")] CourseModels courseModels)
+        public ActionResult Edit(CourseModels courseModels)
         {
             if (ModelState.IsValid)
             {
@@ -145,6 +147,7 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CourseModels courseModels = db.coursemodels.Find(id);
+            courseModels.ProgramModels = db.programModels.Find(courseModels.program_Id);
             if (courseModels == null)
             {
                 return HttpNotFound();

@@ -1,0 +1,77 @@
+﻿@model ClassAnalytics.Models.GradeBookModel
+
+@{
+    ViewBag.Title = "StudentDetails";
+    decimal? grade = 0;
+}
+
+<h2>StudentDetails</h2>
+
+<div>
+    
+    <h4>GradeBookModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassModel.className)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassModel.className)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentModels.fName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentModels.fName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskModel.taskName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskModel.taskName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.assignment_notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.assignment_notes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.possiblePoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.possiblePoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pointsEarned)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pointsEarned)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.grade)
+        </dt>
+        
+        <dd>
+            @{ grade = (Model.pointsEarned / Model.possiblePoints) * 100;}
+            @Html.DisplayFor(model => grade + "%")
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.grade_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

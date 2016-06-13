@@ -1,26 +1,31 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyChartModel>
 
 @{
+    int count = 1;
+    int qCount = 1;
+    string period = ") ";
     ViewBag.Title = "Survey Barchart";
     List<List<Object>> answers = new List<List<Object>>();
+    List<int> ticks = new List<int>();
     List<string> questions = new List<string>();
 }
 @{ 
-    foreach(var item in Model)
+    foreach (var item in Model)
     {
         questions.Add(item.question);
-        answers.Add(new List<object> { item.question_id, item.answer_count, item.response_count });
+        answers.Add(new List<object> { qCount, item.answer_count, item.response_count });
+        ticks.Add(qCount);
+        qCount += 1;
     }
 }
 
 <h2>Survey Charts</h2>
-
 @using (Html.BeginForm())
 {
     <div class="row" style="margin-top:-45px;padding-left:225px;padding-bottom:10px;">
-        @*<div class="col-xs-4" style="width:200px;">
-            @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
-        </div>*@
+        <div class="col-xs-4" style="width:200px;">
+                @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
+            </div>
         <div class="col-xs-4" style="width:200px;margin-left:-15px;">
             @Html.DropDownList("survey_id", null, "Select a Survey", htmlAttributes: new { @class = "form-control" })
         </div>
@@ -29,6 +34,25 @@
         </div>
     </div>
 }
+<table class="table">
+    <tr>
+        <th>
+            <h3> @Html.Label("Questions")</h3>
+        </th>
+    </tr>
+    @{
+        foreach (var question in questions)
+        {
+            <tr style="border:none;">
+                <td style="border:none;">
+                    @Html.Label(count + period + question, new { @class = "form-control" })
+                </td>
+            </tr>
+            count += 1;
+        }
+    }
+</table>
+
 
 
 <head>
@@ -56,21 +80,21 @@
               title: 'Survey Responses',
               width: 900,
               legend: { position: 'none' },
-              chart: { subtitle: 'popularity by percentage' },
               axes: {
                   x: {
-                      0: { side: 'bottom', label: 'Questions'}
+                        0: { side: 'bottom', label: 'Questions'}
                   },
-                  y: {
-                      all: {
-                          range: {
-                              max: answers[1][2],
-                              min: 0
-                          }
+              y: {
+                  all: {
+                      title:'Yes',
+                      range: {
+                          max: answers[1][2],
+                          min: 0
                       }
                   }
+              }
           },
-          bar: { groupWidth: "75%" }
+        bar: { groupWidth: "75%" }
         };
 
         var chart = new google.charts.Bar(document.getElementById('top_x_div'));

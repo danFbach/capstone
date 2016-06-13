@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Survey Home";
 }
 
-<h2>Index</h2>
+<center><h2 style="padding-bottom:10px;">@ViewBag.Title</h2></center>
 
-<p>
+<p style="margin-top:-30px;">
     <div class="col-sm-6" style="text-align:left;">
         @Html.ActionLink("Create a New Survey", "Create")
     </div>
@@ -52,8 +52,8 @@
         </td>
         <td style="text-align:right;">
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
-            @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id}) | 
-            @Html.ActionLink("Delete", "Delete", new { id=item.survey_Id })
+            @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id})
+           @* @Html.ActionLink("Remove", "Delete", new { id=item.survey_Id })*@
         </td>
     </tr>
 }

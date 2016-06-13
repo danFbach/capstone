@@ -121,5 +121,13 @@ namespace ClassAnalytics.Controllers
                 return View("InstToStudent",message);
             }
         }
+        public ActionResult StudentToInstructor()
+        {
+            return View();
+        }
+        public ActionResult StudentToStudent()
+        {
+            return View();
+        }
     }
 }

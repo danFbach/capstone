@@ -7,7 +7,7 @@
     <h2>Tasks</h2>
 </div>
 
-<div class="col-sm-12" style="text-align:right;margin-top:-40px;padding-bottom:5px;">
+<div class="col-sm-12" style="text-align:right;margin-top:-30px;padding-bottom:5px;">
     <h4>@Html.ActionLink("New Task", "Create")</h4>
 </div>
 @using (Html.BeginForm())
@@ -71,21 +71,10 @@
             @Html.DisplayFor(modelItem => item.taskNotes)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.task_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.task_Id })
+            @Html.ActionLink("Modify", "Edit", new { id=item.task_Id }) |
+            @Html.ActionLink("Remove", "Delete", new { id=item.task_Id })
         </td>
     </tr>
 }
 
 </table>
-@using (Html.BeginForm("TasksHome", "Task"))
-{
-    @Html.AntiForgeryToken()
-    <center>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="submit" value="Return To Task Home" class="btn btn-default" />
-            </div>
-        </div>
-    </center>
-}

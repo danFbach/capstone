@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyJoinTableModel>
 
 @{
-    ViewBag.Title = "Survey De/Activate";
-}
-<div style="text-align:left;">
-    @Html.ActionLink("Return to Surveys", "Index")
-</div>        
-<center><h2 style="margin-top:-15px;">@ViewBag.Title</h2></center>
+    ViewBag.Title = "Survey Activation";
+}      
+<center><h2 style="margin-top:10px;">@ViewBag.Title</h2></center>
 @using (Html.BeginForm())
 {
-    <div class="row" style="width:100%;margin-left:10px;margin-top:-25px;padding-bottom:5px;">
+    <div class="row" style="width:100%;margin-left:10px;margin-top:-30px;padding-bottom:0px;">
         <div class="col-xs-4" style="width:180px;margin-left:-25px;">
             @Html.DropDownList("class_id", null, "All Classes", htmlAttributes: new { @class = "form-control" })
         </div>
@@ -25,6 +22,9 @@
         </div>
     </div>
 }
+<div style="text-align:right;margin-top:-15px;">
+    @Html.ActionLink("Return to Surveys", "Index")
+</div>  
 <table class="table">
     <tr>
         <th>

@@ -6,9 +6,6 @@
 
 <h2>Student Gradebook</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -61,9 +58,7 @@
             @Html.DisplayFor(modelItem => grade)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.grade_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.grade_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.grade_Id })
+            @Html.ActionLink("View Grade Details", "StudentDetails", new { id=item.grade_Id }) 
         </td>
     </tr>
 }

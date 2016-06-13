@@ -31,7 +31,7 @@
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px">Communicate</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Message Instructor", "StudentToInstructor", "Shared", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Message Student", "StudentToStudent", "Shared", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("Message Instructor", "StudentToInstructor", "Communication", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Message Student", "StudentToStudent", "Communication", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                 </div>
                 @Html.Partial("_LoginPartial")

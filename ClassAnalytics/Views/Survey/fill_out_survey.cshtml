@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "fill_out_survey";
-    string student_name = Model.StudentModels.fName + " " + Model.StudentModels.fName;
+    string student_name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
 }
 
-<h2>@Html.DisplayFor(model => model.SurveyModel.SurveyName), @Html.DisplayFor(model => student_name)</h2>
-
+<h2>@Html.DisplayFor(model => model.SurveyModel.SurveyName) - @Html.DisplayFor(model => student_name)</h2>
+<h6>Please check all that apply.</h6>
 @using (Html.BeginForm())
 {
     <table class="table">
@@ -34,7 +34,7 @@
         }
     </table>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-10" style="margin-top:-20px;">
             <input type="submit" value="Submit Survey" class="btn btn-default" />
         </div>
     </div>

@@ -79,9 +79,8 @@
                 @Html.DisplayFor(modelItem => item.assignment_notes)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.grade_Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.grade_Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.grade_Id })
+                @Html.ActionLink("Modify", "Edit", new { id = item.grade_Id }) |
+                @Html.ActionLink("Remove", "Delete", new { id = item.grade_Id })
             </td>
         </tr>
     }

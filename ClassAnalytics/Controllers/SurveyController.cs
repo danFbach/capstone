@@ -16,9 +16,9 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult SurveyBarChart(int? survey_id)
+        public ActionResult SurveyBarChart(int? survey_id, int? class_id)
         {
-            
+            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
             SurveyModel survey = db.surveyModel.Find(survey_id);
             List<SurveyChartModel> charts = new List<SurveyChartModel>();
@@ -36,13 +36,33 @@ namespace ClassAnalytics.Controllers
                 {
                     foreach (SurveyAnswers answer in answers)
                     {
-                        if (answer.question_Id == question.question_Id)
+                        answer.StudentModels = new StudentModels();
+                        answer.StudentModels = db.studentModels.Find(answer.student_Id);
+                        if(class_id == null)
                         {
-                            if(answer.answer == true)
+                            if (answer.question_Id == question.question_Id)
                             {
-                                chart.answer_count += 1;
+                                if (answer.answer == true)
+                                {
+                                    chart.answer_count += 1;
+                                }
+                                chart.response_count += 1;
                             }
-                            chart.response_count += 1;
+                        }
+                        else
+                        {
+                            if(answer.StudentModels.class_Id == class_id)
+                            {
+                                if (answer.question_Id == question.question_Id)
+                                {
+                                    if (answer.answer == true)
+                                    {
+                                        chart.answer_count += 1;
+                                    }
+                                    chart.response_count += 1;
+                                }
+
+                            }
                         }
                     }
                     charts.Add(chart);

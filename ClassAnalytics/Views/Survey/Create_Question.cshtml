@@ -1,17 +1,16 @@
 ﻿@model ClassAnalytics.Models.SurveyQuestion
 
 @{
-    ViewBag.Title = "Create_Question";
+    ViewBag.Title = "Create A Question";
 }
 
-<h2>Create_Question</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>SurveyQuestion</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.question_Id)
@@ -25,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Survey", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("survey_label","Survey", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.Value("surveyInfo")
                 @Html.ValidationMessageFor(model => model.survey_Id, "", new { @class = "text-danger" })
@@ -41,5 +40,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Surveys", "Index")
 </div>

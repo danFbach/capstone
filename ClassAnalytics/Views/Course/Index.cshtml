@@ -1,24 +1,24 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.ProgCourseViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Course Home";
 }
 
-<h2>Courses</h2>
+<center><h2>@ViewBag.Title</h2></center>
 @using (Html.BeginForm())
 {
-    <div class="row" style="width:100%;margin-left:10px;padding-bottom:5px;">
+    <div class="row" style="width:100%;margin-left:10px;padding-bottom:15px;margin-top:-40px;">
         <div class="col-xs-10" style="width:250px;margin-left:-25px;">
-            @Html.DropDownList("program_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("program_id", null, "Select a Program", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-8" style="width:150px;margin-left:-25px;">
             <input type="submit" value="Search" class="btn btn-default" />
         </div>
     </div>
 }
-<p>
+<h4 style="text-align:right;margin-top:-30px;">
     @Html.ActionLink("Create New", "Create")
-</p>
+</h4>
 
 <table class="table">
     <tr>
@@ -52,22 +52,9 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.course_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.course_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.course_Id })
+            @Html.ActionLink("Modify", "Edit", new { id=item.course_Id }) |
+            @Html.ActionLink("Remove", "Delete", new { id=item.course_Id })
         </td>
     </tr>
 }
-
 </table>
-@using (Html.BeginForm("ProgramHome","ProgramModels"))
-{
-    @Html.AntiForgeryToken()
-    <center>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="submit" value="Return To Program Home" class="btn btn-default" />
-            </div>
-        </div>
-    </center>
-}

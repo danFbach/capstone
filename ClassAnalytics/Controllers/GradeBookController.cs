@@ -15,6 +15,16 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult StudentDetails(int? id)
+        {
+            var grade = db.gradeBookModel.Find(id);
+            grade.ClassModel = db.classmodel.Find(grade.class_Id);
+            grade.StudentModels = db.studentModels.Find(grade.student_Id);
+            grade.TaskModel = db.taskModel.Find(grade.task_Id);
+            grade.possiblePoints = grade.TaskModel.points;
+
+            return View(grade);
+        }
         public ActionResult Student_Chart()
         {
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
@@ -160,6 +170,11 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook
         public ActionResult Index(int? class_id, int? task_Id)
         {
+            if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("Student_Index");
+            }
+
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             if (class_id == null)
@@ -361,6 +376,9 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GradeBookModel gradeBookModel = db.gradeBookModel.Find(id);
+            gradeBookModel.StudentModels = db.studentModels.Find(gradeBookModel.student_Id);
+            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
+            gradeBookModel.TaskModel.CourseModels = db.coursemodels.Find(gradeBookModel.TaskModel.course_Id);
             if (gradeBookModel == null)
             {
                 return HttpNotFound();

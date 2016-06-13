@@ -382,7 +382,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ProgramModels\Create.cshtml" />
     <Content Include="Views\ProgramModels\Delete.cshtml" />
-    <Content Include="Views\ProgramModels\Details.cshtml" />
     <Content Include="Views\ProgramModels\Edit.cshtml" />
     <Content Include="Views\ProgramModels\Index.cshtml" />
     <Content Include="Views\Shared\_Admin_Layout.cshtml" />
@@ -393,10 +392,8 @@
     <Content Include="Views\Class\Index.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\Delete.cshtml" />
-    <Content Include="Views\Course\Details.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
-    <Content Include="Views\ProgramModels\ProgramHome.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Task\Delete.cshtml" />
     <Content Include="Views\Task\Details.cshtml" />
@@ -438,6 +435,7 @@
     <Content Include="Views\Communication\InstToStudent.cshtml" />
     <Content Include="Views\Communication\InstToClass.cshtml" />
     <Content Include="Views\Communication\AdminMessaging.cshtml" />
+    <Content Include="Views\GradeBook\StudentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
