@@ -1,0 +1,33 @@
+﻿@model ClassAnalytics.Models.StudentEmail
+
+@{
+    ViewBag.Title = "Message to Class";
+}
+
+
+<center><h2>@ViewBag.Title</h2></center>
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="row">
+            <center><h4>Message</h4></center>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                @Html.TextAreaFor(m => m.message, new { @class = "form-control", rows = 5, cols = 10 })
+            </div>
+         </div>
+    </div>
+
+    <div class="row" style="padding-top:10px;">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4" style="width:auto;">
+            @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1" style="width:auto;margin-left:-20px;">
+            <input type="submit" value="Send" class="btn btn-default" />
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+}

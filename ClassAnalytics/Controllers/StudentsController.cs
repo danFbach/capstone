@@ -23,7 +23,7 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
 
-        public async Task warningMail(string emailaddress, string Password, string fName, string lName)
+        public async Task studentConfirmation(string emailaddress, string Password, string fName, string lName)
         {
 
             var myMessage = new SendGridMessage();
@@ -160,7 +160,7 @@ namespace ClassAnalytics.Controllers
                     UserManager.AddToRole(role.UserId, role.RoleId);
                     student.student_account_Id = user.Id;
     #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    warningMail(model.Email, model.Password, student.fName, student.lName);
+                    studentConfirmation(model.Email, model.Password, student.fName, student.lName);
     #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     db.studentModels.Add(student);
                     db.SaveChanges();

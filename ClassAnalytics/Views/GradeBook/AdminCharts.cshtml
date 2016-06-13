@@ -7,8 +7,10 @@
 @{
     foreach (var item in Model)
     {
-        decimal? grade = (item.pointsEarned / item.TaskModel.points) * 100;
-        grades.Add(new List<Object> { item.student_Id, grade });
+        decimal? grade = 0;
+        grade = (item.pointsEarned / item.possiblePoints) * 100;
+        string student = item.StudentModels.fName + " " + item.StudentModels.lName;
+        grades.Add(new List<Object> { student, grade });
     }
 }
 
@@ -19,10 +21,10 @@
 {
     <div class="row" style="margin-top:-45px;padding-left:200px;padding-bottom:10px;">
         <div class="col-xs-4" style="width:200px;">
-            @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("class_id", null, "Select a Class (Required)", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-4" style="width:200px;margin-left:-15px;">
-            @Html.DropDownList("task_id", null, "Select a Task", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("task_id", null, "Student Averages", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-2" style="width:150px;margin-left:-20px;">
             <input type="submit" value="Search" class="btn btn-default" />
@@ -38,18 +40,18 @@
         function drawChart() {
 
             var data = new google.visualization.DataTable();
-            var grades_list = @Html.Raw(Json.Encode(grades));            
+            var grades_list = @Html.Raw(Json.Encode(grades));
             var grade_array = [];
             for(i=0;i<grades_list.length;i++){
                 grade_array[grade_array.length] = [grades_list[i][0],grades_list[i][1]];
             }
-            data.addColumn('number', 'Student');
+            data.addColumn('string', 'Student');
             data.addColumn('number', 'Grade');
             for(i = 0; i < grade_array.length; i++)
                 data.addRow([grade_array[i][0], grade_array[i][1]]);
             var options = {
                 title: 'Student Grades',
-                hAxis: {title: 'Student', minValue: 0, maxValue: grade_array.length},
+                hAxis: {title: 'Student'},
                 vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
                 legend: 'none'
             };

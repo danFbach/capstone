@@ -1,69 +1,53 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
 
 @{
-    ViewBag.Title = "Student_Chart";
+    ViewBag.Title = "Grade Chart";
+    List<List<Object>> tasks = new List<List<Object>>();
 }
-
-<h2>Student_Chart</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassModel.className)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TaskModel.taskName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.assignment_notes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.possiblePoints)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.pointsEarned)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.grade)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClassModel.className)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudentModels.fName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskModel.taskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.assignment_notes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.possiblePoints)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.pointsEarned)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.grade)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.grade_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.grade_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.grade_Id })
-        </td>
-    </tr>
+@{
+    foreach (var item in Model)
+    {
+        decimal? grade = 0;
+        grade = (item.pointsEarned / item.possiblePoints) * 100;
+        string task = item.TaskModel.taskName;
+        tasks.Add(new List<Object> { task, grade, item.grade });
+    }
 }
+<h2>@ViewBag.Title</h2>
 
-</table>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            var grades_list = @Html.Raw(Json.Encode(tasks));
+            var grade_array = [];
+            for(i=0;i<grades_list.length;i++){
+                grade_array[grade_array.length] = [grades_list[i][0],grades_list[i][1],grades_list[i][2]];
+            }
+            data.addColumn('string', 'Assignment');
+            data.addColumn('number', 'Your Grade');
+            data.addColumn('number', 'Class Average');
+            for(i = 0; i < grade_array.length; i++)
+                data.addRow([grade_array[i][0], grade_array[i][1], grade_array[i][2]]);
+            var options = {
+                title: 'Student Grades',
+                hAxis: {title: 'Assignment'},
+                vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
+                legend: 'none'
+            };
+
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</body>
+
+

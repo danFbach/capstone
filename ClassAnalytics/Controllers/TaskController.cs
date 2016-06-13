@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -21,7 +21,7 @@ namespace ClassAnalytics.Controllers
             ViewBag.roles = new SelectList(db.Roles, "Id", "Name");
             List<TaskModel> tasks = db.taskModel.ToList();
             List<TaskModel> new_tasks = new List<TaskModel>();
-            foreach(TaskModel task in tasks)
+            foreach (TaskModel task in tasks)
             {
                 task.TaskTypeModels = db.TaskTypeModels.Find(task.taskType_Id);
                 task.CourseModels = db.coursemodels.Find(task.course_Id);
@@ -29,9 +29,9 @@ namespace ClassAnalytics.Controllers
                 {
                     new_tasks.Add(task);
                 }
-                else if(task.course_Id == course_id)
+                else if (task.course_Id == course_id)
                 {
-                   new_tasks.Add(task);
+                    new_tasks.Add(task);
                 }
             }
 
@@ -56,9 +56,9 @@ namespace ClassAnalytics.Controllers
         // GET: Task/Create
         public ActionResult Create()
         {
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id","courseName");
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
-            
+
             return View();
         }
 
@@ -117,7 +117,7 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(TaskModel taskModel)
         {
-            
+
             if (ModelState.IsValid)
             {
                 db.Entry(taskModel).State = EntityState.Modified;

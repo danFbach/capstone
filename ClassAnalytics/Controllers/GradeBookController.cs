@@ -15,39 +15,116 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult AdminCharts(int? class_id,int? task_id)
+        public ActionResult Student_Chart()
+        {
+            string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            List<GradeBookModel> this_grade = new List<GradeBookModel>();
+            //List<TaskModel> tasks = new List<TaskModel>(); FOR TASK DROPDOWN
+            GradeBookModel a_grade = new GradeBookModel();
+            var students = db.studentModels.ToList();
+            var grades = db.gradeBookModel.ToList();
+            StudentModels this_student = new StudentModels();
+            foreach (StudentModels student in students)
+            {
+                if (student.student_account_Id == UserId)
+                {
+                    this_student = student;
+                }
+            }
+            foreach (GradeBookModel grade in grades)
+            {
+                grade.TaskModel = new TaskModel();
+                grade.TaskModel = db.taskModel.Find(grade.task_Id);
+                grade.task_Id = grade.TaskModel.task_Id;
+                int class_possible = 0;
+                decimal? class_total = 0;
+                if (grade.student_Id == this_student.student_Id)
+                {
+                    //tasks.Add(grade.TaskModel); ADD TASK TO DROPDOWN
+                    foreach (GradeBookModel grade1 in grades)
+                    {
+                        if (this_student.class_Id == grade1.class_Id)
+                        {
+                            grade.possiblePoints = grade.TaskModel.points;
+                            if (grade.task_Id == grade1.task_Id)
+                            {
+                                class_possible += grade.TaskModel.points;
+                                class_total += grade1.pointsEarned;
+                            }
+                        }
+                    }
+                    grade.grade = (class_total / class_possible) * 100;
+                    a_grade = grade;
+                    this_grade.Add(a_grade);
+                }
+            }
+            //ViewBag.task_id = new SelectList(tasks, "task_Id", "taskName"); SEND TASK DROPDOWN
+            return View(this_grade);
+        }
+
+        public ActionResult AdminCharts(int? class_id, int? task_id)
         {
             var grades = db.gradeBookModel.ToList();
             List<GradeBookModel> grade_list = new List<GradeBookModel>();
             ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.task_id = new SelectList(db.taskModel, "task_Id", "taskName");
-            foreach(GradeBookModel grade in grades)
+
+            foreach (GradeBookModel grade in grades)
             {
                 grade.TaskModel = db.taskModel.Find(grade.task_Id);
-                if(class_id == null)
+                if (class_id == null)
                 {
-                    if(task_id == null)
-                    {
-                        grade_list.Add(grade);
-                    }
-                    else if(grade.task_Id == task_id)
-                    {
-                        grade_list.Add(grade);
-                    }
+
                 }
-                else if(grade.class_Id == class_id)
+                else if (grade.class_Id == class_id)
                 {
-                    if(task_id == null)
+                    if (task_id == null)
                     {
-                        grade_list.Add(grade);
+                        grade_list = classAverage(class_id);
+                        return View(grade_list);
                     }
-                    else if(grade.task_Id == task_id)
+                    else if (grade.task_Id == task_id)
                     {
+                        grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                        grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
                         grade_list.Add(grade);
                     }
                 }
             }
             return View(grade_list);
+        }
+        public List<GradeBookModel> classAverage(int? class_id)
+        {
+            List<GradeBookModel> grade_list = new List<GradeBookModel>();
+            var grades = db.gradeBookModel.ToList();
+            var students = db.studentModels.ToList();
+
+            foreach (StudentModels student in students)
+            {
+                GradeBookModel grade = new GradeBookModel();
+                if (student.class_Id == class_id)
+                {
+                    int possible = 0;
+                    decimal? earned = 0;
+                    grade.StudentModels = student;
+                    grade.student_Id = student.student_Id;
+                    foreach (GradeBookModel one_Grade in grades)
+                    {
+                        grade.TaskModel = new TaskModel();
+                        if (one_Grade.student_Id == student.student_Id)
+                        {
+                            grade.TaskModel = db.taskModel.Find(one_Grade.task_Id);
+                            possible += grade.TaskModel.points;
+                            earned += one_Grade.pointsEarned;
+                        }
+                    }
+                    grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                    grade.pointsEarned = earned;
+                    grade.possiblePoints = possible;
+                    grade_list.Add(grade);
+                }
+            }
+            return grade_list;
         }
 
         public ActionResult Student_Index()
@@ -57,17 +134,17 @@ namespace ClassAnalytics.Controllers
             StudentModels currentStudent = new StudentModels();
             var students = db.studentModels.ToList();
             var all_grades = db.gradeBookModel.ToList();
-            foreach(StudentModels student in students)
+            foreach (StudentModels student in students)
             {
-                if(student.student_account_Id == UserId)
+                if (student.student_account_Id == UserId)
                 {
                     currentStudent = student;
                     break;
                 }
             }
-            foreach(GradeBookModel grade in all_grades)
+            foreach (GradeBookModel grade in all_grades)
             {
-                if(grade.student_Id == currentStudent.student_Id)
+                if (grade.student_Id == currentStudent.student_Id)
                 {
                     grade.ClassModel = db.classmodel.Find(grade.class_Id);
                     grade.TaskModel = db.taskModel.Find(grade.task_Id);
@@ -87,7 +164,7 @@ namespace ClassAnalytics.Controllers
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             if (class_id == null)
             {
-                if(task_Id == null)
+                if (task_Id == null)
                 {
                     var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels);
                     return View(gradeBookModel.ToList());
@@ -96,9 +173,9 @@ namespace ClassAnalytics.Controllers
                 {
                     List<GradeBookModel> grades = new List<GradeBookModel>();
                     var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
-                    foreach(GradeBookModel grade in gradeBookModel)
+                    foreach (GradeBookModel grade in gradeBookModel)
                     {
-                        if(grade.task_Id == task_Id)
+                        if (grade.task_Id == task_Id)
                         {
                             grades.Add(grade);
                         }
@@ -131,7 +208,7 @@ namespace ClassAnalytics.Controllers
                     var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                     foreach (GradeBookModel grade in gradeBookModel)
                     {
-                        if(grade.class_Id == class_id)
+                        if (grade.class_Id == class_id)
                         {
                             if (grade.task_Id == task_Id)
                             {
@@ -141,9 +218,9 @@ namespace ClassAnalytics.Controllers
                     }
                     return View(grades);
                 }
-                
+
             }
-            
+
         }
 
         // GET: GradeBook/Details/5
@@ -211,13 +288,13 @@ namespace ClassAnalytics.Controllers
             if (ModelState.IsValid)
             {
                 var students = db.studentModels.ToList();
-                foreach(StudentModels student in students)
+                foreach (StudentModels student in students)
                 {
                     if (student.class_Id == gradeBookModel.class_Id)
                     {
                         gradeBookModel.StudentModels = student;
                         gradeBookModel.student_Id = student.student_Id;
-                        if(gradeBookModel.pointsEarned != null)
+                        if (gradeBookModel.pointsEarned != null)
                         {
                             if (gradeBookModel.TaskModel.points < gradeBookModel.pointsEarned) { gradeBookModel.pointsEarned = gradeBookModel.TaskModel.points; }
                             if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }

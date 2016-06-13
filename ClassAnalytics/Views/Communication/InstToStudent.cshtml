@@ -1,0 +1,31 @@
+﻿@model ClassAnalytics.Models.StudentEmail
+
+@{
+    ViewBag.Title = "Message To Student";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("InstToStudent","Communication"))
+{
+    <div class="form-horizontal">
+        @Html.HiddenFor(m => m.id)
+        <div class="form-group">
+            @Html.Label("Student")
+            <div class="col-md-4">
+                @Html.DropDownListFor(m => m.student_Id, Model.students, "Select Student: ", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Message")
+            <div class="col-md-4">
+                @Html.TextAreaFor(m => m.message, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12" style="width:auto;margin-left:-20px;">
+                <input type="submit" value="Send" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "AdminMessaging";
+}
+
+
+<h2>AdminMessaging</h2>
+
+@Html.ActionLink("Message to Class","InstToClass","Communication")
+
+<h6>Or to message an individual student, please first select a class below.</h6>
+
+@using (Html.BeginForm())
+{
+    <div class="row" style="">
+        <div class="col-xs-4" style="width:200px;">
+            @Html.DropDownList("class_id", null, "Select a Class: ", htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-xs-2" style="width:150px;margin-left:-20px;">
+            <input type="submit" value="Continue" class="btn btn-default" />
+        </div>
+    </div>
+}
+

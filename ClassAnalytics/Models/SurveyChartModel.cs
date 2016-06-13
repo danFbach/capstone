@@ -10,5 +10,6 @@ namespace ClassAnalytics.Models
         public string question { get; set; }
         public int question_id { get; set; }
         public int answer_count { get; set; }
+        public int response_count { get; set; }
     }
 }

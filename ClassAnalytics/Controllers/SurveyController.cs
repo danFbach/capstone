@@ -16,9 +16,9 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult SurveyBarChart()
+        public ActionResult SurveyBarChart(int? survey_id)
         {
-            int? survey_id = 1;
+            
             ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
             SurveyModel survey = db.surveyModel.Find(survey_id);
             List<SurveyChartModel> charts = new List<SurveyChartModel>();
@@ -42,6 +42,7 @@ namespace ClassAnalytics.Controllers
                             {
                                 chart.answer_count += 1;
                             }
+                            chart.response_count += 1;
                         }
                     }
                     charts.Add(chart);

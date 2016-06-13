@@ -186,6 +186,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
+    <Compile Include="Controllers\CommunicationController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Models\ProgClassViewModel.cs" />
     <Compile Include="Models\ProgCourseViewModel.cs" />
     <Compile Include="Models\ProgramModels.cs" />
+    <Compile Include="Models\StudentEmail.cs" />
     <Compile Include="Models\StudentModels.cs" />
     <Compile Include="Models\SurveyAnswers.cs" />
     <Compile Include="Models\SurveyChartModel.cs" />
@@ -431,6 +433,11 @@
     <Content Include="Views\Survey\fill_out_survey.cshtml" />
     <Content Include="Views\GradeBook\AdminCharts.cshtml" />
     <Content Include="Views\Survey\SurveyBarChart.cshtml" />
+    <Content Include="Views\Communication\StudentToInstructor.cshtml" />
+    <Content Include="Views\Communication\StudentToStudent.cshtml" />
+    <Content Include="Views\Communication\InstToStudent.cshtml" />
+    <Content Include="Views\Communication\InstToClass.cshtml" />
+    <Content Include="Views\Communication\AdminMessaging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
