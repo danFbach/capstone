@@ -7,8 +7,8 @@
 <center><h2 style="padding-bottom:10px;">@ViewBag.Title</h2></center>
 
 <p style="margin-top:-30px;">
-    <div class="col-sm-6" style="text-align:left;">
-        @Html.ActionLink("Create a New Survey", "Create")
+    <div class="col-sm-6" style="text-align:right;">
+        @Html.ActionLink("Create a New Survey", "Create") | 
     </div>
     <div class="col-sm-6" style="text-align:right;">
         @Html.ActionLink("See surveys assigned to Classes", "Index_Class_Survey")
@@ -53,7 +53,6 @@
         <td style="text-align:right;">
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
             @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id})
-           @* @Html.ActionLink("Remove", "Delete", new { id=item.survey_Id })*@
         </td>
     </tr>
 }

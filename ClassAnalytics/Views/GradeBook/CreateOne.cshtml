@@ -1,16 +1,15 @@
 ﻿@model ClassAnalytics.Models.GradeBookModel
 
 @{
-    ViewBag.Title = "CreateOne";
+    ViewBag.Title = "Create a task";
 }
 
 <h2>Create One Task</h2>
 
-@using (Html.BeginForm("CreateOne")) 
+@using (Html.BeginForm("Create a task")) 
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>Gradebook</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -39,12 +38,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary-2" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Tasks", "Index")
 </div>

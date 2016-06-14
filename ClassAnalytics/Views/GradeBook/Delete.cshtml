@@ -1,7 +1,7 @@
 ﻿@model ClassAnalytics.Models.GradeBookModel
 
 @{
-    ViewBag.Title = "Remove";
+    ViewBag.Title = "Remove a task";
     string name = Model.StudentModels.fName + " " + Model.StudentModels.lName;
     string task = Model.TaskModel.taskName + " | Course: " + Model.TaskModel.CourseModels.courseName;
 }
@@ -41,7 +41,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Remove" class="btn btn-default" /> |
+            <input type="submit" value="Remove" class="btn btn-primary-2" /> |
             @Html.ActionLink("Back to Grades", "Index")
         </div>
     }

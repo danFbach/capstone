@@ -1,20 +1,18 @@
 ﻿@model ClassAnalytics.Models.ClassModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modify Class";
 }
-
-<h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ClassModel</h4>
+        <h3>@ViewBag.Title</h3>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.class_Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.className, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,7 +24,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary-2" />
             </div>
         </div>
     </div>

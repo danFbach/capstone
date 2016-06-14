@@ -246,6 +246,7 @@
     <Content Include="Content\bootstrap.min.js" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.js" />
+    <Content Include="Content\link-mods.css" />
     <Content Include="Content\npm.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -387,7 +388,6 @@
     <Content Include="Views\Shared\_Admin_Layout.cshtml" />
     <Content Include="Views\Class\Create.cshtml" />
     <Content Include="Views\Class\Delete.cshtml" />
-    <Content Include="Views\Class\Details.cshtml" />
     <Content Include="Views\Class\Edit.cshtml" />
     <Content Include="Views\Class\Index.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
@@ -396,23 +396,18 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Task\Create.cshtml" />
     <Content Include="Views\Task\Delete.cshtml" />
-    <Content Include="Views\Task\Details.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
     <Content Include="Views\TaskType\Create.cshtml" />
     <Content Include="Views\TaskType\Delete.cshtml" />
-    <Content Include="Views\TaskType\Details.cshtml" />
     <Content Include="Views\TaskType\Edit.cshtml" />
     <Content Include="Views\TaskType\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
-    <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
-    <Content Include="Views\Class\ClassHome.cshtml" />
     <Content Include="Views\GradeBook\Create.cshtml" />
     <Content Include="Views\GradeBook\Delete.cshtml" />
-    <Content Include="Views\GradeBook\Details.cshtml" />
     <Content Include="Views\GradeBook\Edit.cshtml" />
     <Content Include="Views\GradeBook\Index.cshtml" />
     <Content Include="Views\GradeBook\CreateOne.cshtml" />
@@ -421,7 +416,6 @@
     <Content Include="Views\GradeBook\Student_Chart.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
-    <Content Include="Views\Survey\Details.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Survey\Create_Question.cshtml" />
     <Content Include="Views\Survey\Index_Class_Survey.cshtml" />

@@ -335,20 +335,19 @@ textarea {
 }
 
 a {
-  color: #944;
+  color: rgba(42, 100, 150, 1);
   text-decoration: none;
+  transition:color .5s ease-in-out;
 }
 
 a:hover,
 a:focus {
-  color: #555;
-  text-decoration: underline;
+  color: #999;
+  text-decoration: none;
 }
 
 a:focus {
-  outline: thin dotted #511;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
+  color:#FFF;
 }
 
 img {
@@ -381,11 +380,17 @@ img {
 .img-circle {
   border-radius: 50%;
 }
-
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top:-20px;
+  height:40px;
+  background:linear-gradient(to bottom, #FFF, #FFF,#DDD, #FFF, #FFF, #FFF,#FFF);
   border: 0;
+}
+.hr1 {
+  margin-top: 20px;
+  margin-bottom: -20px;
+  border: 0;
+  background:none;
   border-top: 1px solid #eeeeee;
 }
 
@@ -1410,7 +1415,7 @@ table {
 }
 
 th {
-  text-align: left;
+  text-align: center;
 }
 
 .table {
@@ -1424,10 +1429,11 @@ th {
 .table thead > tr > td,
 .table tbody > tr > td,
 .table tfoot > tr > td {
-  padding: 8px;
+  background:linear-gradient(to top,#DDD, #FFF, #FFF, #FFF, #FFF, #FFF, #FFF);
+  text-align:center;
+  padding: 4px;
   line-height: 1.428571429;
   vertical-align: top;
-  border-top: 1px solid #dddddd;
 }
 
 .table thead > tr > th {
@@ -1724,10 +1730,9 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 14px;
   line-height: 1.428571429;
   color: #555555;
-  vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border-radius: 4px;
+  border-radius: 6px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
@@ -1763,13 +1768,12 @@ textarea.form-control {
   padding-left: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  vertical-align: middle;
 }
 
 .radio label,
 .checkbox label {
   display: inline;
-  margin-bottom: 0;
+  /*margin-bottom: 0;*/
   font-weight: normal;
   cursor: pointer;
 }
@@ -1999,7 +2003,7 @@ textarea.input-lg {
 
 .btn {
   display: inline-block;
-  padding: 0px 0px;
+  padding: 5px 10px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2008,8 +2012,8 @@ textarea.input-lg {
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border: 5px solid transparent;
+  border-radius: 5px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -2026,7 +2030,7 @@ textarea.input-lg {
 .btn:hover,
 .btn:focus {
   color: #FFF;
-  background-color:#BBB;
+  background-color:#511;
   text-decoration: none;
 }
 
@@ -2049,11 +2053,58 @@ fieldset[disabled] .btn {
           box-shadow: none;
 }
 
+
+.btn-primary-new {
+  color: #AAA;
+  background-color: transparent;
+  border:1px solid #AAA;
+  border-radius:5px;
+  height:100%;
+  transition:color .2s ease-in-out;
+}
+
+.btn-primary-new:hover,
+.btn-primary-new:focus,
+.btn-primary-new:active,
+.btn-primary-new.active,
+.open .dropdown-toggle.btn-primary-new {
+  color: #2a6496;
+  background-color: transparent;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  text-align:center;
+}
+.btn-primary-2 {
+  color: #AAA;
+  background-color: transparent;
+  border-radius:5px;
+  -border-radius-bottomleft:5px;
+  -border-radius-topleft:5px;
+  height:34px;
+  border:1px solid #AAA;
+  border-left:transparent;
+  z-index:-1;
+  transition:color .2s ease-in-out;
+}
+
+.btn-primary-2:hover,
+.btn-primary-2:focus,
+.btn-primary-2:active,
+.btn-primary-2.active,
+.open .dropdown-toggle.btn-primary-2 {
+  color: #2a6496;
+  background-color: transparent;
+  border-left:none;
+  text-align:center;
+}
+
+
 .btn-default {
   color: #FFF;
   background-color: transparent;
-  border-color: #cccccc;
+  border:none;
   height:100%;
+  transition:color .3s ease-in-out;
 }
 
 .btn-default:hover,
@@ -2061,9 +2112,8 @@ fieldset[disabled] .btn {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #511;
-  background-color: #bbb;
-  height:100%;
+  color: #2a6496;
+  background-color: transparent;
   text-align:center;
 }
 
@@ -2095,7 +2145,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary {
   color: #ffffff;
   background-color: #428bca;
-  border-color: #357ebd;
+  border-color: transparent;
 }
 
 .btn-primary:hover,
@@ -2105,7 +2155,7 @@ fieldset[disabled] .btn-default.active {
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
   background-color: #3276b1;
-  border-color: #285e8e;
+  border-color: transparent;
 }
 
 .btn-primary:active,
@@ -2130,7 +2180,7 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
   background-color: #428bca;
-  border-color: #357ebd;
+  border-color: transparent;
 }
 
 .btn-warning {
@@ -2344,10 +2394,11 @@ fieldset[disabled] .btn-link:focus {
 
 .btn-sm,
 .btn-xs {
-  padding: 5px 10px;
+  padding-top:15px;
+  margin-top:5px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 
 .btn-xs {
@@ -3248,13 +3299,12 @@ input[type="button"].btn-block {
   font-size: 14px;
   list-style: none;
   color: #FFF;
-  background-color: #511;
+  background-color:rgba(255, 255, 255, .85);
   text-align:center;
-  border: 1px solid #cccccc;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border:none;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 6px 12px #2a6496;
+          box-shadow: 0 6px 12px #2a6496;
   background-clip: padding-box;
 }
 
@@ -3461,10 +3511,10 @@ input[type="button"].btn-block {
   margin-left: 0;
 }
 
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+/*.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-}
+}*/
 
 .btn-group > .btn:last-child:not(:first-child),
 .btn-group > .dropdown-toggle:not(:first-child) {
@@ -3659,7 +3709,7 @@ input[type="button"].btn-block {
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.33;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 select.input-group-lg > .form-control,
@@ -4176,7 +4226,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: fixed;
   right: 0;
   left: 0;
-  border-width: 0 0 1px;
+  border:none;
 }
 
 @media (min-width: 768px) {
@@ -4195,11 +4245,26 @@ textarea.input-group-sm > .input-group-btn > .btn {
   bottom: 0;
   margin-bottom: 0;
 }
+.navbar-brand2 {
+  float: left;
+  padding-top: 25px;
+  padding-right: 15px;
+  font-size: 36px;
+  line-height: 20px;
+  color:#FFF;
+}
+
+.navbar-brand2:hover,
+.navbar-brand2:focus {
+  text-decoration: none;
+  color:#FFF;
+}
 
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
-  font-size: 18px;
+  padding-top: 20px;
+  padding-right: 15px;
+  font-size: 20px;
   line-height: 20px;
 }
 
@@ -4301,10 +4366,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-form {
   padding: 10px 15px;
-  margin-top: 8px;
-  margin-right: -15px;
-  margin-bottom: 8px;
-  margin-left: -15px;
+  margin:8px -15px 8px -15px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -4506,22 +4568,24 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: transparent;
-  border-color: #000;
+  background: linear-gradient(rgba(42, 100, 150, 1), transparent);
+  border-color: transparent;
+  height:70px;
 }
 
-.navbar-inverse .navbar-brand {
-  color: #BBB;
+.navbar-inverse .navbar-brand { 
+  color: #FFF;
+  transition:color .3s ease-in-out;
 }
 
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #ffffff;
+  color: #2a6496;
   background-color: transparent;
 }
 
 .navbar-inverse .navbar-text {
-  color: #999999;
+  color: #fff;
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -4939,7 +5003,8 @@ a.list-group-item.active > .badge,
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background:rgba(225,225,225,1);
+  opacity: .7;
 }
 
 .jumbotron h1 {
@@ -5167,7 +5232,6 @@ a.thumbnail:focus {
 .progress.active .progress-bar {
   -webkit-animation: progress-bar-stripes 2s linear infinite;
      -moz-animation: progress-bar-stripes 2s linear infinite;
-      -ms-animation: progress-bar-stripes 2s linear infinite;
        -o-animation: progress-bar-stripes 2s linear infinite;
           animation: progress-bar-stripes 2s linear infinite;
 }

@@ -30,21 +30,9 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.taskType_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.taskType_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.taskType_Id })
         </td>
     </tr>
 }
 
 </table>
-@using (Html.BeginForm("TasksHome", "Task"))
-{
-    @Html.AntiForgeryToken()
-    <center>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="submit" value="Return To Task Home" class="btn btn-default" />
-            </div>
-        </div>
-    </center>
-}

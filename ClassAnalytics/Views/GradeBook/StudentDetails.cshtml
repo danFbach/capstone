@@ -1,15 +1,13 @@
 ﻿@model ClassAnalytics.Models.GradeBookModel
 
 @{
-    ViewBag.Title = "StudentDetails";
+    ViewBag.Title = "Grades";
     decimal? grade = 0;
 }
 
-<h2>StudentDetails</h2>
+<h2>Your Grade</h2>
 
 <div>
-    
-    <h4>GradeBookModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -66,12 +64,12 @@
         
         <dd>
             @{ grade = (Model.pointsEarned / Model.possiblePoints) * 100;}
-            @Html.DisplayFor(model => grade)
+            @Html.DisplayFor(model => grade)%
         </dd>
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.grade_Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Gradebook", "Index")
 </p>

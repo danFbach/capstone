@@ -1,7 +1,7 @@
 ﻿@model ClassAnalytics.Models.ProgramModels
 
 @{
-    ViewBag.Title = "Remove";
+    ViewBag.Title = "Remove Program";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -39,7 +39,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Remove" class="btn btn-default" /> |
+            <input type="submit" value="Remove" class="btn btn-primary-2" /> |
             @Html.ActionLink("Return to Programs", "Index")
         </div>
     }

@@ -10,8 +10,8 @@
             <div class="navbar-collapse collapse">
                 <div class="nav navbar-nav">
                     <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown" style="background-color: transparent;color: #FFF;border-color:transparent;padding-top:15px"> Account </button>
-                        <div class="dropdown-menu">@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { @class="navbar_links", title = "Manage" })<br><a class="navbar_links" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></div>
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown"> Account </button>
+                        <div class="dropdown-menu"><h6 style="color:#2a6496;margin:5px;"><b>@this.User.Identity.Name</b></h6>@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { @class="navbar_links", title = "Manage" })<br><a class="navbar_links" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></div>
                     </div>
                 </div>
             </div>

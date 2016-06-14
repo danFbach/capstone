@@ -1,18 +1,14 @@
 ﻿@model ClassAnalytics.Models.ProgramModels
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Program";
 }
-
-<h2>Create</h2>
-
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ProgramModels</h4>
+        <h3>@ViewBag.Title</h3>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -41,7 +37,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary-2" />
             </div>
         </div>
     </div>

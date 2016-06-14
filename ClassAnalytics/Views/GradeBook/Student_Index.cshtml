@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
 
 @{
-    ViewBag.Title = "Student_Index";
+    ViewBag.Title = this.User.Identity.Name + "'s Gradebook";
 }
 
-<h2>Student Gradebook</h2>
+<h3>@ViewBag.Title</h3>
 
 <table class="table">
     <tr>
