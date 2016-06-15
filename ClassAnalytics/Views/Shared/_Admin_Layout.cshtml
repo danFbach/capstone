@@ -31,7 +31,7 @@
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Class Management</button>
-                        <div class="dropdown-menu">@Html.ActionLink("View Classes", "Index", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Create New Classes", "Create", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("View/Edit Students", "Index", "Students", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Messaging", "AdminMessaging", "Communication", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("View Classes", "Index", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Create  New Class", "Create", "Class", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("View/Edit Students", "Index", "Students", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Grades</button>
@@ -40,6 +40,10 @@
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Surveys</button>
                         <div class="dropdown-menu">@Html.ActionLink("Surveys", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Activation", "Index_Class_Survey", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
+                    </div>
+                    <div class="btn-group" id="button_fade">
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Messaging</button>
+                        <div class="dropdown-menu">@Html.ActionLink("Direct Message", "Inbox", "Messaging", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Email", "AdminMessaging", "Communication", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                 </div>
                 @Html.Partial("_LoginPartial")

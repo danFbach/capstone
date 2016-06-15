@@ -410,12 +410,13 @@ namespace ClassAnalytics.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SurveyModel surveyModel = db.surveyModel.Find(id);
+            SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
             if (surveyModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
+            surveyModel.SurveyModel = db.surveyModel.Find(surveyModel.survey_Id);
+            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
             return View(surveyModel);
         }
 

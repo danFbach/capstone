@@ -191,6 +191,7 @@
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessagingController.cs" />
     <Compile Include="Controllers\ProgramModelsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
@@ -203,6 +204,10 @@
     <Compile Include="Migrations\201606092256173_2.2.2-seeded.Designer.cs">
       <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606151934442_messaging.cs" />
+    <Compile Include="Migrations\201606151934442_messaging.Designer.cs">
+      <DependentUpon>201606151934442_messaging.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClassModel.cs" />
@@ -210,7 +215,10 @@
     <Compile Include="Models\CourseModels.cs" />
     <Compile Include="Models\GradeBookModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InstructorModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MessagingModel.cs" />
+    <Compile Include="Models\MessagingViewModel.cs" />
     <Compile Include="Models\ProgClassViewModel.cs" />
     <Compile Include="Models\ProgCourseViewModel.cs" />
     <Compile Include="Models\ProgramModels.cs" />
@@ -430,6 +438,11 @@
     <Content Include="Views\Communication\InstToClass.cshtml" />
     <Content Include="Views\Communication\AdminMessaging.cshtml" />
     <Content Include="Views\GradeBook\StudentDetails.cshtml" />
+    <Content Include="Views\Messaging\Create.cshtml" />
+    <Content Include="Views\Messaging\Delete.cshtml" />
+    <Content Include="Views\Messaging\Details.cshtml" />
+    <Content Include="Views\Messaging\Edit.cshtml" />
+    <Content Include="Views\Messaging\Messages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -445,6 +458,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606092256173_2.2.2-seeded.resx">
       <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606151934442_messaging.resx">
+      <DependentUpon>201606151934442_messaging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

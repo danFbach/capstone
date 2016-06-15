@@ -1,4 +1,4 @@
-﻿body {
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -106,7 +106,7 @@ textarea {
   border:1px solid #AAA;
   border-radius:5px;
   height:100%;
-  transition:color .2s ease-in-out;
+  transition:color .3s ease-in-out;
   margin-top:5px;
   padding: 8px;
 }
@@ -133,7 +133,7 @@ textarea {
   border:1px solid #AAA;
   border-left:transparent;
   z-index:-1;
-  transition:color .2s ease-in-out;
+  transition:color .3s ease-in-out;
 }
 
 .btn-primary-2:hover,
@@ -141,7 +141,7 @@ textarea {
 .btn-primary-2:active,
 .btn-primary-2.active,
 .open .dropdown-toggle.btn-primary-2 {
-  color: #2a6496;
+  color: #428bca;
   background-color: transparent;
   border-left:none;
   text-align:center;

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Survey Activation";
 }      
-<center><h2 style="margin-top:10px;">@ViewBag.Title</h2></center>
+<center><h2 style="margin-top:30px;">@ViewBag.Title</h2></center>
 @using (Html.BeginForm())
 {
     <div class="row" style="width:100%;margin-left:10px;margin-top:-30px;padding-bottom:0px;">
@@ -61,7 +61,6 @@
                 @Html.DisplayFor(modelItem => item.active)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.survey_join_Id }) |
                 @Html.ActionLink(active, active, new { id = item.survey_join_Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.survey_join_Id })
             </td>

@@ -16,7 +16,7 @@
         </div>
     }
     <div class="col-sm-8" style="text-align:right;">
-        <h4>@Html.ActionLink("Add a Class", "Create")</h4>
+        <h5>@Html.ActionLink("Add a new Class", "Create")</h5>
     </div>
 </div>
 <table class="table">
@@ -39,9 +39,8 @@
             @Html.DisplayFor(modelItem => item.ProgramModels.programName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.class_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.class_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.class_Id })
+            @Html.ActionLink("Change Class Name", "Edit", new { id=item.class_Id }) |
+            @Html.ActionLink("Remove Class", "Delete", new { id=item.class_Id })
         </td>
     </tr>
 }

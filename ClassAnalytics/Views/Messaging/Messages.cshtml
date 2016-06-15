@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ClassAnalytics.Models.MessagingModel>
+
+@{
+    ViewBag.Title = "Inbox";
+    string some_Data = this.User.Identity.Name;
+    string by_line = "";
+    foreach(var item in Model)
+    {
+        if (item.recipient_account_Id == some_Data)
+        {
+            by_line = "From: ";
+            
+            break;
+        }
+        else if(item.sender_account_Id == some_Data)
+        {
+            by_line = "To: ";
+        }
+    }
+}
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<div class="btn-group" id="button_fade">
+    <button class="btn btn-primary-new btn-sm" type="button">@Html.ActionLink("Inbox", "Inbox", "Messaging")</button>
+</div>
+<div class="btn-group" id="button_fade">
+    <button class="btn btn-primary-new btn-sm" type="button">@Html.ActionLink("Sent", "Sent", "Messaging")</button>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName(by_line)
+        </th>
+        <th>
+            @Html.DisplayName("Message: ")
+        </th>
+        <th>
+            @Html.DisplayName("Read/Unread")
+        </th>
+        <th>
+            @Html.DisplayName("Date Sent: ")
+        </th>
+        <th></th>
+    </tr>
+    w
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>                
+                @if (item.recipient_account_Id == some_Data)
+                {
+                    @Html.DisplayFor(modelItem => item.sender_account_Id)
+                }
+                else if (item.sender_account_Id == some_Data)
+                {
+                    @Html.DisplayFor(modelItem => item.recipient_account_Id)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.read)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateSent)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.message_Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.message_Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.message_Id })
+            </td>
+        </tr>
+    }
+</table>

@@ -15,10 +15,10 @@ namespace ClassAnalytics.Migrations
 
         protected override void Seed(ClassAnalytics.Models.ApplicationDbContext context)
         {
-            context.programModels.AddOrUpdate(x => x.program_Id,
-                new ProgramModels { programName = "15 Week Session", startDate = Convert.ToDateTime("06/07/2017"), endDate = Convert.ToDateTime("10/07/2017") },
-                new ProgramModels { programName = "Night Session", startDate = Convert.ToDateTime("06/20/2017"), endDate = Convert.ToDateTime("08/07/2017") }
-            );
+            //context.programModels.AddOrUpdate(x => x.program_Id,
+            //    new ProgramModels { programName = "15 Week Session", startDate = Convert.ToDateTime("06/07/2017"), endDate = Convert.ToDateTime("10/07/2017") },
+            //    new ProgramModels { programName = "Night Session", startDate = Convert.ToDateTime("06/20/2017"), endDate = Convert.ToDateTime("08/07/2017") }
+            //);
             //context.TaskTypeModels.AddOrUpdate(x => x.taskType_Id,
             //    new TaskTypeModels { taskType = "Test", taskWeight = 40 },
             //    new TaskTypeModels { taskType = "Assignment", taskWeight = 20 },

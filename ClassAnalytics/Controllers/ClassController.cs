@@ -109,7 +109,18 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
-            return View(classModel);
+
+            ProgClassViewModel viewModel = new ProgClassViewModel();
+            List<ProgramModels> programs = db.programModels.ToList();
+            viewModel.program_list = new List<SelectListItem>();
+            viewModel.program_id = classModel.program_id;
+            viewModel.class_Id = classModel.class_Id;
+            viewModel.className = classModel.className;
+            foreach (ProgramModels program in programs)
+            {
+                viewModel.program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
+            }
+            return View(viewModel);
         }
 
         // POST: Class/Edit/5
@@ -117,15 +128,26 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "class_Id,className")] ClassModel classModel)
+        public ActionResult Edit(ProgClassViewModel viewModel)
         {
+            ClassModel model = new ClassModel();
+            model.className = viewModel.className;
+            model.class_Id = viewModel.class_Id;
+            model.program_id = viewModel.program_id;
             if (ModelState.IsValid)
             {
-                db.Entry(classModel).State = EntityState.Modified;
+                db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(classModel);
+            ViewBag.program_Id = new SelectList(db.programModels, "pragram_Id", "programName");
+            List<ProgramModels> programs = db.programModels.ToList();
+            viewModel.program_list = new List<SelectListItem>();
+            foreach (ProgramModels program in programs)
+            {
+                viewModel.program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
+            }
+            return View(viewModel);
         }
 
         // GET: Class/Delete/5

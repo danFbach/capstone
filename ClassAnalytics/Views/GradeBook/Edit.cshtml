@@ -28,7 +28,6 @@
         <div class="form-group">
             @Html.Label("Task Name", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.HiddenFor(m => m.task_Id)
-            @Html.HiddenFor(m => m.TaskModel)
             <div class="col-md-10">
                 @Html.ValueFor(m => m.TaskModel.taskName)
                 @Html.ValidationMessageFor(model => model.task_Id, "", new { @class = "text-danger" })
@@ -61,7 +60,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary-2" />
+                <input type="submit" value="Save" class="btn btn-primary-new" />
             </div>
         </div>
     </div>

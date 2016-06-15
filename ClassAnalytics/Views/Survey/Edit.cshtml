@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.SurveyModel
+﻿@model ClassAnalytics.Models.SurveyJoinTableModel
 
 @{
     ViewBag.Title = "Edit";
@@ -17,18 +17,18 @@
         @Html.HiddenFor(model => model.survey_Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SurveyName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SurveyModel.SurveyName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SurveyName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SurveyName, "", new { @class = "text-danger" })
+                @Html.ValueFor(model => model.SurveyModel.SurveyName)
+                @Html.ValidationMessageFor(model => model.SurveyModel.SurveyName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.course_Id, "student_Id", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.class_Id, "student_Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("course_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.class_Id, "", new { @class = "text-danger" })
             </div>
         </div>
 

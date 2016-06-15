@@ -355,20 +355,28 @@ namespace ClassAnalytics.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(GradeBookModel gradeBookModel)
-        {
+            {
+            if(gradeBookModel.assignment_notes == null)
+            {
+                gradeBookModel.assignment_notes = "";
+            }
+            gradeBookModel.TaskModel = new TaskModel();
             gradeBookModel.possiblePoints = db.gradeBookModel.Find(gradeBookModel.grade_Id).possiblePoints;
             gradeBookModel.grade = (gradeBookModel.pointsEarned / gradeBookModel.possiblePoints) * 100;
             gradeBookModel.grade = Convert.ToDecimal(gradeBookModel.grade);
             gradeBookModel.StudentModels = db.studentModels.Find(gradeBookModel.student_Id);
             gradeBookModel.ClassModel = db.classmodel.Find(gradeBookModel.class_Id);
-            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
             gradeBookModel.task_Id = Convert.ToInt32(gradeBookModel.task_Id);
+            gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
+            ViewBag.Student = gradeBookModel.StudentModels.fName + " " + gradeBookModel.StudentModels.lName;
             if (ModelState.IsValid)
             {
-                gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
                 if (gradeBookModel.TaskModel.points < gradeBookModel.pointsEarned) { gradeBookModel.pointsEarned = gradeBookModel.TaskModel.points; }
                 if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
-                db.Entry(gradeBookModel).State = EntityState.Modified;
+                //db.Entry(gradeBookModel).State = EntityState.Modified;
+                var grade = db.gradeBookModel.Find(gradeBookModel.grade_Id);
+                db.gradeBookModel.Remove(grade);
+                db.gradeBookModel.Add(gradeBookModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
