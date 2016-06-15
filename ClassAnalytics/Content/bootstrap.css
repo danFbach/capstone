@@ -52,7 +52,7 @@ audio:not([controls]) {
 }
 
 html {
-  font-family: sans-serif;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
@@ -103,7 +103,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: monospace, serif;
+  font-family: monospace, "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 1em;
 }
 
@@ -311,7 +311,7 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -478,7 +478,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -2348,7 +2348,7 @@ fieldset[disabled] .btn-link:focus {
 
 .btn-sm,
 .btn-xs {
-  padding-top:10px;
+  padding-top:15px;
   margin-top:5px;
   font-size: 12px;
   line-height: 1.5;
@@ -3253,7 +3253,7 @@ input[type="button"].btn-block {
   font-size: 14px;
   list-style: none;
   color: #FFF;
-  background:linear-gradient(to top, #FFF, #FFF, #FFF, #FFF, transparent, transparent, transparent);
+  background:linear-gradient(to top, #FFF, #FFF, #FFF, #FFF, #FFF, #FFF, transparent, transparent);
   text-align:center;
   border:none;
   border-radius: 6px;
@@ -4520,7 +4520,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background: linear-gradient(rgba(42, 100, 150, 1), transparent);
+  background: linear-gradient(#428bca, #428bca, transparent);
   border-color: transparent;
   height:70px;
 }
@@ -4955,7 +4955,7 @@ a.list-group-item.active > .badge,
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background:rgba(225,225,225,1);
+  background:rgba(225,225,225,0);
   opacity: .7;
 }
 
@@ -6146,7 +6146,7 @@ body.modal-open,
   height: 20px;
   margin-top: -10px;
   margin-left: -10px;
-  font-family: serif;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .carousel-control .icon-prev:before {

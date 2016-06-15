@@ -13,12 +13,12 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.grade_Id)
-                @Html.HiddenFor(model => model.class_Id)
-                @Html.HiddenFor(model => model.student_Id)
 
         <div class="form-group">
             @Html.Label("Student", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(model => model.grade_Id)
+            @Html.HiddenFor(model => model.class_Id)
+            @Html.HiddenFor(model => model.student_Id)
             <div class="col-md-10">
                 @Html.Value("Student")
                 @Html.ValidationMessageFor(model => model.student_Id, "", new { @class = "text-danger" })
@@ -27,8 +27,10 @@
          
         <div class="form-group">
             @Html.Label("Task Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.HiddenFor(m => m.task_Id)
+            @Html.HiddenFor(m => m.TaskModel)
             <div class="col-md-10">
-                @Html.DropDownList("task_Id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValueFor(m => m.TaskModel.taskName)
                 @Html.ValidationMessageFor(model => model.task_Id, "", new { @class = "text-danger" })
             </div>
         </div>

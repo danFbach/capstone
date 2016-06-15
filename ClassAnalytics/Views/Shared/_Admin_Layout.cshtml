@@ -39,7 +39,7 @@
                     </div>
                     <div class="btn-group" id="button_fade">
                         <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Surveys</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Survey", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <div class="dropdown-menu">@Html.ActionLink("Surveys", "Index", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Activation", "Index_Class_Survey", "Survey", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                 </div>
                 @Html.Partial("_LoginPartial")

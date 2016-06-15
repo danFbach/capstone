@@ -4,41 +4,45 @@
     ViewBag.Title = "fill_out_survey";
     string student_name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
 }
-
-<h2>@Html.DisplayFor(model => model.SurveyModel.SurveyName) - @Html.DisplayFor(model => student_name)</h2>
-<h6>Please check all that apply.</h6>
-@using (Html.BeginForm())
-{
-    <table class="table">
-        <tr>
-            <th>
-                <h4>Questions</h4>
-            </th>
-            <th>
-                <h4>Answers</h4>
-            </th>
-            <th></th>
-        </tr>
-
-        @for (var i = 0; i < Model.SurveyModel.question_list.Count; i++)
-        {
+@Html.HiddenFor(m => m.StudentModels)
+@Html.HiddenFor(m => m.SurveyModel)
+@Html.HiddenFor(m => m.survey_Id)
+@Html.HiddenFor(m => m.student_Id)
+<h3>@Html.DisplayFor(model => model.SurveyModel.SurveyName) - @Html.DisplayFor(model => student_name)</h3>
+<div class="container" style="width:auto;">
+    @using (Html.BeginForm())
+    {
+        <table class="table">
             <tr>
-                @Html.HiddenFor(model => model.answer_list[i].answer_Id)
-                <td>
-                    @Html.DisplayFor(modelItem => Model.SurveyModel.question_list[i].question)
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => Model.answer_list[i].answer)
-                </td>
+                <th>
+                    <h4>Questions</h4>
+                </th>
+                <th>
+                    <h4>Answers</h4><br />
+                    <h6>Please check all that apply.</h6>
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
-    <div class="form-group">
-        <div class="col-md-10" style="margin-top:-20px;">
-            <input type="submit" value="Submit Survey" class="btn btn-primary-2" />
+
+            @for (var i = 0; i < Model.SurveyQuestions.Count(); i++)
+            {
+                <tr>
+                    @Html.HiddenFor(model => model.answer_list[i].answer_Id)
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.SurveyQuestions[i].question)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(modelItem => Model.answer_list[i].answer)
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="form-group">
+            <div class="col-md-10" style="margin-top:-20px;">
+                <input type="submit" value="Submit Survey" class="btn btn-primary-2" />
+            </div>
         </div>
-    </div>
-}
+    }
 
+</div>
 
-   

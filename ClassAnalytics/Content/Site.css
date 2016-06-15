@@ -32,20 +32,19 @@ textarea {
   display: none;
   float: left;
   min-width: 160px;
-  padding: 5px 5px;
+  padding: 6px;
   margin: 2px 0 0;
   margin-left:90px;
   margin-top:-35px;
   font-size: 14px;
   list-style: none;
-  color: #2a68b4;
+  color: #428bca;
   background:#FFF;
   text-align:center;
-  border:#000 solid 1px;
+  border:#428bca solid 1px;
   border-radius: 6px;
   background-clip: padding-box;
-  opacity:1;
-  transition:opacity .2s ease-in-out;
+  transition:background 2s ease-in-out;
 }
 
 .sidebar-dropdown-menu .divider {
@@ -109,6 +108,7 @@ textarea {
   height:100%;
   transition:color .2s ease-in-out;
   margin-top:5px;
+  padding: 8px;
 }
 
 .btn-primary-new:hover,
@@ -116,7 +116,8 @@ textarea {
 .btn-primary-new:active,
 .btn-primary-new.active,
 .open .dropdown-toggle.btn-primary-new {
-  color: #2a6496;
+  color: #428bca;
+  border:#428bca solid 1px;
   background-color: transparent;
   -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);

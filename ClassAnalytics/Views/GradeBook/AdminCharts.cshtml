@@ -7,10 +7,22 @@
 @{
     foreach (var item in Model)
     {
-        decimal? grade = 0;
-        grade = (item.pointsEarned / item.possiblePoints) * 100;
-        string student = item.StudentModels.fName + " " + item.StudentModels.lName;
-        grades.Add(new List<Object> { student, grade });
+        if (item.possiblePoints != 0)
+        {
+            decimal? grade = 0;
+            decimal? earned = item.pointsEarned;
+            decimal possible = item.possiblePoints;
+            if (item.pointsEarned == 0)
+            {
+                grade = 0;
+            }
+            else
+            {
+                grade = (earned / possible) * 100;
+            }
+            string student = item.StudentModels.fName + " " + item.StudentModels.lName;
+            grades.Add(new List<Object> { student, grade });
+        }
     }
 }
 
@@ -19,14 +31,14 @@
 
 @using (Html.BeginForm())
 {
-    <div class="row" style="margin-top:-45px;padding-left:200px;padding-bottom:10px;">
+    <div class="row" style="padding-left:200px;padding-bottom:10px;">
         <div class="col-xs-4" style="width:200px;">
             @Html.DropDownList("class_id", null, "Select a Class (Required)", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-4" style="width:200px;margin-left:-15px;">
             @Html.DropDownList("task_id", null, "Student Averages", htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-xs-2" style="width:150px;margin-left:-20px;">
+        <div class="col-xs-2" style="margin-left:-20px;padding-left:0px;">
             <input type="submit" value="Search" class="btn btn-primary-2" />
         </div>
     </div>

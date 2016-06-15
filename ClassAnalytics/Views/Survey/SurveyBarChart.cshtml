@@ -68,10 +68,10 @@
 </head>
 
 
-<h2>Survey Charts</h2>
+<center><h3 style="padding-left:50px;">Survey Charts</h3></center>
 @using (Html.BeginForm())
 {
-    <div class="row" style="margin-top:-45px;padding-left:225px;padding-bottom:10px;">
+    <div class="row" style="margin-left:30%;margin-right:auto;margin-top:0px;padding-bottom:10px;">
         <div class="col-xs-4" style="width:200px;">
             @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
         </div>
@@ -83,7 +83,7 @@
         </div>
     </div>
 }
-<div class="container" style="width:90%;">
+<div class="container" style="width:90%;margin-left:10%;">
     <div class="col-sm-2" style="width:5%;">
         @{
             foreach (var question in questions)

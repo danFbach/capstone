@@ -37,7 +37,7 @@
             @Html.DisplayNameFor(model => model.pointsEarned)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.grade)
+            @Html.DisplayNameFor(model => model.grade) - %
         </th>
         <th>
             @Html.DisplayNameFor(model => model.assignment_notes)
@@ -49,16 +49,7 @@
     {
         string unit = "Course: " + item.TaskModel.CourseModels.courseName + " | Name: " + item.TaskModel.taskName;
         string name = item.StudentModels.fName + " " + item.StudentModels.lName;
-        string grade = "";
-        if (item.pointsEarned != null)
-        {
-            grade = ((item.pointsEarned / item.TaskModel.points)* 100).ToString();
-            grade += "%";
-        }
-        else
-        {
-            grade = item.grade.ToString();
-        }
+        
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => name)
@@ -73,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.pointsEarned)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => grade)
+                @Html.DisplayFor(modelItem => item.grade)%
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.assignment_notes)

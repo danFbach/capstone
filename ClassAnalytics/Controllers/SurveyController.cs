@@ -79,11 +79,16 @@ namespace ClassAnalytics.Controllers
         public ActionResult fill_out_survey(int id)
         {
             SurveyQAViewModel a_survey = new SurveyQAViewModel();
-            a_survey.SurveyModel = db.surveyModel.Find(id);
+            StudentModels current_student = new StudentModels();
             List<SurveyAnswers> answer_forms = db.surveyAnswers.ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            bool new_form = true;
             var students = db.studentModels.ToList();
-            StudentModels current_student = new StudentModels();
+            var questions = db.surveyQuestion.ToList();
+
+            a_survey.SurveyModel = db.surveyModel.Find(id);
+            a_survey.survey_Id = a_survey.SurveyModel.survey_Id;
+            a_survey.SurveyQuestions = new List<SurveyQuestion>();
             a_survey.answer_list = new List<SurveyAnswers>();
 
             foreach (StudentModels student in students)
@@ -91,36 +96,47 @@ namespace ClassAnalytics.Controllers
                 if (student.student_account_Id == UserId)
                 {
                     current_student = student;
+                    a_survey.StudentModels = db.studentModels.Find(current_student.student_Id);
+                    a_survey.student_Id = a_survey.StudentModels.student_Id;
                 }
             }
-            a_survey.StudentModels = db.studentModels.Find(current_student.student_Id);
-            foreach (SurveyAnswers answer in answer_forms)
+            foreach (SurveyQuestion question in questions)
             {
-                bool new_form = false;
-                answer.SurveyQuestion = db.surveyQuestion.Find(answer.question_Id);
-                if (answer.SurveyQuestion.survey_Id == id)
+                new_form = false;
+                if (question.survey_Id == id)
                 {
-                    if (answer.student_Id == current_student.student_Id)
+                    a_survey.SurveyQuestions.Add(question);
+                    foreach (SurveyAnswers answer in answer_forms)
                     {
-                        a_survey.answer_list.Add(answer);
-                    }
-                    else if (answer.student_Id != current_student.student_Id)
-                    {
-                        new_form = new_answer_form(answer.question_Id, current_student.student_Id);
-                        if (new_form == true)
+                        if (answer.question_Id == question.question_Id)
                         {
-                            answer.answer = false;
-                            answer.student_Id = current_student.student_Id;
-                            db.surveyAnswers.Add(answer);
-                            a_survey.answer_list.Add(answer);
-                            db.SaveChanges();
+                            if (answer.student_Id == current_student.student_Id)
+                            {
+                                a_survey.answer_list.Add(answer);
+                                new_form = false;
+                            }
+                            else
+                            {
+                                new_form = true;
+                            }
+
                         }
+                    }
+                    if(new_form == true)
+                    {
+                        SurveyAnswers new_answer = new SurveyAnswers();
+                        new_answer.answer = false;
+                        new_answer.question_Id = question.question_Id;
+                        new_answer.student_Id = current_student.student_Id;
+                        a_survey.answer_list.Add(new_answer);
+                        db.surveyAnswers.Add(new_answer);
+                        db.SaveChanges();
                     }
                 }
             }
             return View(a_survey);
         }
-
+       
         [HttpPost]
         public ActionResult fill_out_survey(SurveyQAViewModel qa)
         {
