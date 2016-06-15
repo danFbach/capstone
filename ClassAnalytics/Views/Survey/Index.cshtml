@@ -4,13 +4,11 @@
     ViewBag.Title = "Survey Home";
 }
 
-<center><h2 style="padding-bottom:10px;">@ViewBag.Title</h2></center>
 
-<p style="margin-top:-30px;">
-    <div class="col-sm-6" style="text-align:right;">
+<p>
+    <center><h2>@ViewBag.Title</h2></center>
+    <div style="text-align:right;margin-top:-30px;">
         @Html.ActionLink("Create a New Survey", "Create") | 
-    </div>
-    <div class="col-sm-6" style="text-align:right;">
         @Html.ActionLink("See surveys assigned to Classes", "Index_Class_Survey")
     </div>
 </p>

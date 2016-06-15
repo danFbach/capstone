@@ -152,10 +152,10 @@ namespace ClassAnalytics.Controllers
                 student.lName = viewModel.lName;
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                role.UserId = user.Id;
-                role.RoleId = "New Student";
                 if (result.Succeeded)
                 {
+                    role.UserId = user.Id;
+                    role.RoleId = "New Student";
                     ViewBag.StatusMessage = "";
                     UserManager.AddToRole(role.UserId, role.RoleId);
                     student.student_account_Id = user.Id;
