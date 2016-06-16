@@ -314,8 +314,12 @@ body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
-  color: #333333;
+  color: #000;
   background-color: #ffffff;
+  background-image:url(245765.jpg);  
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 input,
@@ -335,15 +339,15 @@ textarea {
 }
 
 a {
-  color: rgba(42, 100, 150, 1);
+  color: #DDD;
   text-decoration: none;
   transition:color .3s ease-in-out;
 }
 
 a:hover,
 a:focus {
-  color: #999;
-  text-decoration: none;
+  color: #428bda;
+  text-decoration: underline;
 }
 
 a:focus {
@@ -383,7 +387,7 @@ img {
 hr {
   margin-top:-20px;
   height:40px;
-  background:linear-gradient(to bottom, #FFF, #FFF,#DDD, #FFF, #FFF, #FFF,#FFF);
+  background:linear-gradient(to bottom, transparent, transparent, #DDD, transparent, transparent, transparent, transparent);
   border: 0;
 }
 .hr1 {
@@ -478,6 +482,7 @@ h6,
 .h4,
 .h5,
 .h6 {
+    color:#FFF;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-weight: 500;
   line-height: 1.1;
@@ -1429,7 +1434,7 @@ th {
 .table thead > tr > td,
 .table tbody > tr > td,
 .table tfoot > tr > td {
-  background:linear-gradient(to top,#DDD, #FFF, #FFF, #FFF, #FFF, #FFF, #FFF);
+  background:linear-gradient(to top,#DDD, transparent, transparent, transparent, transparent, transparent, transparent);
   text-align:center;
   padding: 4px;
   line-height: 1.428571429;
@@ -1729,8 +1734,8 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.428571429;
-  color: #555555;
-  background-color: #ffffff;
+  color: #555;
+  background-color: rgba(255,255,255,.5);
   border: 1px solid #cccccc;
   border-radius: 6px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -1740,6 +1745,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .form-control:focus {
+  color:#555;
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
@@ -3248,7 +3254,7 @@ input[type="button"].btn-block {
   display: none;
   float: left;
   min-width: 160px;
-  padding: 5px 0;
+  padding:10px 0 5px;
   margin: 2px 0 0;
   font-size: 14px;
   list-style: none;

@@ -30,8 +30,8 @@
                         <div class="dropdown-menu">@Html.ActionLink("Current Survey", "Student_Index", "Survey", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                     <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Communicate</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Message Instructor", "StudentToInstructor", "Communication", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Message Student", "StudentToStudent", "Communication", new { area = "" }, new { @class = "navbar_links" })</div>
+                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">Messaging</button>
+                        <div class="dropdown-menu">@Html.ActionLink("Direct Message", "Inbox", "Messaging", new { area = "" }, new { @class = "navbar_links" })<br>@Html.ActionLink("Email", "InstToStudent", "Communication", new { area = "" }, new { @class = "navbar_links" })</div>
                     </div>
                 </div>
                 @Html.Partial("_LoginPartial")

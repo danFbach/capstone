@@ -307,21 +307,20 @@ namespace ClassAnalytics.Controllers
         {
             if (ModelState.IsValid)
             {
-                int points = db.taskModel.Find(gradeBookModel.task_Id).points;
                 var students = db.studentModels.ToList();
                 foreach (StudentModels student in students)
                 {
                     if (student.class_Id == gradeBookModel.class_Id)
                     {
+                        int points = db.taskModel.Find(gradeBookModel.task_Id).points;
+                        gradeBookModel.possiblePoints = points;
                         gradeBookModel.StudentModels = student;
                         gradeBookModel.student_Id = student.student_Id;
                         gradeBookModel.pointsEarned = 0;
-                        gradeBookModel.possiblePoints = points;
                         db.gradeBookModel.Add(gradeBookModel);
                         db.SaveChanges();
                     }
                 }
-
                 return RedirectToAction("Index");
             }
 

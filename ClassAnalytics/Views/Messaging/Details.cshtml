@@ -1,58 +1,30 @@
 ﻿@model ClassAnalytics.Models.MessagingModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Message";
 }
 
-<h2>Details</h2>
+<h3>@Html.DisplayFor(m => m.subject) - @Html.DisplayFor(model => model.sending_User.Email)</h3>
+@Html.HiddenFor()
 
-<div>
-    <h4>MessagingModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.sender_account_Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.sender_account_Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.recipient_account_Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.recipient_account_Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.message)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.message)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.read)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.read)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.dateSent)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dateSent)
-        </dd>
-
-    </dl>
-</div>
+<table class="table">
+    <tr>
+        <th style = "text-align:left;" >
+            <h5>
+                @Html.DisplayFor(model => model.dateSent)<br />
+                @Html.DisplayNameFor(model => model.recieve_id) : @Html.DisplayFor(model => model.receiving_User.Email)<br />
+            </h5>
+        </th>
+    </tr>
+    <tr>
+        <td style="text-align:left;">
+            <h5>Message:</h5>
+            <p style="text-align:left;padding:10px 10px;">
+                @Html.DisplayFor(model => model.message)
+            </p>
+        </td>
+    </tr>
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.message_Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Inbox", "Inbox")
 </p>

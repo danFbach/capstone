@@ -122,16 +122,16 @@ namespace ClassAnalytics.Controllers
 
                         }
                     }
-                    if(new_form == true)
-                    {
-                        SurveyAnswers new_answer = new SurveyAnswers();
-                        new_answer.answer = false;
-                        new_answer.question_Id = question.question_Id;
-                        new_answer.student_Id = current_student.student_Id;
-                        a_survey.answer_list.Add(new_answer);
-                        db.surveyAnswers.Add(new_answer);
-                        db.SaveChanges();
-                    }
+                    //if(new_form == true)
+                    //{
+                    //    SurveyAnswers new_answer = new SurveyAnswers();
+                    //    new_answer.answer = false;
+                    //    new_answer.question_Id = question.question_Id;
+                    //    new_answer.student_Id = current_student.student_Id;
+                    //    a_survey.answer_list.Add(new_answer);
+                    //    db.surveyAnswers.Add(new_answer);
+                    //    db.SaveChanges();
+                    //}
                 }
             }
             return View(a_survey);

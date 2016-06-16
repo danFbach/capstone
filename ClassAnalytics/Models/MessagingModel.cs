@@ -22,6 +22,7 @@ namespace ClassAnalytics.Models
         [Display(Name = "Message")]
         public string message { get; set; }
 
+        [Required]
         [Display(Name = "Subject")]
         public string subject { get; set; }
 

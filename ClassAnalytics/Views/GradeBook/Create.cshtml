@@ -13,10 +13,7 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.possiblePoints)
         @Html.HiddenFor(model => model.pointsEarned)
-        @Html.HiddenFor(model => model.possiblePoints)
-        @Html.HiddenFor(model => model.possiblePoints)
         <div class="form-group">
             @Html.LabelFor(model => model.class_Id, "Class", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

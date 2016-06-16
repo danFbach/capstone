@@ -6,13 +6,13 @@
     string by_line = "";
     foreach(var item in Model)
     {
-        if (item.recipient_account_Id == some_Data)
+        if (item.recieve_id == some_Data)
         {
             by_line = "From: ";
             
             break;
         }
-        else if(item.sender_account_Id == some_Data)
+        else if(item.sending_id == some_Data)
         {
             by_line = "To: ";
         }
@@ -27,12 +27,6 @@
 </p>
 
 
-<div class="btn-group" id="button_fade">
-    <button class="btn btn-primary-new btn-sm" type="button">@Html.ActionLink("Inbox", "Inbox", "Messaging")</button>
-</div>
-<div class="btn-group" id="button_fade">
-    <button class="btn btn-primary-new btn-sm" type="button">@Html.ActionLink("Sent", "Sent", "Messaging")</button>
-</div>
 
 <table class="table">
     <tr>
@@ -55,13 +49,13 @@
     {
         <tr>
             <td>                
-                @if (item.recipient_account_Id == some_Data)
+                @if (item.recieve_id == some_Data)
                 {
-                    @Html.DisplayFor(modelItem => item.sender_account_Id)
+                    @Html.DisplayFor(modelItem => item.sending_id)
                 }
-                else if (item.sender_account_Id == some_Data)
+                else if (item.sending_id == some_Data)
                 {
-                    @Html.DisplayFor(modelItem => item.recipient_account_Id)
+                    @Html.DisplayFor(modelItem => item.recieve_id)
                 }
             </td>
             <td>

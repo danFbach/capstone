@@ -200,13 +200,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606092256173_2.2.2-seeded.cs" />
-    <Compile Include="Migrations\201606092256173_2.2.2-seeded.Designer.cs">
-      <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
+    <Compile Include="Migrations\201606161414037_2.3-seeded.cs" />
+    <Compile Include="Migrations\201606161414037_2.3-seeded.Designer.cs">
+      <DependentUpon>201606161414037_2.3-seeded.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606151934442_messaging.cs" />
-    <Compile Include="Migrations\201606151934442_messaging.Designer.cs">
-      <DependentUpon>201606151934442_messaging.cs</DependentUpon>
+    <Compile Include="Migrations\201606162033575_2.3.1-seeded.cs" />
+    <Compile Include="Migrations\201606162033575_2.3.1-seeded.Designer.cs">
+      <DependentUpon>201606162033575_2.3.1-seeded.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -260,6 +260,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\245765.jpg" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -443,6 +444,8 @@
     <Content Include="Views\Messaging\Details.cshtml" />
     <Content Include="Views\Messaging\Edit.cshtml" />
     <Content Include="Views\Messaging\Messages.cshtml" />
+    <Content Include="Views\Messaging\Inbox.cshtml" />
+    <Content Include="Views\Messaging\Sent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -456,11 +459,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606092256173_2.2.2-seeded.resx">
-      <DependentUpon>201606092256173_2.2.2-seeded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606161414037_2.3-seeded.resx">
+      <DependentUpon>201606161414037_2.3-seeded.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606151934442_messaging.resx">
-      <DependentUpon>201606151934442_messaging.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606162033575_2.3.1-seeded.resx">
+      <DependentUpon>201606162033575_2.3.1-seeded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

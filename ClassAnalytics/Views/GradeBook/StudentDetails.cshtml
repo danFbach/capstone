@@ -8,6 +8,7 @@
 <h2>Your Grade</h2>
 
 <div>
+    @{string name = Model.StudentModels.lName + ", " + Model.StudentModels.fName; }
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,11 +20,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
+            @Html.DisplayName("Name: ")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentModels.fName)
+            @Html.DisplayFor(model => name)
         </dd>
 
         <dt>
@@ -70,6 +71,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.grade_Id }) |
     @Html.ActionLink("Back to Gradebook", "Index")
 </p>

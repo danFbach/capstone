@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 
 namespace ClassAnalytics.Models
 {
@@ -9,10 +9,7 @@ namespace ClassAnalytics.Models
     {
         public int message_Id { get; set; }
         public MessagingModel Message { get; set; }
-        public ApplicationUser sender { get; set; }
-        public StudentModels student_recip { get; set; }
-        public InstructorModel inst_sender { get; set; }
-        public InstructorModel inst_recip { get; set; }
 
+        public List<SelectListItem> recipients { get; set; }
     }
 }

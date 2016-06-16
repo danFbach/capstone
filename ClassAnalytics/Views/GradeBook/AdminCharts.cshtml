@@ -27,18 +27,18 @@
 }
 
 
-<h2>Grade Charts</h2>
+<center><h3>Grade Charts</h3></center>
 
 @using (Html.BeginForm())
 {
-    <div class="row" style="padding-left:200px;padding-bottom:10px;">
+    <div class="row" style="margin:0 auto;padding-bottom:10px;">
         <div class="col-xs-4" style="width:200px;">
             @Html.DropDownList("class_id", null, "Select a Class (Required)", htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-xs-4" style="width:200px;margin-left:-15px;">
+        <div class="col-xs-4" style="width:200px;margin-left:-20px;">
             @Html.DropDownList("task_id", null, "Student Averages", htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-xs-2" style="margin-left:-20px;padding-left:0px;">
+        <div class="col-xs-2" style="margin-left:-10px;padding-left:0px;">
             <input type="submit" value="Search" class="btn btn-primary-2" />
         </div>
     </div>
@@ -75,5 +75,5 @@
     </script>
 </head>
 <body>
-    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+    <div id="chart_div" style="width: 80%; height: 500px;margin:0 auto;"></div>
 </body>
