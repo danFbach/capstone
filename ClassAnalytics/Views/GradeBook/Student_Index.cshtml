@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
+﻿@model ClassAnalytics.Models.GradebookViewModel
 
 @{
-    ViewBag.Title = this.User.Identity.Name + "'s Gradebook";
+    ViewBag.Title = Model.studentName + "'s Gradebook";
 }
 
 <h3>@ViewBag.Title</h3>
@@ -9,53 +9,39 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ClassModel.className)
+            @Html.DisplayName("Class")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
+            @Html.DisplayName("Task Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskModel.taskName)
+            @Html.DisplayName("Points Earned")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.assignment_notes)
+            @Html.DisplayName("Possible Points")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskModel.points)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.pointsEarned)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.grade)
+            @Html.DisplayName("Grade")
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    string name = item.StudentModels.fName + " " + item.StudentModels.lName;
-    string grade = ((item.pointsEarned/item.TaskModel.points) * 100).ToString() + "%";
+@foreach (var item in Model.grades) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ClassModel.className)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => name)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.TaskModel.taskName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.assignment_notes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskModel.points)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.pointsEarned)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => grade)
+            @Html.DisplayFor(modelItem => item.TaskModel.points)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.grade)%
         </td>
         <td>
             @Html.ActionLink("View Grade Details", "StudentDetails", new { id=item.grade_Id }) 

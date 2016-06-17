@@ -64,12 +64,11 @@
         </dt>
         
         <dd>
-            @{ grade = (Model.pointsEarned / Model.possiblePoints) * 100;}
-            @Html.DisplayFor(model => grade)%
+            @Html.DisplayFor(model => model.grade)%
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to Gradebook", "Index")
+    @Html.ActionLink("Back to Gradebook", "Student_Index")
 </p>

@@ -9,19 +9,8 @@
     {
         if (item.possiblePoints != 0)
         {
-            decimal? grade = 0;
-            decimal? earned = item.pointsEarned;
-            decimal possible = item.possiblePoints;
-            if (item.pointsEarned == 0)
-            {
-                grade = 0;
-            }
-            else
-            {
-                grade = (earned / possible) * 100;
-            }
             string student = item.StudentModels.fName + " " + item.StudentModels.lName;
-            grades.Add(new List<Object> { student, grade });
+            grades.Add(new List<Object> { student, item.grade });
         }
     }
 }
@@ -63,6 +52,8 @@
                 data.addRow([grade_array[i][0], grade_array[i][1]]);
             var options = {
                 title: 'Student Grades',
+                backgroundColor: {fill: 'none'},
+                colors:['#000'],
                 hAxis: {title: 'Student'},
                 vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
                 legend: 'none'

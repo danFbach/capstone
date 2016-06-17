@@ -121,8 +121,8 @@ namespace ClassAnalytics.Controllers
         public List<GradeBookModel> classAverage(int? class_id)
         {
             List<GradeBookModel> grade_list = new List<GradeBookModel>();
-            var grades = db.gradeBookModel.ToList();
-            var students = db.studentModels.ToList();
+            List<GradeBookModel> grades = db.gradeBookModel.ToList();
+            List<StudentModels> students = db.studentModels.ToList();
 
             foreach (StudentModels student in students)
             {
@@ -146,6 +146,7 @@ namespace ClassAnalytics.Controllers
                     grade.StudentModels = db.studentModels.Find(grade.student_Id);
                     grade.pointsEarned = earned;
                     grade.possiblePoints = possible;
+                    grade.grade = (earned / possible) * 100;
                     grade_list.Add(grade);
                 }
             }
@@ -159,15 +160,17 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Home");
             }
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            List<GradeBookModel> indv_grades = new List<GradeBookModel>();
+            GradebookViewModel viewModel = new GradebookViewModel();
+            viewModel.grades = new List<GradeBookModel>();
             StudentModels currentStudent = new StudentModels();
-            var students = db.studentModels.ToList();
-            var all_grades = db.gradeBookModel.ToList();
+            List<StudentModels> students = db.studentModels.ToList();
+            List<GradeBookModel> all_grades = db.gradeBookModel.ToList();
             foreach (StudentModels student in students)
             {
                 if (student.student_account_Id == UserId)
                 {
                     currentStudent = student;
+                    viewModel.studentName = student.fName + " " + student.lName;
                     break;
                 }
             }
@@ -177,11 +180,10 @@ namespace ClassAnalytics.Controllers
                 {
                     grade.ClassModel = db.classmodel.Find(grade.class_Id);
                     grade.TaskModel = db.taskModel.Find(grade.task_Id);
-                    indv_grades.Add(grade);
-
+                    viewModel.grades.Add(grade);
                 }
             }
-            return View(indv_grades);
+            return View(viewModel);
         }
 
 
@@ -199,8 +201,8 @@ namespace ClassAnalytics.Controllers
             {
                 if (task_Id == null)
                 {
-                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels);
-                    return View(gradeBookModel.ToList());
+                    var gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
+                    return View(gradeBookModel);
                 }
                 else
                 {

@@ -94,8 +94,8 @@
             foreach (var question in questions)
             {
                 string data = count + period + "Question";
-                <div class="btn-group" id="button_fade">
-                    <button class="btn btn-primary-new" type="button" style="border-color:#FFF;color:#FFF;" data-hover="dropdown">@data</button>
+                <div class="btn-group" style="margin-bottom:10px;">
+                    <button class="btn btn-primary-new" type="button" style="margin:0 auto;border-color:#FFF;color:#FFF;" data-hover="dropdown">@data</button>
                     <div class="sidebar-dropdown-menu">@Html.DisplayFor(model => question, new { @class = "form-control" })</div>
                 </div>
                 <br />

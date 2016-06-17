@@ -9,9 +9,9 @@
         <li>
             <div class="navbar-collapse collapse">
                 <div class="nav navbar-nav">
-                    <div class="btn-group" id="button_fade">
-                        <button class="btn btn-default btn-sm" type="button" data-hover="dropdown">@this.User.Identity.Name.ToString()</button>
-                        <div class="dropdown-menu">@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { @class="navbar_links", title = "Manage" })<br><a class="navbar_links" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></div>
+                    <div class="btn-group" style="margin-top:10px;">
+                        <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">@this.User.Identity.Name.ToString()</button>
+                        <div class="dropdown-menu">@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "navbar_links", title = "Manage" })<br><a class="navbar_links" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></div>
                     </div>
                 </div>
             </div>

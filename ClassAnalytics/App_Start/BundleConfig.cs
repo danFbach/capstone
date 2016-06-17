@@ -22,8 +22,8 @@ namespace ClassAnalytics
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Content/jquery-ui.min.js",
-                      "~/Content/bootstrap-hover-dropdown.js"));
+                      "~/Scripts/jquery-ui.min.js",
+                      "~/Scripts/bootstrap-hover-dropdown.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

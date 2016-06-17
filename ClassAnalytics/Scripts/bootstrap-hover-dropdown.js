@@ -18,7 +18,7 @@
             var $this = $(this),
                 $parent = $this.parent(),
                 defaults = {
-                    delay: 1000,
+                    delay: 500,
                     hoverDelay: 0,
                     instantlyCloseOthers: true
                 },
