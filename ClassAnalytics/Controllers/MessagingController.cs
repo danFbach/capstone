@@ -84,6 +84,7 @@ namespace ClassAnalytics.Controllers
         // GET: Messaging/Create
         public ActionResult Create()
         {
+            string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             MessagingViewModel viewModel = new MessagingViewModel();
             viewModel.recipients = new List<SelectListItem>();
             var instructors = db.instructorModel.ToList();
@@ -91,13 +92,18 @@ namespace ClassAnalytics.Controllers
 
             foreach(InstructorModel instructor in instructors)
             {
-                viewModel.recipients.Add(new SelectListItem() { Text = "Instructor: " + instructor.lName + ", " + instructor.fName, Value = instructor.instructor_account_Id });
+                if(instructor.instructor_account_Id != UserId)
+                {
+                    viewModel.recipients.Add(new SelectListItem() { Text = "Instructor: " + instructor.lName + ", " + instructor.fName, Value = instructor.instructor_account_Id });
+                }
             }
             foreach(StudentModels student in students)
             {
-                viewModel.recipients.Add(new SelectListItem() { Text = "Student: " + student.lName + ", " + student.fName, Value = student.student_account_Id });
+                if(student.student_account_Id != UserId)
+                {
+                    viewModel.recipients.Add(new SelectListItem() { Text = "Student: " + student.lName + ", " + student.fName, Value = student.student_account_Id });
+                }
             }
-
             return View(viewModel);
         }
 
@@ -140,38 +146,7 @@ namespace ClassAnalytics.Controllers
 
             return View(viewModel);
         }
-
-        // GET: Messaging/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MessagingModel messagingModel = db.messagingModel.Find(id);
-            if (messagingModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(messagingModel);
-        }
-
-        // POST: Messaging/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(MessagingModel messagingModel)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(messagingModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(messagingModel);
-        }
-
+        
         // GET: Messaging/Delete/5
         public ActionResult Delete(int? id)
         {

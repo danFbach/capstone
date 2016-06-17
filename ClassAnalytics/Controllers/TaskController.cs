@@ -17,6 +17,10 @@ namespace ClassAnalytics.Controllers
         // GET: Task
         public ActionResult Index(int? course_id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.course_id = new SelectList(db.coursemodels, "course_Id", "courseName");
             ViewBag.roles = new SelectList(db.Roles, "Id", "Name");
             List<TaskModel> tasks = db.taskModel.ToList();
@@ -41,6 +45,10 @@ namespace ClassAnalytics.Controllers
         // GET: Task/Details/5
         public ActionResult Details(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -56,6 +64,10 @@ namespace ClassAnalytics.Controllers
         // GET: Task/Create
         public ActionResult Create()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
 
@@ -69,6 +81,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(TaskViewModel viewModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             TaskModel taskModel = new TaskModel();
             if (ModelState.IsValid)
             {
@@ -96,6 +112,10 @@ namespace ClassAnalytics.Controllers
         // GET: Task/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -117,7 +137,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(TaskModel taskModel)
         {
-
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(taskModel).State = EntityState.Modified;
@@ -130,6 +153,10 @@ namespace ClassAnalytics.Controllers
         // GET: Task/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -147,6 +174,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             TaskModel taskModel = db.taskModel.Find(id);
             db.taskModel.Remove(taskModel);
             db.SaveChanges();

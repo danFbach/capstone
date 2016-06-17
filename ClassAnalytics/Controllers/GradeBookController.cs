@@ -17,6 +17,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult StudentDetails(int? id)
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var grade = db.gradeBookModel.Find(id);
             grade.ClassModel = db.classmodel.Find(grade.class_Id);
             grade.StudentModels = db.studentModels.Find(grade.student_Id);
@@ -27,6 +31,10 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult Student_Chart()
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             List<GradeBookModel> this_grade = new List<GradeBookModel>();
             //List<TaskModel> tasks = new List<TaskModel>(); FOR TASK DROPDOWN
@@ -74,34 +82,41 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult AdminCharts(int? class_id, int? task_id)
         {
-            var grades = db.gradeBookModel.ToList();
-            List<GradeBookModel> grade_list = new List<GradeBookModel>();
-            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
-            ViewBag.task_id = new SelectList(db.taskModel, "task_Id", "taskName");
-
-            foreach (GradeBookModel grade in grades)
+            if (!this.User.IsInRole("Admin"))
             {
-                grade.TaskModel = db.taskModel.Find(grade.task_Id);
-                if (class_id == null)
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                var grades = db.gradeBookModel.ToList();
+                List<GradeBookModel> grade_list = new List<GradeBookModel>();
+                ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
+                ViewBag.task_id = new SelectList(db.taskModel, "task_Id", "taskName");
+
+                foreach (GradeBookModel grade in grades)
                 {
-                    return View(grade_list);
-                }
-                else if (grade.class_Id == class_id)
-                {
-                    if (task_id == null)
+                    grade.TaskModel = db.taskModel.Find(grade.task_Id);
+                    if (class_id == null)
                     {
-                        grade_list = classAverage(class_id);
                         return View(grade_list);
                     }
-                    else if (grade.task_Id == task_id)
+                    else if (grade.class_Id == class_id)
                     {
-                        grade.StudentModels = db.studentModels.Find(grade.student_Id);
-                        grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
-                        grade_list.Add(grade);
+                        if (task_id == null)
+                        {
+                            grade_list = classAverage(class_id);
+                            return View(grade_list);
+                        }
+                        else if (grade.task_Id == task_id)
+                        {
+                            grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                            grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
+                            grade_list.Add(grade);
+                        }
                     }
                 }
+                return View(grade_list);
             }
-            return View(grade_list);
         }
         public List<GradeBookModel> classAverage(int? class_id)
         {
@@ -139,6 +154,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult Student_Index()
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             List<GradeBookModel> indv_grades = new List<GradeBookModel>();
             StudentModels currentStudent = new StudentModels();
@@ -170,11 +189,10 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook
         public ActionResult Index(int? class_id, int? task_Id)
         {
-            if (User.IsInRole("Student"))
+            if (!this.User.IsInRole("Admin"))
             {
-                return RedirectToAction("Student_Index");
+                return RedirectToAction("Index", "Home");
             }
-
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             if (class_id == null)
@@ -241,6 +259,10 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook/Details/5
         public ActionResult Details(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -254,23 +276,31 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult CreateOne()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             List<SelectListItem> student_drop = new List<SelectListItem>();
             var students = db.studentModels.ToList();
 
-            foreach(StudentModels student in students)
+            foreach (StudentModels student in students)
             {
-                student_drop.Add(new SelectListItem() {Text = student.lName + ", " + student.fName, Value = student.student_Id.ToString()});
+                student_drop.Add(new SelectListItem() { Text = student.lName + ", " + student.fName, Value = student.student_Id.ToString() });
             }
 
             ViewBag.student_Id = student_drop;
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOne(GradeBookModel gradeBookModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             gradeBookModel.StudentModels = db.studentModels.Find(gradeBookModel.student_Id);
             gradeBookModel.class_Id = gradeBookModel.StudentModels.class_Id;
             gradeBookModel.TaskModel = db.taskModel.Find(gradeBookModel.task_Id);
@@ -292,7 +322,10 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook/Create
         public ActionResult Create()
         {
-
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.task_Id = new SelectList(db.taskModel, "task_Id", "taskName");
             return View();
@@ -305,6 +338,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(GradeBookModel gradeBookModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var students = db.studentModels.ToList();
@@ -333,6 +370,10 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -354,8 +395,12 @@ namespace ClassAnalytics.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(GradeBookModel gradeBookModel)
+        {
+            if (!this.User.IsInRole("Admin"))
             {
-            if(gradeBookModel.assignment_notes == null)
+                return RedirectToAction("Index", "Home");
+            }
+            if (gradeBookModel.assignment_notes == null)
             {
                 gradeBookModel.assignment_notes = "";
             }
@@ -385,6 +430,10 @@ namespace ClassAnalytics.Controllers
         // GET: GradeBook/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -405,6 +454,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             GradeBookModel gradeBookModel = db.gradeBookModel.Find(id);
             db.gradeBookModel.Remove(gradeBookModel);
             db.SaveChanges();

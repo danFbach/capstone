@@ -15,9 +15,13 @@ namespace ClassAnalytics.Controllers
     public class SurveyController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         public ActionResult SurveyBarChart(int? survey_id, int? class_id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
             SurveyModel survey = db.surveyModel.Find(survey_id);
@@ -78,6 +82,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult fill_out_survey(int id)
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyQAViewModel a_survey = new SurveyQAViewModel();
             StudentModels current_student = new StudentModels();
             List<SurveyAnswers> answer_forms = db.surveyAnswers.ToList();
@@ -122,16 +130,16 @@ namespace ClassAnalytics.Controllers
 
                         }
                     }
-                    //if(new_form == true)
-                    //{
-                    //    SurveyAnswers new_answer = new SurveyAnswers();
-                    //    new_answer.answer = false;
-                    //    new_answer.question_Id = question.question_Id;
-                    //    new_answer.student_Id = current_student.student_Id;
-                    //    a_survey.answer_list.Add(new_answer);
-                    //    db.surveyAnswers.Add(new_answer);
-                    //    db.SaveChanges();
-                    //}
+                    if(new_form == true)
+                    {
+                        SurveyAnswers new_answer = new SurveyAnswers();
+                        new_answer.answer = false;
+                        new_answer.question_Id = question.question_Id;
+                        new_answer.student_Id = current_student.student_Id;
+                        a_survey.answer_list.Add(new_answer);
+                        db.surveyAnswers.Add(new_answer);
+                        db.SaveChanges();
+                    }
                 }
             }
             return View(a_survey);
@@ -140,6 +148,10 @@ namespace ClassAnalytics.Controllers
         [HttpPost]
         public ActionResult fill_out_survey(SurveyQAViewModel qa)
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             foreach (SurveyAnswers answer in qa.answer_list)
             {
                 SurveyAnswers a = db.surveyAnswers.Find(answer.answer_Id);
@@ -150,6 +162,10 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult Student_Index(int? id)
         {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var students = db.studentModels.ToList();
             var surveys = db.surveyJoinTableModel.ToList();
@@ -185,6 +201,10 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult Activate(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
             joinSurvey.active = true;
             db.SaveChanges();
@@ -193,6 +213,10 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult Deactivate(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
             joinSurvey.active = false;
             db.SaveChanges();
@@ -201,6 +225,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult Index_Class_Survey(int? class_id, bool? active)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var joinSurvey = db.surveyJoinTableModel.ToList();
             List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
@@ -264,6 +292,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult Create_Join(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyJoinTableModel joinSurvey = new SurveyJoinTableModel();
             SurveyModel a_survey = db.surveyModel.Find(id);
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
@@ -275,6 +307,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create_Join(SurveyJoinTableModel survey)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             List<SurveyQuestion> questions = db.surveyQuestion.ToList();
             if (ModelState.IsValid)
             {
@@ -308,6 +344,10 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult Create_Question(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyQuestion surveyQuestion = new SurveyQuestion();
             string info = db.surveyModel.Find(id).SurveyName;
             ViewBag.surveyInfo = "Name: " + info + " #" + id;
@@ -318,6 +358,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create_Question(SurveyQuestion surveyQuestion)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.surveyQuestion.Add(surveyQuestion);
@@ -333,6 +377,10 @@ namespace ClassAnalytics.Controllers
         // GET: Survey
         public ActionResult Index()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             List<SurveyModel> survey_list = new List<SurveyModel>();
             var courses = db.coursemodels.ToList();
             var surveys = db.surveyModel.ToList();
@@ -363,25 +411,14 @@ namespace ClassAnalytics.Controllers
             }
             return View(survey_list);
         }
-
-        // GET: Survey/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SurveyModel surveyModel = db.surveyModel.Find(id);
-            if (surveyModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(surveyModel);
-        }
-
+        
         // GET: Survey/Create
         public ActionResult Create()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
             return View();
         }
@@ -393,6 +430,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(SurveyModel surveyModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.surveyModel.Add(surveyModel);
@@ -406,6 +447,10 @@ namespace ClassAnalytics.Controllers
         // GET: Survey/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -427,6 +472,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(SurveyModel surveyModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(surveyModel).State = EntityState.Modified;
@@ -440,6 +489,10 @@ namespace ClassAnalytics.Controllers
         // GET: Survey/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -457,6 +510,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             SurveyModel surveyModel = db.surveyModel.Find(id);
             db.surveyModel.Remove(surveyModel);
             db.SaveChanges();

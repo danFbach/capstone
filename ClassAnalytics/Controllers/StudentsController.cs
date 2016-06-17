@@ -56,6 +56,10 @@ namespace ClassAnalytics.Controllers
         // GET: Students
         public ActionResult Index(int? class_id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             if (class_id != null)
             {
@@ -77,25 +81,13 @@ namespace ClassAnalytics.Controllers
                 return View(viewModel);
             }            
         }
-
-        // GET: Students/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            StudentModels studentModels = db.studentModels.Find(id);
-            if (studentModels == null)
-            {
-                return HttpNotFound();
-            }
-            return View(studentModels);
-        }
-
         // GET: Students/Create
         public ActionResult Create()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ClassStudentViewModel viewModel = new ClassStudentViewModel();
             List<ClassModel> classes = db.classmodel.ToList();
             List<ProgramModels> programs = db.programModels.ToList();
@@ -124,8 +116,11 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ClassStudentViewModel viewModel)
         {
-            RegisterViewModel model = new RegisterViewModel();
-            
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            RegisterViewModel model = new RegisterViewModel();            
             StudentModels student = new StudentModels();
             List<ClassModel> classList = db.classmodel.ToList();
             List<ProgramModels> programList = db.programModels.ToList();
@@ -186,6 +181,10 @@ namespace ClassAnalytics.Controllers
         // GET: Students/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -206,6 +205,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(StudentModels studentModels)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(studentModels).State = EntityState.Modified;
@@ -218,6 +221,10 @@ namespace ClassAnalytics.Controllers
         // GET: Students/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -235,6 +242,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             StudentModels studentModels = db.studentModels.Find(id);
             db.studentModels.Remove(studentModels);
             db.SaveChanges();

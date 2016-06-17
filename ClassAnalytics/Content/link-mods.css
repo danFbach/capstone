@@ -4,7 +4,7 @@ a.navbar_links {
 }
 a.navbar_links:hover,
 a.navbar_links:focus {
-    color: #999;
+    color: #00b386;
     text-decoration: underline;
 }
 a.navbar_links:focus {

@@ -13,14 +13,14 @@ namespace ClassAnalytics.Controllers
     public class ClassController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        public ActionResult ClassHome()
-        {
-            return View();
-        }
+        
         // GET: Class
         public ActionResult Index(int? program_id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             var classes = db.classmodel.ToList();
             var programs = db.programModels.ToList();
@@ -49,6 +49,10 @@ namespace ClassAnalytics.Controllers
         // GET: Class/Details/5
         public ActionResult Details(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -64,6 +68,10 @@ namespace ClassAnalytics.Controllers
         // GET: Class/Create
         public ActionResult Create()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ProgClassViewModel viewModel = new ProgClassViewModel();
             List<ProgramModels> programs = db.programModels.ToList();
             viewModel.program_list = new List<SelectListItem>();
@@ -82,6 +90,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProgClassViewModel viewModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ClassModel new_class = new ClassModel();
             if (ModelState.IsValid)
             {
@@ -100,6 +112,10 @@ namespace ClassAnalytics.Controllers
         // GET: Class/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -130,6 +146,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProgClassViewModel viewModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ClassModel model = new ClassModel();
             model.className = viewModel.className;
             model.class_Id = viewModel.class_Id;
@@ -153,6 +173,10 @@ namespace ClassAnalytics.Controllers
         // GET: Class/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -170,6 +194,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ClassModel classModel = db.classmodel.Find(id);
             db.classmodel.Remove(classModel);
             db.SaveChanges();

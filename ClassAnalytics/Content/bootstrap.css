@@ -316,7 +316,7 @@ body {
   line-height: 1.428571429;
   color: #000;
   background-color: #ffffff;
-  background-image:url(245765.jpg);  
+  background-image:url(another_nebula.jpg.jpg);  
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -341,12 +341,12 @@ textarea {
 a {
   color: #DDD;
   text-decoration: none;
-  transition:color .3s ease-in-out;
+  transition:color .2s ease-in-out;
 }
 
 a:hover,
 a:focus {
-  color: #428bda;
+  color: #00b386;
   text-decoration: underline;
 }
 
@@ -2072,7 +2072,7 @@ fieldset[disabled] .btn {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #2a6496;
+  color: #333;
   background-color: transparent;
   text-align:center;
 }
@@ -3259,7 +3259,7 @@ input[type="button"].btn-block {
   font-size: 14px;
   list-style: none;
   color: #FFF;
-  background:linear-gradient(to top, #FFF, #FFF, #FFF, #FFF, #FFF, #FFF, transparent, transparent);
+  background:linear-gradient(to top, #FFF, #FFF, #FFF, #FFF, #FFF, #FFF, transparent);
   text-align:center;
   border:none;
   border-radius: 6px;
@@ -4222,7 +4222,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   float: left;
   padding-top: 20px;
   padding-right: 15px;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 20px;
 }
 
@@ -4538,7 +4538,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #2a6496;
+  color: #333;
   background-color: transparent;
 }
 
@@ -4547,12 +4547,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #FFF;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #ffffff;
+  color: #00b386;
   background-color: transparent;
 }
 
@@ -4960,7 +4960,7 @@ a.list-group-item.active > .badge,
   font-size: 21px;
   font-weight: 200;
   line-height: 2.1428571435;
-  color: inherit;
+  color: #111;
   background:rgba(225,225,225,0);
   opacity: .7;
 }

@@ -17,27 +17,20 @@ namespace ClassAnalytics.Controllers
         // GET: TaskType
         public ActionResult Index()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View(db.TaskTypeModels.ToList());
-        }
-
-        // GET: TaskType/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TaskTypeModels taskTypeModels = db.TaskTypeModels.Find(id);
-            if (taskTypeModels == null)
-            {
-                return HttpNotFound();
-            }
-            return View(taskTypeModels);
         }
 
         // GET: TaskType/Create
         public ActionResult Create()
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -46,8 +39,12 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,taskType,taskWeight")] TaskTypeModels taskTypeModels)
+        public ActionResult Create(TaskTypeModels taskTypeModels)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.TaskTypeModels.Add(taskTypeModels);
@@ -61,6 +58,10 @@ namespace ClassAnalytics.Controllers
         // GET: TaskType/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -78,8 +79,12 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,taskType,taskWeight")] TaskTypeModels taskTypeModels)
+        public ActionResult Edit(TaskTypeModels taskTypeModels)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(taskTypeModels).State = EntityState.Modified;
@@ -92,6 +97,10 @@ namespace ClassAnalytics.Controllers
         // GET: TaskType/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,6 +118,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             TaskTypeModels taskTypeModels = db.TaskTypeModels.Find(id);
             db.TaskTypeModels.Remove(taskTypeModels);
             db.SaveChanges();

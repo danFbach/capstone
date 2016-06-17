@@ -17,6 +17,10 @@ namespace ClassAnalytics.Controllers
         // GET: Course
         public ActionResult Index(int? program_id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if(program_id != null)
             {
@@ -44,25 +48,13 @@ namespace ClassAnalytics.Controllers
             }  
         }
 
-        // GET: Course/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CourseModels courseModels = db.coursemodels.Find(id);
-            if (courseModels == null)
-            {
-                return HttpNotFound();
-            }
-            return View(courseModels);
-        }
-
         // GET: Course/Create
         public ActionResult Create()
         {
-
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var programs = db.programModels.ToList();
             List<SelectListItem> program_list = new List<SelectListItem>();
             ProgCourseViewModel viewModel = new ProgCourseViewModel();
@@ -81,6 +73,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProgCourseViewModel viewModel)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             CourseModels courseModels = new CourseModels();
             if (ModelState.IsValid)
             {
@@ -109,6 +105,10 @@ namespace ClassAnalytics.Controllers
         // GET: Course/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -130,6 +130,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CourseModels courseModels)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(courseModels).State = EntityState.Modified;
@@ -142,6 +146,10 @@ namespace ClassAnalytics.Controllers
         // GET: Course/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -160,6 +168,10 @@ namespace ClassAnalytics.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             CourseModels courseModels = db.coursemodels.Find(id);
             db.coursemodels.Remove(courseModels);
             db.SaveChanges();

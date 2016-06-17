@@ -41,15 +41,20 @@
 
 
             var options = {
-                title: 'Responses',
+                title : 'Responses', 
+                titleTextStyle:{color:'#FFF',fontSize:20},
                 legend: { position: 'none' },
+                colors:['#555'],
+                hAxis:{                
+                    textStyle:{color:'#FFF',fontSize:16},                    
+                    0: { side: 'bottom', label: 'Questions'}
+                },
+                vAxis:{                    
+                    textStyle:{color:'#FFF'}
+                },
                 axes: {
-                    x: {
-                        0: { side: 'bottom', label: 'Questions'}
-                    },
                     y: {
                         all: {
-                            title:'Yes',
                             range: {
                                 max: answers[1][2],
                                 min: 0
@@ -90,7 +95,7 @@
             {
                 string data = count + period + "Question";
                 <div class="btn-group" id="button_fade">
-                    <button class="btn btn-primary-new" type="button" style="background:#aaa;border-color:#fff;" data-hover="dropdown"><b>@data</b></button>
+                    <button class="btn btn-primary-new" type="button" style="border-color:#FFF;color:#FFF;" data-hover="dropdown">@data</button>
                     <div class="sidebar-dropdown-menu">@Html.DisplayFor(model => question, new { @class = "form-control" })</div>
                 </div>
                 <br />
