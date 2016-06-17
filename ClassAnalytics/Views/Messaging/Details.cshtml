@@ -4,14 +4,14 @@
     ViewBag.Title = "Message";
 }
 
-<h3>@Html.DisplayFor(m => m.subject) - @Html.DisplayFor(model => model.sending_User.Email)</h3>
+<h3>@Html.DisplayFor(m => m.subject) - @Html.DisplayFor(model => model.sending_User.UserName)</h3>
 
 <table class="table">
     <tr>
         <th style = "text-align:left;" >
             <h5>
                 @Html.DisplayFor(model => model.dateSent)<br />
-                @Html.DisplayNameFor(model => model.recieve_id) : @Html.DisplayFor(model => model.receiving_User.Email)<br />
+                @Html.DisplayNameFor(model => model.recieve_id) : @Html.DisplayFor(model => model.receiving_User.UserName)<br />
             </h5>
         </th>
     </tr>

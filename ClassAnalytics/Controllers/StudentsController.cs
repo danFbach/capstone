@@ -23,12 +23,12 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
 
-        public async Task studentConfirmation(string emailaddress, string Password, string fName, string lName)
+        public async Task studentConfirmation(string emailaddress, string Password, string fName, string lName,string username)
         {
 
             var myMessage = new SendGridMessage();
             string resetURL = "http://localhost:5753/Account/Login";
-            string a_message = "Hey " + fName + " " + lName + ", your account for school has been created. <br><br>Your login is: <b>" + emailaddress + "</b><br>Your Password is: <b>" + Password + "</b><br><br>Acvtivate your account and reset your password <a href=\"" +  resetURL + "\">Here!</a>";
+            string a_message = "Hey " + fName + " " + lName + ", your account for school has been created. <br><br>Your login is: <b>" + username + "</b><br>Your Password is: <b>" + Password + "</b><br><br>Activate your account and reset your password <a href=\"" +  resetURL + "\">Here!</a>";
             myMessage.Html = a_message;
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.AddTo(emailaddress);
@@ -141,11 +141,11 @@ namespace ClassAnalytics.Controllers
                 model.Password = "D3v$tudent";
                 model.ConfirmPassword = "D3v$tudent";
                 model.ConfirmPassword = model.Password;
-                string username = viewModel.fName.ToCharArray()[0].ToString().ToLower() + viewModel.lName;
                 student.student_Id = viewModel.student_Id;
                 student.fName = viewModel.fName;
                 student.lName = viewModel.lName;
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                string username = makeUserName(student.fName,student.lName,0);
+                var user = new ApplicationUser { UserName = username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -155,7 +155,7 @@ namespace ClassAnalytics.Controllers
                     UserManager.AddToRole(role.UserId, role.RoleId);
                     student.student_account_Id = user.Id;
     #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    studentConfirmation(model.Email, model.Password, student.fName, student.lName);
+                    studentConfirmation(user.Email, model.Password, student.fName, student.lName, user.UserName);
     #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     db.studentModels.Add(student);
                     db.SaveChanges();
@@ -176,6 +176,29 @@ namespace ClassAnalytics.Controllers
             viewModel.programList = a_programList;
             ViewBag.StatusMessage = "Email is already in use or Invalid.";
             return View(viewModel);
+        }
+
+        public string makeUserName(string firstName, string lastName, int count)
+        {
+            string username;
+            if (count == 0)
+            {
+                username = firstName.ToLower() + lastName;
+            }
+            else
+            {
+                username = firstName.ToLower() + count.ToString() + lastName; 
+            }
+            ApplicationUser this_user = UserManager.FindByName(username);
+            if (this_user != null)
+            {
+                count += 1;
+                return makeUserName(firstName, lastName, count);
+            }
+            else
+            {
+                return username;
+            }
         }
 
         // GET: Students/Edit/5
