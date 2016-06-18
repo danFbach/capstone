@@ -9,7 +9,8 @@ namespace ClassAnalytics.Models
     {
         public int message_Id { get; set; }
         public MessagingModel Message { get; set; }
-
+        public string recip { get; set; }
+        public string sender { get; set; }
         public List<SelectListItem> recipients { get; set; }
     }
 }

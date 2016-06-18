@@ -1,17 +1,17 @@
-﻿@model ClassAnalytics.Models.MessagingModel
+﻿@model ClassAnalytics.Models.MessagingViewModel
 
 @{
     ViewBag.Title = "Message";
 }
 
-<h3>@Html.DisplayFor(m => m.subject) - @Html.DisplayFor(model => model.sending_User.UserName)</h3>
+<h3>@Html.DisplayFor(m => m.Message.subject) - @Html.DisplayFor(model => model.sender)</h3>
 
 <table class="table">
     <tr>
         <th style = "text-align:left;" >
             <h5>
-                @Html.DisplayFor(model => model.dateSent)<br />
-                @Html.DisplayNameFor(model => model.recieve_id) : @Html.DisplayFor(model => model.receiving_User.UserName)<br />
+                @Html.DisplayFor(model => model.Message.dateSent)<br />
+                @Html.DisplayName("Recipeint") : @Html.DisplayFor(model => model.recip)<br />
             </h5>
         </th>
     </tr>
@@ -19,7 +19,7 @@
         <td style="text-align:left;">
             <h5>Message:</h5>
             <p style="text-align:left;padding:10px 10px;">
-                @Html.DisplayFor(model => model.message)
+                @Html.DisplayFor(model => model.Message.message)
             </p>
         </td>
     </tr>

@@ -315,11 +315,7 @@ body {
   font-size: 14px;
   line-height: 1.428571429;
   color: #000;
-  background-color: #ffffff;
-  background-image:url(another_nebula.jpg.jpg);  
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
+  background-color: #000;
 }
 
 input,

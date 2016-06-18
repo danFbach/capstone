@@ -70,15 +70,43 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
+            MessagingViewModel viewModel = new MessagingViewModel();
+            List<StudentModels> students = db.studentModels.ToList();
+            List<InstructorModel> instructors = db.instructorModel.ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             if (message.recieve_id == UserId)
             {
                 message.read = true;
             }
+            foreach(StudentModels student in students)
+            {
+                string name = student.fName + " " + student.lName;
+                if (student.student_account_Id == message.recieve_id)
+                {
+                    viewModel.recip = name;
+                }
+                if (student.student_account_Id == message.sending_id)
+                {
+                    viewModel.sender = name;
+                }
+            }
+            foreach(InstructorModel instructor in instructors)
+            {
+                string name = instructor.fName + " " + instructor.lName;
+                if (instructor.instructor_account_Id == message.recieve_id)
+                {
+                    viewModel.recip = name;
+                }
+                if(instructor.instructor_account_Id == message.sending_id)
+                {
+                    viewModel.sender = name;
+                }
+            }
             message.receiving_User = db.Users.Find(message.recieve_id);
             message.sending_User = db.Users.Find(message.sending_id);
+            viewModel.Message = message;
             db.SaveChanges();
-            return View(message);
+            return View(viewModel);
         }
 
         // GET: Messaging/Create
