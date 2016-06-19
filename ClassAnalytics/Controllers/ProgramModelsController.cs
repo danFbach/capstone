@@ -14,6 +14,21 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult course_index(int? id)
+        {
+            return RedirectToRoute("Index/" + id, "ProgramModels");
+        }
+        public ActionResult add_course(int? id)
+        {
+            if(id != null)
+            {
+                return RedirectToAction("Create/" + id, "Course");
+            }
+            else
+            {
+                return View("Index");
+            }
+        }
         // GET: ProgramModels
         public ActionResult Index()
         {

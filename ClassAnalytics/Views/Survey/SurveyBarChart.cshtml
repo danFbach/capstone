@@ -1,24 +1,9 @@
-﻿@model IEnumerable<ClassAnalytics.Models.SurveyChartModel>
+﻿@model ClassAnalytics.Models.SurveyChartModel
 
 @{
-    int count = 1;
-    int qCount = 1;
     string period = ") ";
     ViewBag.Title = "Survey Barchart";
-    List<List<Object>> answers = new List<List<Object>>();
-    List<int> ticks = new List<int>();
-    List<string> questions = new List<string>();
 }
-@{
-    foreach (var item in Model)
-    {
-        questions.Add(item.question);
-        answers.Add(new List<object> { qCount, item.answer_count, item.response_count });
-        ticks.Add(qCount);
-        qCount += 1;
-    }
-}
-
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -27,36 +12,35 @@
 
         function drawStuff() {
             var data = new google.visualization.DataTable();
-            var answers = @Html.Raw(Json.Encode(answers));
+            var answers = @Html.Raw(Json.Encode(Model.answers));
             var answer_array = [];
             for(i=0;i<answers.length;i++){
-                answer_array[answer_array.length] = [answers[i][0],answers[i][1],answers[i][2]];
+                answer_array[answer_array.length] = [answers[i][1],answers[i][2],answers[i][3]];
             }
-            console.log(answers);
-            console.log(answer_array);
-            data.addColumn('number', 'Question ');
+            data.addColumn('number', 'Question');
             data.addColumn('number', 'True Responses');
             for(i = 0; i < answer_array.length; i++)
                 data.addRow([answer_array[i][0], answer_array[i][1]]);
 
-
             var options = {
-                title : 'Responses', 
                 titleTextStyle:{color:'#FFF',fontSize:20},
                 legend: { position: 'none' },
                 colors:['#555'],
-                hAxis:{                
-                    textStyle:{color:'#FFF',fontSize:16},                    
-                    0: { side: 'bottom', label: 'Questions'}
+                hAxis:{
+                    title:'Question #',
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF'},
                 },
-                vAxis:{                    
-                    textStyle:{color:'#FFF'}
+                vAxis:{
+                    title:'True Responses',
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF'},
                 },
                 axes: {
                     y: {
                         all: {
                             range: {
-                                max: answers[1][2],
+                                max: answers[1][3],
                                 min: 0
                             }
                         }
@@ -71,9 +55,19 @@
         };
     </script>
 </head>
+@if (Model.survey_name != null)
+{
+    <center>
+        <h3>
+            @Model.survey_name's Results
+        </h3>
+    </center>
+}
+else
+{
+    <center><h3 style="padding-left:50px;">Survey Charts</h3></center>
+}
 
-
-<center><h3 style="padding-left:50px;">Survey Charts</h3></center>
 @using (Html.BeginForm())
 {
     <div class="row" style="margin-left:30%;margin-right:auto;margin-top:0px;padding-bottom:10px;">
@@ -91,18 +85,18 @@
 <div class="container" style="width:90%;margin-left:10%;">
     <div class="col-sm-2" style="width:5%;">
         @{
-            foreach (var question in questions)
+            foreach (var question in Model.answers)
             {
-                string data = count + period + "Question";
+                string data = question[1] + period + "Question";
                 <div class="btn-group" style="margin-bottom:10px;">
-                    <button class="btn btn-primary-new" type="button" style="margin:0 auto;border-color:#FFF;" data-hover="dropdown">@data</button>
-                    <div class="sidebar-dropdown-menu">@Html.DisplayFor(model => question, new { @class = "form-control" })</div>
+                    <button class="btn btn-primary-new" type="button" style="margin:0 auto;" data-hover="dropdown">@data</button>
+                    <div class="sidebar-dropdown-menu">@Html.DisplayFor(model => question[0], new { @class = "form-control" })</div>
                 </div>
-                <br />
-                count += 1;
+                <br>
             }
         }
     </div>
-    <div id="top_x_div" class="col-sm-8" style="height:350px;width:65%;margin-left:100px;"></div>
+    <div id="top_x_div" class="col-sm-8" style="height:350px;width:65%;margin-left:100px;">
+    </div>
 </div>
 

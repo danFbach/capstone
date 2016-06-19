@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.SurveyModel
+﻿@model ClassAnalytics.Models.SurveyJoinTableModel
 
 @{
     ViewBag.Title = "Remove Survey";
@@ -6,31 +6,23 @@
 
 <h2>@ViewBag.Title</h2>
 
-@*<div>
+<div>
     <hr />
-    <dl class="dl-horizontal">*@
-        @*<dt>
-            @Html.DisplayNameFor(model => model.StudentModels.fName)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Class")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StudentModels.fName)
+            @Html.DisplayFor(model => model.ClassModel.className)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SurveyName)
+            @Html.DisplayNameFor(model => model.SurveyModel.SurveyName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SurveyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.surveyDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.surveyDate)
+            @Html.DisplayFor(model => model.SurveyModel.SurveyName)
         </dd>
 
         <dt>
@@ -41,7 +33,7 @@
             @Html.DisplayFor(model => model.active)
         </dd>
 
-    </dl>*@
+    </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
@@ -51,4 +43,4 @@
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
-@*</div>*@
+</div>

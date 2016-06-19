@@ -7,9 +7,7 @@ namespace ClassAnalytics.Models
 {
     public class SurveyChartModel
     {
-        public string question { get; set; }
-        public int question_id { get; set; }
-        public int answer_count { get; set; }
-        public int response_count { get; set; }
+        public List<List<Object>> answers { get; set; }
+        public string survey_name { get; set; }
     }
 }

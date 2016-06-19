@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.ProgCourseViewModel
+﻿@model ClassAnalytics.Models.CourseModels
 
 @{
     ViewBag.Title = "Create a course";
@@ -12,6 +12,7 @@
         <h4>Create new Course</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.program_Id)
         <div class="form-group">
             @Html.LabelFor(model => model.courseName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -22,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.program_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.program_Id, Model.programs, "Select a Program ", new { @class = "form-control" })
+                @Html.ValueFor(model => model.ProgramModels.programName)
                 @Html.ValidationMessageFor(model => model.ProgramModels, "", new { @class = "text-danger" })
             </div>
         </div>

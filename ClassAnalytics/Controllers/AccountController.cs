@@ -80,7 +80,7 @@ namespace ClassAnalytics.Controllers
             {
                 case SignInStatus.Success:
 
-                    if (model.Password == "D3v$tudent")
+                    if (model.Password == "R3$et_this")
                     {
                         string code = UserManager.GeneratePasswordResetToken(user.Id);
 

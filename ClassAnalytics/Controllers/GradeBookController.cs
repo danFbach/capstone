@@ -105,6 +105,7 @@ namespace ClassAnalytics.Controllers
                         if (task_id == null)
                         {
                             grade_list = classAverage(class_id);
+                            grade_list = grade_list.OrderBy(x => x.grade).ToList();
                             return View(grade_list);
                         }
                         else if (grade.task_Id == task_id)
@@ -115,6 +116,7 @@ namespace ClassAnalytics.Controllers
                         }
                     }
                 }
+                grade_list = grade_list.OrderBy(x => x.grade).ToList();
                 return View(grade_list);
             }
         }
@@ -143,11 +145,14 @@ namespace ClassAnalytics.Controllers
                             earned += one_Grade.pointsEarned;
                         }
                     }
-                    grade.StudentModels = db.studentModels.Find(grade.student_Id);
-                    grade.pointsEarned = earned;
-                    grade.possiblePoints = possible;
-                    grade.grade = (earned / possible) * 100;
-                    grade_list.Add(grade);
+                    if(possible != 0)
+                    {
+                        grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                        grade.pointsEarned = earned;
+                        grade.possiblePoints = possible;
+                        grade.grade = (earned / possible) * 100;
+                        grade_list.Add(grade);
+                    }
                 }
             }
             return grade_list;

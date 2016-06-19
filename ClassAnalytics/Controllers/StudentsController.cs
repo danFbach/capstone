@@ -23,7 +23,7 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
 
-        public async Task studentConfirmation(string emailaddress, string Password, string fName, string lName,string username)
+        public async Task studentConfirmationEmail(string emailaddress, string Password, string fName, string lName,string username)
         {
 
             var myMessage = new SendGridMessage();
@@ -134,12 +134,13 @@ namespace ClassAnalytics.Controllers
                     if(viewModel.class_Id == a_class.class_Id)
                     {
                         student.ClassModel = a_class;
+                        student.ClassModel.ProgramModels = db.programModels.Find(student.ClassModel.program_id);
                     }
                 }
                 IdentityUserRole role = new IdentityUserRole();
                 model.Email = viewModel.newEmail;
-                model.Password = "D3v$tudent";
-                model.ConfirmPassword = "D3v$tudent";
+                model.Password = "R3$et_this";
+                model.ConfirmPassword = "R3$et_this";
                 model.ConfirmPassword = model.Password;
                 student.student_Id = viewModel.student_Id;
                 student.fName = viewModel.fName;
@@ -155,8 +156,15 @@ namespace ClassAnalytics.Controllers
                     UserManager.AddToRole(role.UserId, role.RoleId);
                     student.student_account_Id = user.Id;
     #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    studentConfirmation(user.Email, model.Password, student.fName, student.lName, user.UserName);
-    #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    studentConfirmationEmail(user.Email, model.Password, student.fName, student.lName, user.UserName);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    MessagingModel message = new MessagingModel();
+                    message.subject = "Welcome to Edulytics " + student.fName + "!";
+                    message.message = "Welcome " + student.fName + "! This is your direct message section which allows you to privately message anyone in your school with just the click of a mouse. You're in the \"" + student.ClassModel.className + "\" class which is part of the " + student.ClassModel.ProgramModels.programName + " program. Have a great start to this new program and once again welcome from all of us here at Edulytics.";
+                    message.recieve_id = user.Id;
+                    message.sending_id = this.User.Identity.GetUserId();
+                    message.dateSent = DateTime.Now;
+                    db.messagingModel.Add(message);
                     db.studentModels.Add(student);
                     db.SaveChanges();
                 

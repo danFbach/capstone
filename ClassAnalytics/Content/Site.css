@@ -7,6 +7,9 @@ body {
     padding-bottom: 20px;
 }
 
+th{    
+  background:linear-gradient(to top,#F00, transparent, transparent, transparent, transparent, transparent, transparent, transparent);
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     color:#FFF;

@@ -430,6 +430,14 @@ cite {
   font-style: normal;
 }
 
+.text-white{
+    color:#AAA;
+    font-weight:500;
+    font-size:18px;
+    text-decoration:underline;
+    text-decoration-color:#F00;
+}
+
 .text-muted {
   color: #999999;
 }
@@ -1430,7 +1438,7 @@ th {
 .table thead > tr > td,
 .table tbody > tr > td,
 .table tfoot > tr > td {
-  background:linear-gradient(to top,#DDD, transparent, transparent, transparent, transparent, transparent, transparent);
+  background:linear-gradient(to top,#DDD, transparent, transparent, transparent, transparent, transparent, transparent, transparent);
   text-align:center;
   padding: 4px;
   line-height: 1.428571429;
@@ -1439,7 +1447,8 @@ th {
 
 .table thead > tr > th {
   vertical-align: bottom;
-  border-bottom: 2px solid #dddddd;
+  border-bottom: none;
+
 }
 
 .table caption + thead tr:first-child th,

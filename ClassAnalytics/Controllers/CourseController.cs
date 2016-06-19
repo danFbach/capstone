@@ -15,31 +15,27 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Course
-        public ActionResult Index(int? program_id)
+        public ActionResult Index(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
+            ProgramModels program = db.programModels.Find(id);
+            List<CourseModels> courses = db.coursemodels.ToList();
+            List<CourseModels> new_courses = new List<CourseModels>();
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
-            if(program_id != null)
+            if(id != null)
             {
-                List<ProgCourseViewModel> viewModelList = new List<ProgCourseViewModel>();
-                var courses = db.coursemodels.ToList();
                 foreach (CourseModels course in courses)
                 {
-                    if(course.program_Id == program_id)
+                    if (course.program_Id == id)
                     {
-                        ProgCourseViewModel viewModel = new ProgCourseViewModel();
-                        viewModel.course_Id = course.course_Id;
-                        viewModel.courseName = course.courseName;
-                        viewModel.startDate = course.startDate;
-                        viewModel.endDate = course.endDate;
-                        viewModel.ProgramModels = db.programModels.Find(course.program_Id);
-                        viewModelList.Add(viewModel);
-                    }                    
-                }
-                return View(viewModelList);
+                        course.ProgramModels = program;
+                        new_courses.Add(course);
+                    }
+                }              
+                return View(new_courses);
             }
             else
             {
@@ -49,21 +45,18 @@ namespace ClassAnalytics.Controllers
         }
 
         // GET: Course/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            var programs = db.programModels.ToList();
-            List<SelectListItem> program_list = new List<SelectListItem>();
-            ProgCourseViewModel viewModel = new ProgCourseViewModel();
-            foreach(ProgramModels program in programs)
-            {
-                program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
-            }
-            viewModel.programs = program_list;
-            return View(viewModel);
+            ProgramModels program = db.programModels.Find(id);
+            CourseModels course = new CourseModels();
+            course.ProgramModels = program;
+            course.program_Id = program.program_Id;
+
+            return View(course);
         }
 
         // POST: Course/Create
@@ -71,25 +64,19 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProgCourseViewModel viewModel)
+        public ActionResult Create(CourseModels course)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            CourseModels courseModels = new CourseModels();
             if (ModelState.IsValid)
             {
-                int program_id = Convert.ToInt32(viewModel.program_Id);
-                courseModels.courseName = viewModel.courseName;
-                courseModels.course_Id = viewModel.course_Id;
-                courseModels.startDate = viewModel.startDate;
-                courseModels.endDate = viewModel.endDate;
-                courseModels.program_Id = program_id;
-                courseModels.ProgramModels = db.programModels.Find(program_id);
-                db.coursemodels.Add(courseModels);
+                int id = 0;
+                id = course.program_Id;
+                db.coursemodels.Add(course);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index/" + id);
             }
             var programs = db.programModels.ToList();
             List<SelectListItem> program_list = new List<SelectListItem>();
@@ -97,9 +84,7 @@ namespace ClassAnalytics.Controllers
             {
                 program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
             }
-            viewModel.programs = program_list;
-
-            return View(viewModel);
+            return View(course);
         }
 
         // GET: Course/Edit/5

@@ -1,14 +1,12 @@
 ﻿@model ClassAnalytics.Models.GradeBookModel
 
 @{
-    ViewBag.Title = "Grades";
-    decimal? grade = 0;
+    ViewBag.Title = Model.TaskModel.taskName;
 }
 
-<h2>Your Grade</h2>
+<h3>@ViewBag.Title</h3>
 
 <div>
-    @{string name = Model.StudentModels.lName + ", " + Model.StudentModels.fName; }
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,35 +18,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Name: ")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => name)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.TaskModel.taskName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.TaskModel.taskName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.assignment_notes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.assignment_notes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.possiblePoints)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.possiblePoints)
         </dd>
 
         <dt>
@@ -60,12 +34,29 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.possiblePoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.possiblePoints)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.grade)
         </dt>
         
         <dd>
             @Html.DisplayFor(model => model.grade)%
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.assignment_notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.assignment_notes)
+        </dd>
+
 
     </dl>
 </div>

@@ -37,9 +37,22 @@
                 data.addRow([grade_array[i][0], grade_array[i][1], grade_array[i][2]]);
             var options = {
                 title: 'Your Grades',
-                hAxis: {title: 'Assignment'},
-                vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
-                legend: 'none'
+                titleTextStyle: {color:'#FFF', fontSize:18},
+                backgroundColor: {fill: 'none'},
+                hAxis: {
+                    title: 'Assignment',                
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF',fontSize:18},
+                },
+                vAxis: {
+                    title: 'Grade',
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF',fontSize:18},
+                    minValue: 0, maxValue: 100},
+                legend:{
+                    textStyle:{color:'#fff'},                
+                },
+                colors:['#FFF','#999'],
             };
 
             var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));

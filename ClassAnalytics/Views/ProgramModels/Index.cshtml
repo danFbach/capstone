@@ -35,7 +35,8 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
-            @Html.ActionLink("Modify", "Edit", new { id=item.program_Id }) |
+            @Html.ActionLink("Add a Course","add_course", new { id=item.program_Id }) | 
+            @Html.ActionLink("View Courses", "course_index", new { id=item.program_Id }) |
             @Html.ActionLink("Remove", "Delete", new { id=item.program_Id })
         </td>
     </tr>

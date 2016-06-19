@@ -18,50 +18,62 @@ namespace ClassAnalytics.Controllers
         
         public ActionResult SurveyBarChart(int? survey_id, int? class_id)
         {
+            SurveyChartModel chart = new SurveyChartModel();
+            chart.answers = new List<List<object>>();
+            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
+            ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
-            ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
-            SurveyModel survey = db.surveyModel.Find(survey_id);
-            List<SurveyChartModel> charts = new List<SurveyChartModel>();
-            var questions = db.surveyQuestion.ToList();
-            var answers = db.surveyAnswers.ToList();
-            List<List<Object>> answerList = new List<List<object>>();
-
-            foreach (SurveyQuestion question in questions)
+            if(survey_id != null && class_id != null)
             {
-                SurveyChartModel chart = new SurveyChartModel();
-                chart.question = question.question;
-                chart.question_id = question.question_Id;
-                chart.answer_count = 0;
-                if (question.survey_Id == survey_id)
+                SurveyModel survey = db.surveyModel.Find(survey_id);
+                List<SurveyQuestion> questions = db.surveyQuestion.ToList();
+                List<SurveyAnswers> answers = db.surveyAnswers.ToList();
+                chart.survey_name = db.surveyModel.Find(survey_id).SurveyName;
+                int q_num = 1;
+                foreach (SurveyQuestion question in questions)
                 {
-                    foreach (SurveyAnswers answer in answers)
+                    int answer_count = 0;
+                    int response_count = 0;
+                    string new_question = "";
+                    int q_id = 0;
+                    new_question = question.question;
+                    q_id = question.question_Id;
+                    if (question.survey_Id == survey_id)
                     {
-                        answer.StudentModels = new StudentModels();
-                        answer.StudentModels = db.studentModels.Find(answer.student_Id);
-                        if (answer.StudentModels.class_Id == class_id)
+                        foreach (SurveyAnswers answer in answers)
                         {
-                            if (answer.question_Id == question.question_Id)
+                            answer.StudentModels = new StudentModels();
+                            answer.StudentModels = db.studentModels.Find(answer.student_Id);
+                            if (answer.StudentModels.class_Id == class_id)
                             {
-                                if (answer.answer == true)
+                                if (answer.question_Id == question.question_Id)
                                 {
-                                    chart.answer_count += 1;
-                                    chart.response_count += 1;
-                                }
-                                else
-                                {
-                                    chart.response_count += 1;
+                                    if (answer.answer == true)
+                                    {
+                                        answer_count += 1;
+                                        response_count += 1;
+                                    }
+                                    else
+                                    {
+                                        response_count += 1;
+                                    }
                                 }
                             }
                         }
+                        chart.answers.Add(new List<object>() { question.question, q_num, answer_count, response_count });
+                        q_num += 1;
                     }
-                    charts.Add(chart);
                 }
+                return View(chart);
             }
-            return View(charts);
+            else
+            {
+                return View(chart);
+            }
+            
         }
         public bool new_answer_form(int question_id, int student_id)
         {
@@ -91,8 +103,8 @@ namespace ClassAnalytics.Controllers
             List<SurveyAnswers> answer_forms = db.surveyAnswers.ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             bool new_form = true;
-            var students = db.studentModels.ToList();
-            var questions = db.surveyQuestion.ToList();
+            List<StudentModels> students = db.studentModels.ToList();
+            List<SurveyQuestion> questions = db.surveyQuestion.ToList();
 
             a_survey.SurveyModel = db.surveyModel.Find(id);
             a_survey.survey_Id = a_survey.SurveyModel.survey_Id;
@@ -110,7 +122,7 @@ namespace ClassAnalytics.Controllers
             }
             foreach (SurveyQuestion question in questions)
             {
-                new_form = false;
+                new_form = true;
                 if (question.survey_Id == id)
                 {
                     a_survey.SurveyQuestions.Add(question);
@@ -122,10 +134,7 @@ namespace ClassAnalytics.Controllers
                             {
                                 a_survey.answer_list.Add(answer);
                                 new_form = false;
-                            }
-                            else
-                            {
-                                new_form = true;
+                                break;
                             }
 
                         }
@@ -497,7 +506,9 @@ namespace ClassAnalytics.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SurveyModel surveyModel = db.surveyModel.Find(id);
+            SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
+            surveyModel.SurveyModel = db.surveyModel.Find(surveyModel.survey_Id);
+            surveyModel.ClassModel = db.classmodel.Find(surveyModel.class_Id);
             if (surveyModel == null)
             {
                 return HttpNotFound();
@@ -514,8 +525,27 @@ namespace ClassAnalytics.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            SurveyModel surveyModel = db.surveyModel.Find(id);
-            db.surveyModel.Remove(surveyModel);
+            SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
+            List<SurveyAnswers> answers = db.surveyAnswers.ToList();
+            List<SurveyQuestion> questions = db.surveyQuestion.ToList();
+            foreach(SurveyAnswers answer in answers)
+            {
+                answer.StudentModels = db.studentModels.Find(answer.student_Id);
+                foreach(SurveyQuestion question in questions)
+                {
+                    if(question.survey_Id == surveyModel.survey_Id)
+                    {
+                        if (answer.StudentModels.class_Id == surveyModel.class_Id)
+                        {
+                            if (answer.question_Id == question.question_Id)
+                            {
+                                db.surveyAnswers.Remove(answer);
+                            }
+                        }
+                    }
+                }
+            }
+            db.surveyJoinTableModel.Remove(surveyModel);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

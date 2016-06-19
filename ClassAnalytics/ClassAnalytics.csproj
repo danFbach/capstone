@@ -357,6 +357,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\surveyCollumns.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Web.config" />

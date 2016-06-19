@@ -52,11 +52,22 @@
                 data.addRow([grade_array[i][0], grade_array[i][1]]);
             var options = {
                 title: 'Student Grades',
+                titleTextStyle: {color:'#FFF', fontSize:18},
                 backgroundColor: {fill: 'none'},
-                colors:['#000'],
-                hAxis: {title: 'Student'},
-                vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
-                legend: 'none'
+                colors:['#FFF'],
+                hAxis: {
+                    title: 'Student',
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF',fontSize:18},
+                },
+                vAxis: {
+                    title: 'Grade', minValue: 0, maxValue: 100,                    
+                    titleTextStyle:{color:'#FFF',fontSize:16},
+                    textStyle:{color:'#FFF',fontSize:18},
+                },
+                legend: {
+                    textStyle:{color:'#FFF'},
+                },
             };
 
             var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
