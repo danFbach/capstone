@@ -21,41 +21,90 @@ namespace ClassAnalytics.Controllers
             var messages = db.messagingModel.ToList();
             messages = messages.OrderByDescending(x => x.dateSent).ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            List<MessagingModel> new_messages = new List<MessagingModel>();
-            MessagingModel this_message;
+            List<StudentModels> students = db.studentModels.ToList();
+            List<InstructorModel> instructors = db.instructorModel.ToList();
+            List<MessagingViewModel> viewModel = new List<MessagingViewModel>();
+            MessagingViewModel this_message = new MessagingViewModel();
+
 
             foreach (MessagingModel message in messages)
             {
-                
-                this_message = new MessagingModel();
                 if(message.recieve_id == UserId)
                 {
-                    this_message = message;
-                    this_message.sending_User = db.Users.Find(message.sending_id);
-                    new_messages.Add(this_message);
+                    foreach(StudentModels student in students)
+                    {
+                        if(student.student_account_Id == message.sending_id)
+                        {
+                            this_message.sender = student.lName + ", " + student.fName;
+
+                        }
+                        else if(student.student_account_Id == message.recieve_id)
+                        {
+                            this_message.recip = student.lName + ", " + student.fName;
+                        }
+                    }
+                    foreach(InstructorModel instructor in instructors)
+                    {
+                        if(instructor.instructor_account_Id == message.sending_id)
+                        {
+                            this_message.sender = instructor.lName + ", " + instructor.fName;
+                        }
+                        else if(instructor.instructor_account_Id == message.recieve_id)
+                        {
+                            this_message.recip = instructor.lName + ", " + instructor.fName;
+                        }
+                    }
+
+                    this_message.Message = message;
+                    viewModel.Add(this_message);
                 }
             }
-            return View(new_messages);
+            return View(viewModel);
         }
         public ActionResult Sent()
         {
             var messages = db.messagingModel.ToList();
             messages = messages.OrderByDescending(x => x.dateSent).ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            List<MessagingModel> new_messages = new List<MessagingModel>();
-            MessagingModel this_message;
+            List<StudentModels> students = db.studentModels.ToList();
+            List<InstructorModel> instructors = db.instructorModel.ToList();
+            List<MessagingViewModel> viewModel = new List<MessagingViewModel>();
+            MessagingViewModel this_message = new MessagingViewModel();
+
 
             foreach (MessagingModel message in messages)
             {
-                this_message = new MessagingModel();
                 if (message.sending_id == UserId)
                 {
-                    this_message = message;
-                    this_message.receiving_User = db.Users.Find(message.recieve_id);
-                    new_messages.Add(this_message);
+                    foreach (StudentModels student in students)
+                    {
+                        if (student.student_account_Id == message.sending_id)
+                        {
+                            this_message.sender = student.lName + ", " + student.fName;
+
+                        }
+                        else if (student.student_account_Id == message.recieve_id)
+                        {
+                            this_message.recip = student.lName + ", " + student.fName;
+                        }
+                    }
+                    foreach (InstructorModel instructor in instructors)
+                    {
+                        if (instructor.instructor_account_Id == message.sending_id)
+                        {
+                            this_message.sender = instructor.lName + ", " + instructor.fName;
+                        }
+                        else if (instructor.instructor_account_Id == message.recieve_id)
+                        {
+                            this_message.recip = instructor.lName + ", " + instructor.fName;
+                        }
+                    }
+
+                    this_message.Message = message;
+                    viewModel.Add(this_message);
                 }
             }
-            return View(new_messages);
+            return View(viewModel);
         }
 
         // GET: Messaging/Details/5

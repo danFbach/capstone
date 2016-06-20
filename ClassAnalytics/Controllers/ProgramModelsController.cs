@@ -16,7 +16,7 @@ namespace ClassAnalytics.Controllers
 
         public ActionResult course_index(int? id)
         {
-            return RedirectToRoute("Index/" + id, "ProgramModels");
+            return RedirectToAction("Index/" + id, "Course");
         }
         public ActionResult add_course(int? id)
         {

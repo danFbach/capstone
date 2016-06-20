@@ -14,6 +14,16 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+        public ActionResult task_Index(int? id)
+        {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index/" + id, "Task");
+
+        }
         // GET: Course
         public ActionResult Index(int? id)
         {
@@ -39,8 +49,7 @@ namespace ClassAnalytics.Controllers
             }
             else
             {
-                List<ProgCourseViewModel> viewModel = new List<ProgCourseViewModel>();
-                return View(viewModel);
+                return View(db.coursemodels.ToList());
             }  
         }
 

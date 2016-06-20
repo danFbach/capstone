@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.MessagingModel>
+﻿@model IEnumerable<ClassAnalytics.Models.MessagingViewModel>
 
 @{
     ViewBag.Title = "Sent";
@@ -45,19 +45,19 @@
             {
                 <tr>
                     <td>
-                        To: @Html.DisplayFor(modelItem => item.receiving_User.UserName)
+                        To: @Html.DisplayFor(modelItem => item.recip)
                     </td>
                     <td style="overflow:hidden;text-overflow:ellipsis;width:350px;">
-                        @Html.ActionLink(item.subject, "Details", new { id = item.message_Id })
+                        @Html.ActionLink(item.Message.subject, "Details", new { id = item.Message.message_Id })
                     </td>
                     <td style="width:50px;">
-                        @Html.DisplayFor(modelItem => item.read)
+                        @Html.DisplayFor(modelItem => item.Message.read)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.dateSent)
+                        @Html.DisplayFor(modelItem => item.Message.dateSent)
                     </td>
                     <td>
-                        @Html.ActionLink("Remove", "Delete", new { id = item.message_Id })
+                        @Html.ActionLink("Remove", "Delete", new { id = item.Message.message_Id })
                     </td>
                 </tr>
             }

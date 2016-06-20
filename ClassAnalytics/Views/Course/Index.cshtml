@@ -5,17 +5,6 @@
 }
 
 <center><h2>@ViewBag.Title</h2></center>
-@using (Html.BeginForm())
-{
-    <div class="row" style="width:100%;margin-left:10px;padding-bottom:15px;margin-top:-40px;">
-        <div class="col-xs-10" style="width:250px;margin-left:-25px;">
-            @Html.DropDownList("program_id", null, "Select a Program", htmlAttributes: new { @class = "form-control" })
-        </div>
-        <div class="col-xs-8" style="width:150px;margin-left:-10px;padding-left:0px;">
-            <input type="submit" value="Search" class="btn btn-primary-2" />
-        </div>
-    </div>
-}
 <h4 style="text-align:right;margin-top:-30px;">
     @Html.ActionLink("Create New", "Create")
 </h4>
@@ -52,6 +41,7 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
+            @Html.ActionLink("Tasks","task_Index", new { id = item.course_Id }) | 
             @Html.ActionLink("Modify", "Edit", new { id=item.course_Id }) |
             @Html.ActionLink("Remove", "Delete", new { id=item.course_Id })
         </td>
