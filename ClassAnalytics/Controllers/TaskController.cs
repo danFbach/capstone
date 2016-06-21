@@ -15,23 +15,23 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Task
-        public ActionResult Index(int? course_id)
+        public ActionResult Index(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.course_id = new SelectList(db.coursemodels, "course_Id", "courseName");
-            ViewBag.roles = new SelectList(db.Roles, "Id", "Name");
-            List<TaskModel> tasks = db.taskModel.ToList();
-            List<TaskModel> new_tasks = new List<TaskModel>();
-            if (course_id != null)
+            if (id != null)
             {
+                CourseModels course = db.coursemodels.Find(id);
+                ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
+                List<TaskModel> tasks = db.taskModel.ToList();
+                List<TaskModel> new_tasks = new List<TaskModel>();
                 foreach (TaskModel task in tasks)
                 {
                 task.TaskTypeModels = db.TaskTypeModels.Find(task.taskType_Id);
                 task.CourseModels = db.coursemodels.Find(task.course_Id);
-                    if (task.course_Id == course_id)
+                    if (task.course_Id == id)
                     {
                         new_tasks.Add(task);
                     }
@@ -40,7 +40,7 @@ namespace ClassAnalytics.Controllers
             }
             else
             {
-                return View(db.taskModel.ToList());
+                return View("Index","ProgramModels");
             }
         }
 
@@ -64,16 +64,28 @@ namespace ClassAnalytics.Controllers
         }
 
         // GET: Task/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
-            ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
-
-            return View();
+            if(id != null)
+            {
+                TaskModel task = new TaskModel();
+                int course_id = Convert.ToInt32(id);
+                task.course_Id = course_id;
+                CourseModels course = db.coursemodels.Find(id);
+                ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
+                ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
+                task.CourseModels = new CourseModels();
+                task.CourseModels = db.coursemodels.Find(course_id);
+                return View(task);
+            }
+            else
+            {
+                return RedirectToAction("Index","ProgramModels");
+            }
         }
 
         // POST: Task/Create
@@ -87,6 +99,7 @@ namespace ClassAnalytics.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            CourseModels course = db.coursemodels.Find(viewModel.course_Id);
             TaskModel taskModel = new TaskModel();
             if (ModelState.IsValid)
             {
@@ -100,13 +113,12 @@ namespace ClassAnalytics.Controllers
                 taskModel.endDate = viewModel.endDate;
                 taskModel.course_Id = course_id;
                 taskModel.taskNotes = viewModel.taskNotes;
-
                 db.taskModel.Add(taskModel);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
+                return RedirectToAction("Index/" + course.program_Id, "Course");
+            }
+            ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
             return View(viewModel);
         }
@@ -127,7 +139,9 @@ namespace ClassAnalytics.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
+            CourseModels course = db.coursemodels.Find(taskModel.course_Id);
+            taskModel.CourseModels = course;
+            ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
             return View(taskModel);
         }

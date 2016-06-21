@@ -6,7 +6,7 @@
 
 <center><h2>@ViewBag.Title</h2></center>
 <h4 style="text-align:right;margin-top:-30px;">
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Return to Programs", "Index", "ProgramModels")
 </h4>
 
 <table class="table">
@@ -41,7 +41,8 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
-            @Html.ActionLink("Tasks","task_Index", new { id = item.course_Id }) | 
+            @Html.ActionLink("View Tasks", "task_Index", new { id=item.course_Id }) | 
+            @Html.ActionLink("New Task","new_Task",new { id=item.course_Id}) | 
             @Html.ActionLink("Modify", "Edit", new { id=item.course_Id }) |
             @Html.ActionLink("Remove", "Delete", new { id=item.course_Id })
         </td>

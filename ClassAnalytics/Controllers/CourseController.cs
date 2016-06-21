@@ -14,6 +14,14 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult new_Task(int? id)
+        {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Create/" + id, "Task");
+        }
 
         public ActionResult task_Index(int? id)
         {
@@ -37,6 +45,7 @@ namespace ClassAnalytics.Controllers
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if(id != null)
             {
+                ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
                 foreach (CourseModels course in courses)
                 {
                     if (course.program_Id == id)
@@ -44,12 +53,13 @@ namespace ClassAnalytics.Controllers
                         course.ProgramModels = program;
                         new_courses.Add(course);
                     }
-                }              
+                }
+                ViewBag.prog_id = id;
                 return View(new_courses);
             }
             else
             {
-                return View(db.coursemodels.ToList());
+                return RedirectToAction("Index","ProgramModels");
             }  
         }
 
@@ -60,7 +70,12 @@ namespace ClassAnalytics.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            if(id == null)
+            {
+                return RedirectToAction("Index");
+            }
             ProgramModels program = db.programModels.Find(id);
+            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
             CourseModels course = new CourseModels();
             course.ProgramModels = program;
             course.program_Id = program.program_Id;
@@ -87,12 +102,8 @@ namespace ClassAnalytics.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index/" + id);
             }
-            var programs = db.programModels.ToList();
-            List<SelectListItem> program_list = new List<SelectListItem>();
-            foreach (ProgramModels program in programs)
-            {
-                program_list.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
-            }
+            ProgramModels program = db.programModels.Find(course.program_Id);
+            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
             return View(course);
         }
 
@@ -109,7 +120,6 @@ namespace ClassAnalytics.Controllers
             }
             CourseModels courseModels = db.coursemodels.Find(id);
             courseModels.ProgramModels = db.programModels.Find(courseModels.program_Id);
-            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if (courseModels == null)
             {
                 return HttpNotFound();

@@ -10,6 +10,7 @@
     
     <div class="form-horizontal">
         <h4>Create new Course</h4>
+        <h5>@ViewBag.program</h5>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(m => m.program_Id)

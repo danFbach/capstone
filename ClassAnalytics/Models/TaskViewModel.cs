@@ -36,6 +36,5 @@ namespace ClassAnalytics.Models
         public string taskNotes { get; set; }
 
         public List<SelectListItem> taskTypes { get; set; }
-        public List<SelectListItem> Unit_List { get; set; }
     }
 }

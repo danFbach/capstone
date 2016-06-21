@@ -5,7 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
+<h5>@ViewBag.program</h5>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.program_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("program_id",null, "Select a Program: ", new { @class = "form-control" })
+                @Html.DisplayFor(m => m.ProgramModels.programName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProgramModels, "", new { @class = "text-danger" })
             </div>
         </div>
