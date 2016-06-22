@@ -24,12 +24,12 @@ namespace ClassAnalytics.Controllers
             List<StudentModels> students = db.studentModels.ToList();
             List<InstructorModel> instructors = db.instructorModel.ToList();
             List<MessagingViewModel> viewModel = new List<MessagingViewModel>();
-            MessagingViewModel this_message = new MessagingViewModel();
 
 
             foreach (MessagingModel message in messages)
             {
-                if(message.recieve_id == UserId)
+                MessagingViewModel this_message = new MessagingViewModel();
+                if (message.recieve_id == UserId)
                 {
                     foreach(StudentModels student in students)
                     {
@@ -69,11 +69,10 @@ namespace ClassAnalytics.Controllers
             List<StudentModels> students = db.studentModels.ToList();
             List<InstructorModel> instructors = db.instructorModel.ToList();
             List<MessagingViewModel> viewModel = new List<MessagingViewModel>();
-            MessagingViewModel this_message = new MessagingViewModel();
-
 
             foreach (MessagingModel message in messages)
             {
+                MessagingViewModel this_message = new MessagingViewModel();
                 if (message.sending_id == UserId)
                 {
                     foreach (StudentModels student in students)

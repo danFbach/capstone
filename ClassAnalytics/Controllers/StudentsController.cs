@@ -129,14 +129,12 @@ namespace ClassAnalytics.Controllers
 
             if (ModelState.IsValid)
             {
-                foreach(ClassModel a_class in classList)
-                {
-                    if(viewModel.class_Id == a_class.class_Id)
-                    {
-                        student.ClassModel = a_class;
-                        student.ClassModel.ProgramModels = db.programModels.Find(student.ClassModel.program_id);
-                    }
-                }
+                student.ClassModel = db.classmodel.Find(viewModel.class_Id);
+                student.ClassModel.ProgramModels = db.programModels.Find(student.ClassModel.program_id);
+                
+                
+
+
                 IdentityUserRole role = new IdentityUserRole();
                 model.Email = viewModel.newEmail;
                 model.Password = "R3$et_this";
@@ -166,6 +164,23 @@ namespace ClassAnalytics.Controllers
                     message.dateSent = DateTime.Now;
                     db.messagingModel.Add(message);
                     db.studentModels.Add(student);
+
+                    List<TaskModel> tasks = db.taskModel.ToList();
+                    foreach (TaskModel task in tasks)
+                    {
+                        task.CourseModels = db.coursemodels.Find(task.course_Id);
+                        GradeBookModel grade = new GradeBookModel();
+                        if (task.CourseModels.program_Id == student.ClassModel.program_id)
+                        {
+                            grade.class_Id = student.class_Id;
+                            grade.pointsEarned = null;
+                            grade.possiblePoints = task.points;
+                            grade.student_Id = student.student_Id;
+                            grade.task_Id = task.task_Id;
+                            db.gradeBookModel.Add(grade);
+                        }
+                    }
+
                     db.SaveChanges();
                 
                     return RedirectToAction("Index");

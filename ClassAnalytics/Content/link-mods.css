@@ -8,6 +8,6 @@ a.navbar_links:focus {
     text-decoration: underline;
 }
 a.navbar_links:focus {
-    color:#FFF;
+    color:#ccc;
     outline: none;
 }

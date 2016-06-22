@@ -15,6 +15,17 @@ namespace ClassAnalytics.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: Class
+        public ActionResult classGrades(int? id)
+        {
+            if(id != null)
+            {
+                return RedirectToAction("Index/" + id, "GradeBook");
+            }
+            else
+            {
+                return View("Index");
+            }
+        }
         public ActionResult Index(int? program_id)
         {
             if (!this.User.IsInRole("Admin"))

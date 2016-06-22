@@ -30,7 +30,7 @@
             @Html.DisplayNameFor(model => model.lName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ClassModel)
+            @Html.DisplayName("Class")
         </th>
         <th></th>
     </tr>
@@ -57,7 +57,7 @@
 
 </table>
 
-@using (Html.BeginForm("ClassHome", "Class"))
+@using (Html.BeginForm("Index", "Class"))
 {
     @Html.AntiForgeryToken()
     <center>

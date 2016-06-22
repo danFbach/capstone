@@ -80,7 +80,7 @@ namespace ClassAnalytics.Controllers
             return View(this_grade);
         }
 
-        public ActionResult AdminCharts(int? class_id, int? task_id)
+        public ActionResult AdminCharts(GradebookViewModel viewModel)
         {
             if (!this.User.IsInRole("Admin"))
             {
@@ -88,36 +88,54 @@ namespace ClassAnalytics.Controllers
             }
             else
             {
-                var grades = db.gradeBookModel.ToList();
-                List<GradeBookModel> grade_list = new List<GradeBookModel>();
-                ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
-                ViewBag.task_id = new SelectList(db.taskModel, "task_Id", "taskName");
+                List<GradeBookModel> this_grades = db.gradeBookModel.ToList();
+                viewModel.classList = new List<SelectListItem>();
+                viewModel.taskList = new List<SelectListItem>();
+                viewModel.grades = new List<GradeBookModel>();
 
-                foreach (GradeBookModel grade in grades)
+                foreach (ClassModel a_class in db.classmodel.ToList())
+                {
+                    viewModel.classList.Add(new SelectListItem() { Text = a_class.className, Value = a_class.class_Id.ToString() });
+                }
+
+                foreach (GradeBookModel grade in this_grades)
                 {
                     grade.TaskModel = db.taskModel.Find(grade.task_Id);
-                    if (class_id == null)
+                    if (viewModel.class_id == null)
                     {
-                        return View(grade_list);
+                        return View(viewModel);
                     }
-                    else if (grade.class_Id == class_id)
+                    else if (grade.class_Id == viewModel.class_id)
                     {
-                        if (task_id == null)
+                        if (viewModel.task_id == null)
                         {
-                            grade_list = classAverage(class_id);
-                            grade_list = grade_list.OrderBy(x => x.grade).ToList();
-                            return View(grade_list);
+                            viewModel.grades = classAverage(viewModel.class_id);
+                            viewModel.grades = viewModel.grades.OrderBy(x => x.grade).ToList();
                         }
-                        else if (grade.task_Id == task_id)
+                        else if (grade.task_Id == viewModel.task_id)
                         {
                             grade.StudentModels = db.studentModels.Find(grade.student_Id);
                             grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
-                            grade_list.Add(grade);
+                            viewModel.grades.Add(grade);
                         }
                     }
                 }
-                grade_list = grade_list.OrderBy(x => x.grade).ToList();
-                return View(grade_list);
+                viewModel.grades = viewModel.grades.OrderBy(x => x.grade).ToList();
+                if (viewModel.class_id != null)
+                {
+                    ClassModel this_class = db.classmodel.Find(viewModel.class_id);
+                    List<TaskModel> tasks = db.taskModel.ToList();
+                    foreach (TaskModel task in tasks)
+                    {
+                        task.CourseModels = db.coursemodels.Find(task.course_Id);
+                        if (task.CourseModels.program_Id == this_class.program_id)
+                        {
+                            viewModel.taskList.Add(new SelectListItem() { Text = task.taskName, Value = task.task_Id.ToString() });
+                        }
+                    }
+                }
+
+                return View(viewModel);
             }
         }
         public List<GradeBookModel> classAverage(int? class_id)
@@ -145,7 +163,7 @@ namespace ClassAnalytics.Controllers
                             earned += one_Grade.pointsEarned;
                         }
                     }
-                    if(possible != 0)
+                    if (possible != 0)
                     {
                         grade.StudentModels = db.studentModels.Find(grade.student_Id);
                         grade.pointsEarned = earned;

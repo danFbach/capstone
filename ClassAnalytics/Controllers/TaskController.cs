@@ -114,9 +114,25 @@ namespace ClassAnalytics.Controllers
                 taskModel.course_Id = course_id;
                 taskModel.taskNotes = viewModel.taskNotes;
                 db.taskModel.Add(taskModel);
+                List<StudentModels> students = db.studentModels.ToList();
+                foreach(StudentModels student in students)
+                {
+                    GradeBookModel grade = new GradeBookModel();
+                    student.ClassModel = db.classmodel.Find(student.class_Id);
+                    viewModel.CourseModels = db.coursemodels.Find(viewModel.course_Id);
+                    if(student.ClassModel.program_id == viewModel.CourseModels.program_Id)
+                    {
+                        grade.class_Id = student.class_Id;
+                        grade.pointsEarned = null;
+                        grade.possiblePoints = viewModel.points;
+                        grade.student_Id = student.student_Id;
+                        grade.task_Id = taskModel.task_Id;
+                        db.gradeBookModel.Add(grade);
+                    }
+                }
                 db.SaveChanges();
 
-                return RedirectToAction("Index/" + course.program_Id, "Course");
+                return RedirectToAction("Index/" + viewModel.course_Id, "Task");
             }
             ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");

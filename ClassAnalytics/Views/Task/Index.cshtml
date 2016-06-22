@@ -27,10 +27,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.endDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.taskNotes)
-        </th>
+        </th>   
         <th></th>
     </tr>
 
@@ -50,9 +47,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.endDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.taskNotes)
         </td>
         <td>
             @Html.ActionLink("Modify", "Edit", new { id=item.task_Id }) |

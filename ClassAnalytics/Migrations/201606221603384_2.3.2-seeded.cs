@@ -3,7 +3,7 @@ namespace ClassAnalytics.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _23seeded : DbMigration
+    public partial class _232seeded : DbMigration
     {
         public override void Up()
         {
@@ -41,7 +41,7 @@ namespace ClassAnalytics.Migrations
                         program_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.course_Id)
-                .ForeignKey("dbo.ProgramModels", t => t.program_Id, cascadeDelete: false)
+                .ForeignKey("dbo.ProgramModels", t => t.program_Id, cascadeDelete: true)
                 .Index(t => t.program_Id);
             
             CreateTable(
@@ -76,7 +76,7 @@ namespace ClassAnalytics.Migrations
                         student_account_Id = c.String(),
                     })
                 .PrimaryKey(t => t.student_Id)
-                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: false)
+                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: true)
                 .Index(t => t.class_Id);
             
             CreateTable(
@@ -93,7 +93,7 @@ namespace ClassAnalytics.Migrations
                         taskNotes = c.String(),
                     })
                 .PrimaryKey(t => t.task_Id)
-                .ForeignKey("dbo.CourseModels", t => t.course_Id, cascadeDelete: false)
+                .ForeignKey("dbo.CourseModels", t => t.course_Id, cascadeDelete: true)
                 .ForeignKey("dbo.TaskTypeModels", t => t.taskType_Id, cascadeDelete: false)
                 .Index(t => t.taskType_Id)
                 .Index(t => t.course_Id);
@@ -127,7 +127,7 @@ namespace ClassAnalytics.Migrations
                         sending_id = c.String(),
                         recieve_id = c.String(),
                         message = c.String(),
-                        subject = c.String(),
+                        subject = c.String(nullable: false),
                         read = c.Boolean(nullable: false),
                         dateSent = c.DateTime(nullable: false),
                         receiving_User_Id = c.String(maxLength: 128),
