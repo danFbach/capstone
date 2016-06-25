@@ -197,12 +197,18 @@
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
+    <Compile Include="Migrations\201606250551171_upload test.cs" />
+    <Compile Include="Migrations\201606250551171_upload test.Designer.cs">
+      <DependentUpon>201606250551171_upload test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\assignmentFileModel.cs" />
+    <Compile Include="Models\UploadViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606221603384_2.3.2-seeded.cs" />
-    <Compile Include="Migrations\201606221603384_2.3.2-seeded.Designer.cs">
-      <DependentUpon>201606221603384_2.3.2-seeded.cs</DependentUpon>
+    <Compile Include="Migrations\201606231730375_2.3.5.cs" />
+    <Compile Include="Migrations\201606231730375_2.3.5.Designer.cs">
+      <DependentUpon>201606231730375_2.3.5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -216,6 +222,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MessagingModel.cs" />
     <Compile Include="Models\MessagingViewModel.cs" />
+    <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Models\ProgClassViewModel.cs" />
     <Compile Include="Models\ProgCourseViewModel.cs" />
     <Compile Include="Models\ProgramModels.cs" />
@@ -227,7 +234,6 @@
     <Compile Include="Models\SurveyModel.cs" />
     <Compile Include="Models\SurveyQAViewModel.cs" />
     <Compile Include="Models\SurveyQuestion.cs" />
-    <Compile Include="Models\SurveyStudentModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TaskTypeModels.cs" />
     <Compile Include="Models\TaskViewModel.cs" />
@@ -243,6 +249,7 @@
     <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\chalkboard.jpg" />
     <Content Include="Content\create_thumb.jpg" />
     <Content Include="Content\mathteacher-student-whiteboard.jpg" />
     <Content Include="Scripts\bootstrap-hover-dropdown.js" />
@@ -445,9 +452,11 @@
     <Content Include="Views\Messaging\Messages.cshtml" />
     <Content Include="Views\Messaging\Inbox.cshtml" />
     <Content Include="Views\Messaging\Sent.cshtml" />
+    <Content Include="Views\Class\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assignments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -458,8 +467,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606221603384_2.3.2-seeded.resx">
-      <DependentUpon>201606221603384_2.3.2-seeded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606231730375_2.3.5.resx">
+      <DependentUpon>201606231730375_2.3.5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606250551171_upload test.resx">
+      <DependentUpon>201606250551171_upload test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

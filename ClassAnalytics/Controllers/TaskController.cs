@@ -136,7 +136,7 @@ namespace ClassAnalytics.Controllers
             }
             ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
-            return View(viewModel);
+            return RedirectToAction("Index","ProgramModels");
         }
 
         // GET: Task/Edit/5
@@ -211,9 +211,10 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Home");
             }
             TaskModel taskModel = db.taskModel.Find(id);
+            int task_id = taskModel.course_Id;
             db.taskModel.Remove(taskModel);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index/" + task_id);
         }
 
         protected override void Dispose(bool disposing)

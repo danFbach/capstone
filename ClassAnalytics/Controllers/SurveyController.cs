@@ -77,7 +77,7 @@ namespace ClassAnalytics.Controllers
         }
         public bool new_answer_form(int question_id, int student_id)
         {
-            var answers = db.surveyAnswers.ToList();
+            List<SurveyAnswers> answers = db.surveyAnswers.ToList();
 
             foreach (SurveyAnswers answer in answers)
             {
@@ -105,6 +105,7 @@ namespace ClassAnalytics.Controllers
             bool new_form = true;
             List<StudentModels> students = db.studentModels.ToList();
             List<SurveyQuestion> questions = db.surveyQuestion.ToList();
+            List<SurveyJoinTableModel> tables = db.surveyJoinTableModel.ToList();
 
             a_survey.SurveyModel = db.surveyModel.Find(id);
             a_survey.survey_Id = a_survey.SurveyModel.survey_Id;
@@ -142,6 +143,16 @@ namespace ClassAnalytics.Controllers
                     if(new_form == true)
                     {
                         SurveyAnswers new_answer = new SurveyAnswers();
+                        foreach(SurveyJoinTableModel table in tables)
+                        {
+                            if (table.survey_Id == db.surveyQuestion.Find(question.question_Id).survey_Id)
+                            {
+                                if(table.class_Id == current_student.class_Id)
+                                {
+                                    new_answer.survey_join_id = table.survey_join_Id;
+                                }
+                            }
+                        }                        
                         new_answer.answer = false;
                         new_answer.question_Id = question.question_Id;
                         new_answer.student_Id = current_student.student_Id;
@@ -153,7 +164,7 @@ namespace ClassAnalytics.Controllers
             }
             return View(a_survey);
         }
-       
+               
         [HttpPost]
         public ActionResult fill_out_survey(SurveyQAViewModel qa)
         {
@@ -335,6 +346,7 @@ namespace ClassAnalytics.Controllers
                                 SurveyAnswers answer = new SurveyAnswers();
                                 answer.question_Id = question.question_Id;
                                 answer.student_Id = student.student_Id;
+                                answer.survey_join_id = survey.survey_join_Id;
                                 db.surveyAnswers.Add(answer);
                             }
                         }
@@ -519,32 +531,13 @@ namespace ClassAnalytics.Controllers
         // POST: Survey/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id) //id is survey_join_id
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
             SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
-            List<SurveyAnswers> answers = db.surveyAnswers.ToList();
-            List<SurveyQuestion> questions = db.surveyQuestion.ToList();
-            foreach(SurveyAnswers answer in answers)
-            {
-                answer.StudentModels = db.studentModels.Find(answer.student_Id);
-                foreach(SurveyQuestion question in questions)
-                {
-                    if(question.survey_Id == surveyModel.survey_Id)
-                    {
-                        if (answer.StudentModels.class_Id == surveyModel.class_Id)
-                        {
-                            if (answer.question_Id == question.question_Id)
-                            {
-                                db.surveyAnswers.Remove(answer);
-                            }
-                        }
-                    }
-                }
-            }
             db.surveyJoinTableModel.Remove(surveyModel);
             db.SaveChanges();
             return RedirectToAction("Index");

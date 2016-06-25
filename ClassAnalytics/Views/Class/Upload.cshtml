@@ -1,0 +1,39 @@
+﻿@model ClassAnalytics.Models.UploadModel
+@{
+    ViewBag.Title = "File Upload";
+}
+@using (Html.BeginForm("Upload", "Class", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3>@ViewBag.Title</h3>
+        <h4 class="text-warning">@ViewBag.StatusMessage</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.class_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.uploadName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uploadName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uploadName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.class_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="padding-top:5px;">
+                @Html.ValueFor(model => model.classModel.className)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <input class="form-control" type="file" name="file" id="file" />
+            </div>
+            <div class="col-sm-2">
+                <input class="form-control" type="submit" value="Upload" />
+            </div>
+        </div>
+    </div>
+}
+

@@ -38,10 +38,10 @@ namespace ClassAnalytics.Models
         public DbSet<SurveyJoinTableModel> surveyJoinTableModel { get; set; }
         public DbSet<SurveyModel> surveyModel { get; set; }
         public DbSet<SurveyQuestion> surveyQuestion { get; set; }
-        public DbSet<SurveyStudentModel> surveyStudentModel { get; set; }
         public DbSet<TaskModel> taskModel { get; set; }
         public DbSet<InstructorModel> instructorModel { get; set; }
         public DbSet<MessagingModel> messagingModel { get; set; }
+        public DbSet<UploadModel> uploadModel { get; set; }
         public System.Data.Entity.DbSet<ClassAnalytics.Models.TaskTypeModels> TaskTypeModels { get; set; }
         
     }

@@ -39,6 +39,9 @@
             @Html.DisplayFor(modelItem => item.ProgramModels.programName)
         </td>
         <td>
+            @Html.ActionLink("Upload","Upload", new { id=item.class_Id}) | 
+            @Html.ActionLink("New Student","addStudent", new { id=item.class_Id }) | 
+            @Html.ActionLink("View Students", "studentIndex", new { id=item.class_Id}) | 
             @Html.ActionLink("View Grades","classGrades", new { id=item.class_Id }) | 
             @Html.ActionLink("Update Class", "Edit", new { id=item.class_Id }) |
             @Html.ActionLink("Remove Class", "Delete", new { id=item.class_Id })

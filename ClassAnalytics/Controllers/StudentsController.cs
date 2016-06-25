@@ -54,59 +54,51 @@ namespace ClassAnalytics.Controllers
             }
         }
         // GET: Students
-        public ActionResult Index(int? class_id)
+        public ActionResult Index(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
-            if (class_id != null)
+            if (id != null)
             {
+                ViewBag.this_class = db.classmodel.Find(id).className;
                 List<StudentModels> students = db.studentModels.ToList();
-                List<ClassStudentViewModel> viewModel = new List<ClassStudentViewModel>();
+                List<StudentModels> studentModels = new List<StudentModels>();
 
                 foreach (StudentModels student in students)
                 {
-                    if (student.class_Id == class_id)
+                    if (student.class_Id == id)
                     {
-                        viewModel.Add(new ClassStudentViewModel() { student_Id = student.student_Id, fName = student.fName, lName = student.lName, ClassModel = db.classmodel.Find(student.class_Id) });
+                        studentModels.Add(student);
                     }
                 }
+                return View(studentModels);
+            }
+            else
+            {
+                return RedirectToAction("Index","Class");
+            }            
+        }
+        // GET: Students/Create
+        public ActionResult Create(int? id)
+        {
+            if (!this.User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (id != null)
+            {
+                ClassStudentViewModel viewModel = new ClassStudentViewModel();
+                viewModel.class_Id = Convert.ToInt32(id);
+                viewModel.ClassModel = db.classmodel.Find(id);
+                ViewBag.StatusMessage = "";
                 return View(viewModel);
             }
             else
             {
-                List<ClassStudentViewModel> viewModel = new List<ClassStudentViewModel>();
-                return View(viewModel);
-            }            
-        }
-        // GET: Students/Create
-        public ActionResult Create()
-        {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            ClassStudentViewModel viewModel = new ClassStudentViewModel();
-            List<ClassModel> classes = db.classmodel.ToList();
-            List<ProgramModels> programs = db.programModels.ToList();
-            List<SelectListItem> a_classList = new List<SelectListItem>();
-            List<SelectListItem> a_programList = new List<SelectListItem>();
-
-            foreach (ClassModel a_class in classes)
-            {
-                a_classList.Add(new SelectListItem() { Text = a_class.className, Value = a_class.class_Id.ToString() });
-            }
-            foreach(ProgramModels program in programs)
-            {
-                a_programList.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
-            }
-            viewModel.classList = a_classList;
-            viewModel.programList = a_programList;
-
-            ViewBag.StatusMessage = "";
-            return View(viewModel);
+                return RedirectToAction("Index", "Class");
+            } 
         }
 
         // POST: Students/Create
@@ -119,52 +111,29 @@ namespace ClassAnalytics.Controllers
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
-            }
-            RegisterViewModel model = new RegisterViewModel();            
-            StudentModels student = new StudentModels();
-            List<ClassModel> classList = db.classmodel.ToList();
-            List<ProgramModels> programList = db.programModels.ToList();
-            List<SelectListItem> a_classList = new List<SelectListItem>();
-            List<SelectListItem> a_programList = new List<SelectListItem>();
-
+            }            
             if (ModelState.IsValid)
             {
+                StudentModels student = new StudentModels();
                 student.ClassModel = db.classmodel.Find(viewModel.class_Id);
                 student.ClassModel.ProgramModels = db.programModels.Find(student.ClassModel.program_id);
-                
-                
-
-
-                IdentityUserRole role = new IdentityUserRole();
-                model.Email = viewModel.newEmail;
-                model.Password = "R3$et_this";
-                model.ConfirmPassword = "R3$et_this";
-                model.ConfirmPassword = model.Password;
                 student.student_Id = viewModel.student_Id;
                 student.fName = viewModel.fName;
                 student.lName = viewModel.lName;
+                RegisterViewModel newUser = new RegisterViewModel();
+                newUser.Email = viewModel.newEmail;
+                newUser.Password = "R3$et_this";
+                newUser.ConfirmPassword = "R3$et_this";
+                newUser.ConfirmPassword = newUser.Password;
                 string username = makeUserName(student.fName,student.lName,0);
-                var user = new ApplicationUser { UserName = username, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser { UserName = username, Email = newUser.Email };
+                var result = await UserManager.CreateAsync(user, newUser.Password);
                 if (result.Succeeded)
                 {
-                    role.UserId = user.Id;
-                    role.RoleId = "New Student";
-                    ViewBag.StatusMessage = "";
-                    UserManager.AddToRole(role.UserId, role.RoleId);
                     student.student_account_Id = user.Id;
-    #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    studentConfirmationEmail(user.Email, model.Password, student.fName, student.lName, user.UserName);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    MessagingModel message = new MessagingModel();
-                    message.subject = "Welcome to Edulytics " + student.fName + "!";
-                    message.message = "Welcome " + student.fName + "! This is your direct message section which allows you to privately message anyone in your school with just the click of a mouse. You're in the \"" + student.ClassModel.className + "\" class which is part of the " + student.ClassModel.ProgramModels.programName + " program. Have a great start to this new program and once again welcome from all of us here at Edulytics.";
-                    message.recieve_id = user.Id;
-                    message.sending_id = this.User.Identity.GetUserId();
-                    message.dateSent = DateTime.Now;
-                    db.messagingModel.Add(message);
-                    db.studentModels.Add(student);
-
+                    addRole(user);
+                    studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName);
+                    welcomeMessage(student, user);
                     List<TaskModel> tasks = db.taskModel.ToList();
                     foreach (TaskModel task in tasks)
                     {
@@ -180,25 +149,33 @@ namespace ClassAnalytics.Controllers
                             db.gradeBookModel.Add(grade);
                         }
                     }
-
-                    db.SaveChanges();
-                
-                    return RedirectToAction("Index");
+                    db.SaveChanges();                
+                    return RedirectToAction("Index", "Class");
                 }
+                viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
+                ViewBag.StatusMessage = "Email is already in use or Invalid.";
+                return View(viewModel);
             }
-
-            foreach (ClassModel a_class in classList)
-            {
-                a_classList.Add(new SelectListItem() { Text = a_class.className, Value = a_class.class_Id.ToString() });
-            }
-            foreach (ProgramModels program in programList)
-            {
-                a_programList.Add(new SelectListItem() { Text = program.programName, Value = program.program_Id.ToString() });
-            }
-            viewModel.classList = a_classList;
-            viewModel.programList = a_programList;
-            ViewBag.StatusMessage = "Email is already in use or Invalid.";
+            viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
             return View(viewModel);
+        }
+        public void addRole(ApplicationUser user)
+        {
+            IdentityUserRole role = new IdentityUserRole();
+            role.UserId = user.Id;
+            role.RoleId = "New Student";
+            UserManager.AddToRole(role.UserId, role.RoleId);
+        }
+        public void welcomeMessage(StudentModels student, ApplicationUser user)
+        {
+            MessagingModel message = new MessagingModel();
+            message.subject = "Welcome to Edulytics " + student.fName + "!";
+            message.message = "Welcome " + student.fName + "! This is your direct message section which allows you to privately message anyone in your school with just the click of a mouse. You're in the \"" + student.ClassModel.className + "\" class which is part of the " + student.ClassModel.ProgramModels.programName + " program. Have a great start to this new program and once again welcome from all of us here at Edulytics.";
+            message.recieve_id = user.Id;
+            message.sending_id = this.User.Identity.GetUserId();
+            message.dateSent = DateTime.Now;
+            db.messagingModel.Add(message);
+            db.studentModels.Add(student);
         }
 
         public string makeUserName(string firstName, string lastName, int count)

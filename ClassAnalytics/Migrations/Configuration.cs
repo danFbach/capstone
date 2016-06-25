@@ -68,7 +68,7 @@ namespace ClassAnalytics.Migrations
             //    new SurveyJoinTableModel { class_Id = 1, survey_Id = 1, active = false },
             //    new SurveyJoinTableModel { class_Id = 1, survey_Id = 2, active = false },
             //    new SurveyJoinTableModel { class_Id = 2, survey_Id = 1, active = false },
-            //    new SurveyJoinTableModel { class_Id = 2, survey_Id = 2, active = false },
+            //    new SurveyJoinTableModel { class_Id = 2, survey_Id = 2, active = false }
             //    );
         }
     }

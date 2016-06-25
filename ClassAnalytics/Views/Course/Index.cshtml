@@ -5,6 +5,7 @@
 }
 
 <center><h2>@ViewBag.Title</h2></center>
+<center><h5>@ViewBag.program</h5></center>
 <h4 style="text-align:right;margin-top:-30px;">
     @Html.ActionLink("Return to Programs", "Index", "ProgramModels")
 </h4>
@@ -13,9 +14,6 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.courseName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.program_Id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.startDate)
@@ -32,17 +30,14 @@
             @Html.DisplayFor(modelItem => item.courseName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProgramModels.programName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.startDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
-        <td>
-            @Html.ActionLink("View Tasks", "task_Index", new { id=item.course_Id }) | 
+        <td> 
             @Html.ActionLink("New Task","new_Task",new { id=item.course_Id}) | 
+            @Html.ActionLink("View Tasks", "task_Index", new { id = item.course_Id }) |
             @Html.ActionLink("Modify", "Edit", new { id=item.course_Id }) |
             @Html.ActionLink("Remove", "Delete", new { id=item.course_Id })
         </td>

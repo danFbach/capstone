@@ -1,7 +1,7 @@
 ﻿@model ClassAnalytics.Models.SurveyQAViewModel
 
 @{
-    ViewBag.Title = "fill_out_survey";
+    ViewBag.Title = "Complete survey";
     string student_name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
 }
 @Html.HiddenFor(m => m.StudentModels)

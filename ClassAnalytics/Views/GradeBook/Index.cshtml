@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.GradeBookModel>
+﻿@model ClassAnalytics.Models.GradebookViewModel
 
 @{
     ViewBag.Title = "Grades";
@@ -11,7 +11,7 @@
             @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-10" style="width:250px;margin-left:-10px;padding-left:0px;border-left:none;">
-            @Html.DropDownList("task_id", null, "Select a Task", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.task_id, Model.taskList, "Select a Task", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-8" style="width:150px;margin-left:-10px;padding-left:0px;">
             <input type="submit" value="Search" class="btn btn-primary-2" />
@@ -31,18 +31,18 @@
             @Html.DisplayName("Task")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskModel.points)
+            @Html.DisplayName("Possible Points")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.pointsEarned)
+            @Html.DisplayName("Points Earned")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.grade) - %
+            @Html.DisplayName("Grade") - %
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.grades)
     {
         string unit = "Course: " + item.TaskModel.CourseModels.courseName + " | Name: " + item.TaskModel.taskName;
         string name = item.StudentModels.fName + " " + item.StudentModels.lName;

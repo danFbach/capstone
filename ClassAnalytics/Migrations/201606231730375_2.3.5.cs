@@ -3,7 +3,7 @@ namespace ClassAnalytics.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _232seeded : DbMigration
+    public partial class _235 : DbMigration
     {
         public override void Up()
         {
@@ -60,7 +60,7 @@ namespace ClassAnalytics.Migrations
                 .PrimaryKey(t => t.grade_Id)
                 .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: false)
                 .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
-                .ForeignKey("dbo.TaskModels", t => t.task_Id, cascadeDelete: false)
+                .ForeignKey("dbo.TaskModels", t => t.task_Id, cascadeDelete: true)
                 .Index(t => t.student_Id)
                 .Index(t => t.task_Id)
                 .Index(t => t.class_Id);
@@ -215,36 +215,15 @@ namespace ClassAnalytics.Migrations
                         student_Id = c.Int(nullable: false),
                         answer = c.Boolean(nullable: false),
                         question_Id = c.Int(nullable: false),
+                        survey_join_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.answer_Id)
-                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
-                .ForeignKey("dbo.SurveyQuestions", t => t.question_Id, cascadeDelete: true)
+                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: false)
+                .ForeignKey("dbo.SurveyJoinTableModels", t => t.survey_join_id, cascadeDelete: true)
+                .ForeignKey("dbo.SurveyQuestions", t => t.question_Id, cascadeDelete: false )
                 .Index(t => t.student_Id)
-                .Index(t => t.question_Id);
-            
-            CreateTable(
-                "dbo.SurveyQuestions",
-                c => new
-                    {
-                        question_Id = c.Int(nullable: false, identity: true),
-                        question = c.String(),
-                        survey_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.question_Id)
-                .ForeignKey("dbo.SurveyModels", t => t.survey_Id, cascadeDelete: true)
-                .Index(t => t.survey_Id);
-            
-            CreateTable(
-                "dbo.SurveyModels",
-                c => new
-                    {
-                        survey_Id = c.Int(nullable: false, identity: true),
-                        SurveyName = c.String(),
-                        course_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.survey_Id)
-                .ForeignKey("dbo.CourseModels", t => t.course_Id)
-                .Index(t => t.course_Id);
+                .Index(t => t.question_Id)
+                .Index(t => t.survey_join_id);
             
             CreateTable(
                 "dbo.SurveyJoinTableModels",
@@ -262,31 +241,39 @@ namespace ClassAnalytics.Migrations
                 .Index(t => t.survey_Id);
             
             CreateTable(
-                "dbo.SurveyStudentModels",
+                "dbo.SurveyModels",
                 c => new
                     {
-                        answer_Id = c.Int(nullable: false, identity: true),
-                        survey_Id = c.Int(nullable: false),
-                        answer = c.Boolean(nullable: false),
-                        student_Id = c.Int(nullable: false),
+                        survey_Id = c.Int(nullable: false, identity: true),
+                        SurveyName = c.String(),
+                        course_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.answer_Id)
-                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
+                .PrimaryKey(t => t.survey_Id)
+                .ForeignKey("dbo.CourseModels", t => t.course_Id)
+                .Index(t => t.course_Id);
+            
+            CreateTable(
+                "dbo.SurveyQuestions",
+                c => new
+                    {
+                        question_Id = c.Int(nullable: false, identity: true),
+                        question = c.String(),
+                        survey_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.question_Id)
                 .ForeignKey("dbo.SurveyModels", t => t.survey_Id, cascadeDelete: true)
-                .Index(t => t.survey_Id)
-                .Index(t => t.student_Id);
+                .Index(t => t.survey_Id);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.SurveyStudentModels", "survey_Id", "dbo.SurveyModels");
-            DropForeignKey("dbo.SurveyStudentModels", "student_Id", "dbo.StudentModels");
-            DropForeignKey("dbo.SurveyJoinTableModels", "survey_Id", "dbo.SurveyModels");
-            DropForeignKey("dbo.SurveyJoinTableModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.SurveyAnswers", "question_Id", "dbo.SurveyQuestions");
+            DropForeignKey("dbo.SurveyAnswers", "survey_join_id", "dbo.SurveyJoinTableModels");
+            DropForeignKey("dbo.SurveyJoinTableModels", "survey_Id", "dbo.SurveyModels");
             DropForeignKey("dbo.SurveyQuestions", "survey_Id", "dbo.SurveyModels");
             DropForeignKey("dbo.SurveyModels", "course_Id", "dbo.CourseModels");
+            DropForeignKey("dbo.SurveyJoinTableModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.SurveyAnswers", "student_Id", "dbo.StudentModels");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.MessagingModels", "sending_User_Id", "dbo.AspNetUsers");
@@ -302,12 +289,11 @@ namespace ClassAnalytics.Migrations
             DropForeignKey("dbo.GradeBookModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.CourseModels", "program_Id", "dbo.ProgramModels");
             DropForeignKey("dbo.ClassModels", "program_id", "dbo.ProgramModels");
-            DropIndex("dbo.SurveyStudentModels", new[] { "student_Id" });
-            DropIndex("dbo.SurveyStudentModels", new[] { "survey_Id" });
+            DropIndex("dbo.SurveyQuestions", new[] { "survey_Id" });
+            DropIndex("dbo.SurveyModels", new[] { "course_Id" });
             DropIndex("dbo.SurveyJoinTableModels", new[] { "survey_Id" });
             DropIndex("dbo.SurveyJoinTableModels", new[] { "class_Id" });
-            DropIndex("dbo.SurveyModels", new[] { "course_Id" });
-            DropIndex("dbo.SurveyQuestions", new[] { "survey_Id" });
+            DropIndex("dbo.SurveyAnswers", new[] { "survey_join_id" });
             DropIndex("dbo.SurveyAnswers", new[] { "question_Id" });
             DropIndex("dbo.SurveyAnswers", new[] { "student_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
@@ -326,10 +312,9 @@ namespace ClassAnalytics.Migrations
             DropIndex("dbo.GradeBookModels", new[] { "student_Id" });
             DropIndex("dbo.CourseModels", new[] { "program_Id" });
             DropIndex("dbo.ClassModels", new[] { "program_id" });
-            DropTable("dbo.SurveyStudentModels");
-            DropTable("dbo.SurveyJoinTableModels");
-            DropTable("dbo.SurveyModels");
             DropTable("dbo.SurveyQuestions");
+            DropTable("dbo.SurveyModels");
+            DropTable("dbo.SurveyJoinTableModels");
             DropTable("dbo.SurveyAnswers");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");

@@ -18,5 +18,7 @@ namespace ClassAnalytics.Models
 
         public int question_Id { get; set; }
         public SurveyQuestion SurveyQuestion { get; set; }
+        public int survey_join_id { get; set; }
+        public SurveyJoinTableModel surveyJoinTableModel { get; set; }
     }
 }

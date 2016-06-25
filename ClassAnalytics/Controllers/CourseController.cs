@@ -42,6 +42,7 @@ namespace ClassAnalytics.Controllers
             ProgramModels program = db.programModels.Find(id);
             List<CourseModels> courses = db.coursemodels.ToList();
             List<CourseModels> new_courses = new List<CourseModels>();
+            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if(id != null)
             {
@@ -72,7 +73,7 @@ namespace ClassAnalytics.Controllers
             }
             if(id == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "ProgramModels");
             }
             ProgramModels program = db.programModels.Find(id);
             ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;

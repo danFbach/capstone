@@ -1,8 +1,8 @@
 body {
-    background-image:url(black_nebula.jpg);  
+    background-image:url(chalkboard.jpg);  
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center;
+    background-position:bottom left;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -16,7 +16,7 @@ th{
     margin-top:35px;
     padding-left: 15px;
     padding-right: 15px;
-    background:rgba(66, 139, 202, 0.65);
+    background:rgba(66, 139, 202, 0.85);
     border-radius:10px;
 }
 
