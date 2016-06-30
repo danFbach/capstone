@@ -1,17 +1,16 @@
 ﻿@model ClassAnalytics.Models.StudentModels
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modify Student";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>StudentModels</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.student_Id)

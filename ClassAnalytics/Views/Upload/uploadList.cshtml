@@ -34,7 +34,7 @@
             @Html.ActionLink(item.uploadName,"PDFView", new { id=item.upload_id})
         </td>
         <td>
-            @Html.CheckBoxFor(modelItem => item.active)
+            @Html.DisplayFor(modelItem => item.active)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.courseModels.courseName)
@@ -43,7 +43,8 @@
             @Html.DisplayFor(modelItem => item.uploadType)
         </td>
         <td>
-            @Html.ActionLink("Modify Upload", "Edit", new { id = item.upload_id })
+            @Html.ActionLink("Modify Upload", "Edit", new { id = item.upload_id }) | 
+            @Html.ActionLink("Remove", "Delete", new { id = item.upload_id })
         </td>
     </tr>
 }

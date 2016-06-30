@@ -1,0 +1,53 @@
+﻿@model ClassAnalytics.Models.UploadModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h4 style="padding-bottom:10px;">Are you sure you want to remove @Model.uploadName?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.classModel.className)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.classModel.className)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.courseModels.courseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.courseModels.courseName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.active)
+        </dt>
+
+        <dd>
+            @Html.CheckBoxFor(model => model.active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uploadType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uploadType)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-primary-2" /> |
+            @Html.ActionLink("Back to Uploads", "uploadList", new { id = Model.class_id })
+        </div>
+    }
+</div>

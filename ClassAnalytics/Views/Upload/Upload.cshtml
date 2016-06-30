@@ -21,7 +21,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.course_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.DropDownListFor(model => model.course_Id, Model.courses, new { @class = "form-control" } )
+                @Html.DropDownListFor(model => model.course_Id, Model.courses, "Course [Optional]", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="col-md-3">
                 @Html.DropDownListFor(m => m.uploadType, new SelectList(new List<Object>
                        {
-                       new { value = "Assignment" , text = "Assignment" },
-                       new { value = "Resource" , text = "Resource"  }
+                       new { value = "Assignments" , text = "Assignment" },
+                       new { value = "Resources" , text = "Resource"  }
                        }, "value", "text", 2), "Select Upload Type:", new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.uploadType, "", new { @class = "text-danger" })
             </div>
@@ -52,7 +52,7 @@
         <div class="form-group">
             @Html.Label("Upload File", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                <input class="form-control" type="file" name="file" id="file" />
+                <input class="form-control" type="file" name="file" id="file" accept=".pdf" />
                 <h5 class="text-danger">@ViewBag.StatusMessage</h5>
             </div>
         </div>

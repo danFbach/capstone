@@ -477,10 +477,13 @@
     <Content Include="Views\Upload\PDFView.cshtml" />
     <Content Include="Views\Upload\uploadList.cshtml" />
     <Content Include="Views\Upload\Edit.cshtml" />
+    <Content Include="Views\Upload\Delete.cshtml" />
+    <Content Include="Views\Upload\studentIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assignments\" />
+    <Folder Include="Uploads\Assignments\" />
+    <Folder Include="Uploads\Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
