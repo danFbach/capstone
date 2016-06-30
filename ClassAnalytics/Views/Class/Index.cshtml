@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.ProgClassViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Classes";
 }
 
-<center><h2>Classes</h2></center>
+<center><h2>@ViewBag.Title</h2></center>
 <div class="row" style="margin-top:-45px;">
     @using (Html.BeginForm())
     {
@@ -17,6 +17,7 @@
     }
     <div class="col-sm-8" style="text-align:right;">
         <h5>@Html.ActionLink("Add a new Class", "Create")</h5>
+        <h5 class="text-danger">@ViewBag.statusMesssage</h5>
     </div>
 </div>
 <table class="table">
@@ -39,12 +40,18 @@
             @Html.DisplayFor(modelItem => item.ProgramModels.programName)
         </td>
         <td>
-            @Html.ActionLink("Upload","Upload", new { id=item.class_Id}) | 
-            @Html.ActionLink("New Student","addStudent", new { id=item.class_Id }) | 
-            @Html.ActionLink("View Students", "studentIndex", new { id=item.class_Id}) | 
-            @Html.ActionLink("View Grades","classGrades", new { id=item.class_Id }) | 
-            @Html.ActionLink("Update Class", "Edit", new { id=item.class_Id }) |
-            @Html.ActionLink("Remove Class", "Delete", new { id=item.class_Id })
+            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Uploads</button>
+                <div class="dropdown-menu">@Html.ActionLink("Upload", "Upload", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            </div>
+            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Students</button>
+                <div class="dropdown-menu">@Html.ActionLink("New Student","addStudent", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "studentIndex", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            </div>
+            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Class Management</button>
+                <div class="dropdown-menu">@Html.ActionLink("View Grades","classGrades", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            </div>
         </td>
     </tr>
 }

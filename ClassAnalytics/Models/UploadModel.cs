@@ -18,5 +18,14 @@ namespace ClassAnalytics.Models
         public ClassModel classModel { get; set; }
         [Display(Name = "File")]
         public string filePath { get; set; }
+        [Required]
+        [Display(Name ="Active")]
+        public bool active { get; set; }
+        public DateTime createDate { get; set; }
+        [Display(Name ="Upload Type")]
+        public string uploadType { get; set; }
+        [Display(Name ="Course")]
+        public int? course_Id { get; set; }
+        public CourseModels courseModels { get; set; }
     }
 }

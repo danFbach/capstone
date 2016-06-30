@@ -14,71 +14,7 @@ namespace ClassAnalytics.Controllers
     public class ClassController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
-        public ActionResult Upload(int? id)
-        {
-            if(id != null)
-            {
-                UploadModel upload = new UploadModel();
-                upload.class_id = id;
-                upload.classModel = db.classmodel.Find(id);
-                return View(upload);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Class");
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Upload(HttpPostedFileBase file,UploadModel pdf)
-        {
-            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
-            if (file == null)
-            {
-                ViewBag.StatusMessage = "File is invalid";
-                return View(pdf);
-            }
-            else
-            {
-                var ext = file.FileName.Split('.');
-                string exts = ext[ext.Count()-1];
-                if(exts == "pdf")
-                {
-                    string path = null;
-                    if (pdf.uploadName != null)
-                    {
-                         path = Server.MapPath("~/Assignments/" + pdf.uploadName + ".pdf");
-                    }
-                    else
-                    {
-                        path = Server.MapPath("~/Assignments/" + file.FileName);
-                    }
-                    if(path != null)
-                    {
-                        file.SaveAs(path);
-                        pdf.filePath = path;
-                        db.uploadModel.Add(pdf);
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.StatusMessage = "File is invalid";
-                        pdf.classModel = db.classmodel.Find(pdf.class_id);
-                        return View(pdf);
-                    }
-                }
-                else
-                {
-                    ViewBag.StatusMessage = "File is invalid";
-                    pdf.classModel = db.classmodel.Find(pdf.class_id);
-                    return View(pdf);
-                }
-            }
-        }
-
+       
         public ActionResult studentIndex(int? id)
         {
             if (id != null)
@@ -120,11 +56,10 @@ namespace ClassAnalytics.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.statusMessage = "";
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             var classes = db.classmodel.ToList();
-            var programs = db.programModels.ToList();
             List<ProgClassViewModel> new_list = new List<ProgClassViewModel>();
-            List<ProgramModels> progList = new List<ProgramModels>();
             if(program_id!=null)
             {
                 foreach (ClassModel a_class in classes)

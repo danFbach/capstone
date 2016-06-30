@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ClassAnalytics.Models.UploadModel>
+
+@{
+    
+    ViewBag.Title = ViewBag.className + "'s Uploads";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th style="text-align:left;">
+            @Html.DisplayNameFor(m => m.uploadName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.course_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.uploadType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="width:115px;">
+            @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
+        </td>
+        <td style="text-align:left;">
+            @Html.ActionLink(item.uploadName,"PDFView", new { id=item.upload_id})
+        </td>
+        <td>
+            @Html.CheckBoxFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.courseModels.courseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.uploadType)
+        </td>
+        <td>
+            @Html.ActionLink("Modify Upload", "Edit", new { id = item.upload_id })
+        </td>
+    </tr>
+}
+
+</table>
+@Html.ActionLink("Return to Classes", "Index","Class")

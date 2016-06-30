@@ -1,0 +1,15 @@
+﻿@model ClassAnalytics.Models.UploadModel
+@{
+    ViewBag.Title = "Viewing " + Model.uploadName;
+    string file = Model.filePath;
+}
+
+<center><h2>@ViewBag.Title</h2></center>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="margin: 0 auto;">
+        <embed src="~/Assignments/@Model.uploadName" style="width:100%;height:500px;" />
+    </div>
+    <div class="col-md-1"></div>
+</div>

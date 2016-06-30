@@ -13,7 +13,7 @@ namespace ClassAnalytics.Controllers
     public class TaskController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         // GET: Task
         public ActionResult Index(int? id)
         {

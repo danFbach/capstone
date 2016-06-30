@@ -1,0 +1,57 @@
+﻿@model ClassAnalytics.Models.UploadModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>UploadModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.upload_id)
+        @Html.HiddenFor(m => m.class_id)
+        @Html.HiddenFor(m => m.uploadName)
+        @Html.HiddenFor(m => m.filePath)
+        @Html.HiddenFor(m => m.createDate)
+        @Html.HiddenFor(m => m.course_Id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.active, new SelectList(new List<Object>
+                       {
+                       new { value = true , text = "Active" },
+                       new { value = false , text = "Inactive"  }
+                       }, "value", "text", 2), "Active/Inactive", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.active, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.uploadType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.uploadType, new SelectList(new List<Object>
+                    {
+                    new { value = "Assignment" , text = "Assignment" },
+                    new { value = "Resource" , text = "Resource"  }
+                    }, "value", "text", 2), "Select Upload Type:", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.uploadType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

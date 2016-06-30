@@ -1,0 +1,67 @@
+﻿@model ClassAnalytics.Models.UploadViewModel
+@{
+    ViewBag.Title = "New file for " + Model.classModel.className + " Class";
+}
+@using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h3>@ViewBag.Title</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.class_id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.uploadName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.uploadName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uploadName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.course_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.course_Id, Model.courses, new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.uploadType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.uploadType, new SelectList(new List<Object>
+                       {
+                       new { value = "Assignment" , text = "Assignment" },
+                       new { value = "Resource" , text = "Resource"  }
+                       }, "value", "text", 2), "Select Upload Type:", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.uploadType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.active, new SelectList(new List<Object>
+                       {
+                       new { value = true , text = "Active" },
+                       new { value = false , text = "Inactive"  }
+                       }, "value", "text", 2), "Active/Inactive", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.active, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Upload File", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                <input class="form-control" type="file" name="file" id="file" />
+                <h5 class="text-danger">@ViewBag.StatusMessage</h5>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-sm-3">
+                <input class="form-control" type="submit" value="Upload" />
+            </div>
+        </div>
+    </div>
+}
+@Html.ActionLink("Return to Classes","Index","Class")

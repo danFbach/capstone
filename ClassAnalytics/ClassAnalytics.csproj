@@ -197,9 +197,30 @@
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Migrations\201606250551171_upload test.cs" />
     <Compile Include="Migrations\201606250551171_upload test.Designer.cs">
       <DependentUpon>201606250551171_upload test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606291613509_upload-update.cs" />
+    <Compile Include="Migrations\201606291613509_upload-update.Designer.cs">
+      <DependentUpon>201606291613509_upload-update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606300106595_2.4 new upload model.cs" />
+    <Compile Include="Migrations\201606300106595_2.4 new upload model.Designer.cs">
+      <DependentUpon>201606300106595_2.4 new upload model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606300109471_2.4.1.cs" />
+    <Compile Include="Migrations\201606300109471_2.4.1.Designer.cs">
+      <DependentUpon>201606300109471_2.4.1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606300114012_2.4.2.cs" />
+    <Compile Include="Migrations\201606300114012_2.4.2.Designer.cs">
+      <DependentUpon>201606300114012_2.4.2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606300208494_2.4.3.cs" />
+    <Compile Include="Migrations\201606300208494_2.4.3.Designer.cs">
+      <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\assignmentFileModel.cs" />
     <Compile Include="Models\UploadViewModel.cs" />
@@ -452,7 +473,10 @@
     <Content Include="Views\Messaging\Messages.cshtml" />
     <Content Include="Views\Messaging\Inbox.cshtml" />
     <Content Include="Views\Messaging\Sent.cshtml" />
-    <Content Include="Views\Class\Upload.cshtml" />
+    <Content Include="Views\Upload\Upload.cshtml" />
+    <Content Include="Views\Upload\PDFView.cshtml" />
+    <Content Include="Views\Upload\uploadList.cshtml" />
+    <Content Include="Views\Upload\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -472,6 +496,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606250551171_upload test.resx">
       <DependentUpon>201606250551171_upload test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606291613509_upload-update.resx">
+      <DependentUpon>201606291613509_upload-update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300106595_2.4 new upload model.resx">
+      <DependentUpon>201606300106595_2.4 new upload model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300109471_2.4.1.resx">
+      <DependentUpon>201606300109471_2.4.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300114012_2.4.2.resx">
+      <DependentUpon>201606300114012_2.4.2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300208494_2.4.3.resx">
+      <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
