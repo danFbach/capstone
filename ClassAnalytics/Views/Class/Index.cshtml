@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.ProgClassViewModel>
 
 @{
-    ViewBag.Title = "Classes";
+    ViewBag.Title = "Class Management";
 }
 
 <center><h2>@ViewBag.Title</h2></center>
@@ -33,24 +33,28 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td style="padding-top:10px;">
             @Html.DisplayFor(modelItem => item.className)
         </td>
-        <td>
+        <td style="padding-top:10px;">
             @Html.DisplayFor(modelItem => item.ProgramModels.programName)
         </td>
         <td>
-            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Uploads</button>
-                <div class="dropdown-menu">@Html.ActionLink("New Upload", "Upload", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            <div class="btn-group" style="margin:0px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Uploads</button>
+                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Upload", "Upload", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
             </div>
-            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Students</button>
-                <div class="dropdown-menu">@Html.ActionLink("New Student","addStudent", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "studentIndex", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            <div class="btn-group" style="margin:0px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Students</button>
+                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Student","Create", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "Index", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
             </div>
-            <div class="btn-group" style="margin-top:-10px;margin-bottom:5px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin:0;color:#FFF;" data-hover="dropdown">Class Management</button>
-                <div class="dropdown-menu">@Html.ActionLink("View Grades","classGrades", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            <div class="btn-group" style="margin:0px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
+                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("View Grades","Index", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new {id=item.class_Id}, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+            </div>
+            <div class="btn-group" style="margin:0px;">
+                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
+                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
             </div>
         </td>
     </tr>

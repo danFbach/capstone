@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.TaskModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tasks";
 }
 <div class="col-sm-12" style="text-align:center;">
-    <h2>Tasks</h2>
-    <h5>@ViewBag.course</h5>
+    <h2>@ViewBag.Title</h2>
+    <div class="col-sm-12" style="text-align:right;margin-top:-30px;">
+        <h4>@Html.ActionLink("Return to Courses", "Index", "Course", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })</h4>
+    </div>
+    <h5 style="margin-top:-10px;">@ViewBag.course</h5>
 </div>
 
-<div class="col-sm-12" style="text-align:right;margin-top:-30px;padding-bottom:5px;">
-    <h4>@Html.ActionLink("Return to Programs", "Index", "ProgramModels")</h4>
-</div>
 <table class="table">
     <tr>
         <th>

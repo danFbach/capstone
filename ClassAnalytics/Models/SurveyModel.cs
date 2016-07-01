@@ -15,7 +15,7 @@ namespace ClassAnalytics.Models
         public string SurveyName { get; set; }
 
         [Display(Name = "Course")]
-        public int? course_Id { get; set; }
+        public int course_Id { get; set; }
         public CourseModels CourseModels { get; set; }
                         
         public List<SurveyQuestion> question_list { get; set; }

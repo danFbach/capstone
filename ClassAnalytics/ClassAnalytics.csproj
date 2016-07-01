@@ -223,6 +223,7 @@
       <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\assignmentFileModel.cs" />
+    <Compile Include="Models\surveyCreateViewModel.cs" />
     <Compile Include="Models\UploadViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -452,7 +453,6 @@
     <Content Include="Views\GradeBook\Student_Chart.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
-    <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Survey\Create_Question.cshtml" />
     <Content Include="Views\Survey\Index_Class_Survey.cshtml" />
     <Content Include="Views\Survey\Create_Join.cshtml" />

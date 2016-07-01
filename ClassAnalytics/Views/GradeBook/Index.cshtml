@@ -3,24 +3,22 @@
 @{
     ViewBag.Title = "Grades";
 }
-<h2>Grades</h2>
+<h2 style="text-align:center;">@ViewBag.Title</h2>
 @using (Html.BeginForm())
 {
-    <div class="row" style="width:100%;padding-left:125px;padding-bottom:10px;margin-top:-45px;">
-        <div class="col-xs-10" style="width:250px;">
-            @Html.DropDownList("class_id", null, "Select a Class", htmlAttributes: new { @class = "form-control" })
-        </div>
-        <div class="col-xs-10" style="width:250px;margin-left:-10px;padding-left:0px;border-left:none;">
-            @Html.DropDownListFor(m => m.task_id, Model.taskList, "Select a Task", htmlAttributes: new { @class = "form-control" })
+    <div class="row" style="width:100%;padding-left:10px;padding-bottom:10px;margin-top:-45px;">
+        <div class="col-xs-10" style="width:250px;padding-left:0px;border-left:none;">
+            @Html.DropDownListFor(m => m.task_id, Model.taskList, "All Tasks", htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-xs-8" style="width:150px;margin-left:-10px;padding-left:0px;">
             <input type="submit" value="Search" class="btn btn-primary-2" />
         </div>
     </div>
 }
-<p>
-    @Html.ActionLink("Create Class Task", "Create") | 
-    @Html.ActionLink("Create Single Task", "CreateOne")
+<p style="text-align:right;margin-top:-30px;">
+    @Html.ActionLink("Return to Classes","Index","Class") | 
+    @Html.ActionLink("Create Class Grade entry", "Create") | 
+    @Html.ActionLink("Create Single Grade entry", "CreateOne")
 </p>
 <table class="table">
     <tr>

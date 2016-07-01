@@ -16,17 +16,16 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         
-        public ActionResult SurveyBarChart(int? survey_id, int? class_id)
+        public ActionResult SurveyBarChart(int? survey_id, int? id)
         {
             SurveyChartModel chart = new SurveyChartModel();
             chart.answers = new List<List<object>>();
-            ViewBag.class_id = new SelectList(db.classmodel, "class_Id", "className");
             ViewBag.survey_id = new SelectList(db.surveyModel, "survey_Id", "SurveyName");
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            if(survey_id != null && class_id != null)
+            if(survey_id != null && id != null)
             {
                 SurveyModel survey = db.surveyModel.Find(survey_id);
                 List<SurveyQuestion> questions = db.surveyQuestion.ToList();
@@ -47,7 +46,7 @@ namespace ClassAnalytics.Controllers
                         {
                             answer.StudentModels = new StudentModels();
                             answer.StudentModels = db.studentModels.Find(answer.student_Id);
-                            if (answer.StudentModels.class_Id == class_id)
+                            if (answer.StudentModels.class_Id == id)
                             {
                                 if (answer.question_Id == question.question_Id)
                                 {
@@ -229,7 +228,7 @@ namespace ClassAnalytics.Controllers
             joinSurvey.active = true;
             db.SaveChanges();
 
-            return RedirectToAction("Index_Class_Survey");
+            return RedirectToAction("Index_Class_Survey/" + joinSurvey.class_Id);
         }
         public ActionResult Deactivate(int id)
         {
@@ -240,10 +239,10 @@ namespace ClassAnalytics.Controllers
             SurveyJoinTableModel joinSurvey = db.surveyJoinTableModel.Find(id);
             joinSurvey.active = false;
             db.SaveChanges();
-            return RedirectToAction("Index_Class_Survey");
+            return RedirectToAction("Index_Class_Survey/" + joinSurvey.class_Id);
         }
 
-        public ActionResult Index_Class_Survey(int? class_id, bool? active)
+        public ActionResult Index_Class_Survey(int? id, bool? active)
         {
             if (!this.User.IsInRole("Admin"))
             {
@@ -251,31 +250,10 @@ namespace ClassAnalytics.Controllers
             }
             var joinSurvey = db.surveyJoinTableModel.ToList();
             List<SurveyJoinTableModel> survey_list = new List<SurveyJoinTableModel>();
-            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-            if (class_id == null)
+            ViewBag.thisClass = db.classmodel.Find(id).className;
+            if (id == null)
             {
-                if (active == null)
-                {
-                    foreach (SurveyJoinTableModel survey in joinSurvey)
-                    {
-                        survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
-                        survey.ClassModel = db.classmodel.Find(survey.class_Id);
-                        survey_list.Add(survey);
-                    }
-                }
-                else
-                {
-                    foreach (SurveyJoinTableModel survey in joinSurvey)
-                    {
-                        if (survey.active == active)
-                        {
-                            survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
-                            survey.ClassModel = db.classmodel.Find(survey.class_Id);
-                            survey_list.Add(survey);
-                        }
-                    }
-                }
-                return View(survey_list);
+                return RedirectToAction("Index","Class");
             }
             else
             {
@@ -283,7 +261,7 @@ namespace ClassAnalytics.Controllers
                 {
                     foreach (SurveyJoinTableModel survey in joinSurvey)
                     {
-                        if (survey.class_Id == class_id)
+                        if (survey.class_Id == id)
                         {
                             survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
                             survey.ClassModel = db.classmodel.Find(survey.class_Id);
@@ -297,7 +275,7 @@ namespace ClassAnalytics.Controllers
                     {
                         if (survey.active == active)
                         {
-                            if (survey.class_Id == class_id)
+                            if (survey.class_Id == id)
                             {
                                 survey.SurveyModel = db.surveyModel.Find(survey.survey_Id);
                                 survey.ClassModel = db.classmodel.Find(survey.class_Id);
@@ -310,7 +288,7 @@ namespace ClassAnalytics.Controllers
             }
         }
 
-        public ActionResult Create_Join(int id)
+        public ActionResult Create_Join(int id, int class_id)
         {
             if (!this.User.IsInRole("Admin"))
             {
@@ -318,48 +296,31 @@ namespace ClassAnalytics.Controllers
             }
             SurveyJoinTableModel joinSurvey = new SurveyJoinTableModel();
             SurveyModel a_survey = db.surveyModel.Find(id);
-            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
             joinSurvey.SurveyModel = a_survey;
             joinSurvey.survey_Id = id;
-            return View(joinSurvey);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create_Join(SurveyJoinTableModel survey)
-        {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            joinSurvey.class_Id = class_id;
+            db.surveyJoinTableModel.Add(joinSurvey);
             List<SurveyQuestion> questions = db.surveyQuestion.ToList();
-            if (ModelState.IsValid)
+            List<StudentModels> students = db.studentModels.ToList();
+            foreach (StudentModels student in students)
             {
-                var students = db.studentModels.ToList();
-                foreach (StudentModels student in students)
+                if (student.class_Id == class_id)
                 {
-                    if (student.class_Id == survey.class_Id)
+                    foreach (SurveyQuestion question in questions)
                     {
-                        foreach (SurveyQuestion question in questions)
+                        if (question.survey_Id == id)
                         {
-                            if (question.survey_Id == survey.survey_Id)
-                            {
-                                SurveyAnswers answer = new SurveyAnswers();
-                                answer.question_Id = question.question_Id;
-                                answer.student_Id = student.student_Id;
-                                answer.survey_join_id = survey.survey_join_Id;
-                                db.surveyAnswers.Add(answer);
-                            }
+                            SurveyAnswers answer = new SurveyAnswers();
+                            answer.question_Id = question.question_Id;
+                            answer.student_Id = student.student_Id;
+                            answer.survey_join_id = joinSurvey.survey_join_Id;
+                            db.surveyAnswers.Add(answer);
                         }
                     }
                 }
-                db.surveyJoinTableModel.Add(survey);
-                db.SaveChanges();
-                return RedirectToAction("Index_Class_Survey");
             }
-            SurveyModel a_survey = db.surveyModel.Find(survey.survey_Id);
-            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-            survey.SurveyModel = a_survey;
-            return View(survey);
+            db.SaveChanges();
+            return RedirectToAction("Index_Class_Survey/" + class_id);
         }
 
 
@@ -396,52 +357,65 @@ namespace ClassAnalytics.Controllers
             return View();
         }
         // GET: Survey
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
             List<SurveyModel> survey_list = new List<SurveyModel>();
-            var courses = db.coursemodels.ToList();
+            ClassModel this_class = db.classmodel.Find(id);
+            ProgramModels program = db.programModels.Find(this_class.program_id);
+            ViewBag.className = this_class.className;
+            ViewBag.program = program.programName;
             var surveys = db.surveyModel.ToList();
             var questions = db.surveyQuestion.ToList();
 
 
             foreach (SurveyModel survey in surveys)
             {
+                survey.CourseModels = db.coursemodels.Find(survey.course_Id);
                 if (survey.question_list != null)
                 {
                     survey.question_list.Clear();
                 }
-                foreach (SurveyQuestion question in questions)
+                if(survey.CourseModels.program_Id == this_class.program_id)
                 {
-                    if (question.survey_Id == survey.survey_Id)
+                    foreach (SurveyQuestion question in questions)
                     {
-                        survey.question_list.Add(question);
+                        if (question.survey_Id == survey.survey_Id)
+                        {
+                            survey.question_list.Add(question);
+                        }
                     }
+                    survey_list.Add(survey);
                 }
-                foreach (CourseModels course in courses)
-                {
-                    if (course.course_Id == survey.course_Id)
-                    {
-                        survey.CourseModels = course;
-                    }
-                }
-                survey_list.Add(survey);
             }
             return View(survey_list);
         }
         
         // GET: Survey/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
-            return View();
+            surveyCreateViewModel create = new surveyCreateViewModel();
+            create.class_id = id;
+            create.surveyModel = new SurveyModel();
+            create.courseList = new List<SelectListItem>();
+            ClassModel this_class = db.classmodel.Find(id);
+            List<CourseModels> courses = db.coursemodels.ToList();
+            
+            foreach (CourseModels course in courses)
+            {
+                if(course.program_Id == this_class.program_id)
+                {
+                    create.courseList.Add(new SelectListItem() { Text = course.courseName, Value = course.course_Id.ToString() });
+                }
+            }            
+            return View(create);
         }
 
         // POST: Survey/Create
@@ -449,7 +423,7 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(SurveyModel surveyModel)
+        public ActionResult Create(surveyCreateViewModel create)
         {
             if (!this.User.IsInRole("Admin"))
             {
@@ -457,56 +431,26 @@ namespace ClassAnalytics.Controllers
             }
             if (ModelState.IsValid)
             {
+                SurveyModel surveyModel = new SurveyModel();
+                surveyModel = create.surveyModel;                
                 db.surveyModel.Add(surveyModel);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index/" + create.class_id );
             }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
-            return View(surveyModel);
+            create.surveyModel = new SurveyModel();
+            create.courseList = new List<SelectListItem>();
+            ClassModel this_class = db.classmodel.Find(create.class_id);
+            List<CourseModels> courses = db.coursemodels.ToList();
+            foreach (CourseModels course in courses)
+            {
+                if (course.program_Id == this_class.program_id)
+                {
+                    create.courseList.Add(new SelectListItem() { Text = course.courseName, Value = course.course_Id.ToString() });
+                }
+            }
+            return View(create);
         }
-
-        // GET: Survey/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
-            if (surveyModel == null)
-            {
-                return HttpNotFound();
-            }
-            surveyModel.SurveyModel = db.surveyModel.Find(surveyModel.survey_Id);
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName");
-            return View(surveyModel);
-        }
-
-        // POST: Survey/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(SurveyModel surveyModel)
-        {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            if (ModelState.IsValid)
-            {
-                db.Entry(surveyModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.course_Id = new SelectList(db.coursemodels, "course_Id", "courseName", surveyModel.course_Id);
-            return View(surveyModel);
-        }
-
+        
         // GET: Survey/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -540,7 +484,7 @@ namespace ClassAnalytics.Controllers
             SurveyJoinTableModel surveyModel = db.surveyJoinTableModel.Find(id);
             db.surveyJoinTableModel.Remove(surveyModel);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index_Class_Survey/" + surveyModel.class_Id);
         }
 
         protected override void Dispose(bool disposing)

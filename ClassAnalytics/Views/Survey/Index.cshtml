@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyModel>
 
 @{
-    ViewBag.Title = "Survey Home";
+    ViewBag.Title = ViewBag.program + " Surveys";
 }
 
 
 <p>
     <center><h2>@ViewBag.Title</h2></center>
     <div style="text-align:right;margin-top:-30px;">
-        @Html.ActionLink("Create a New Survey", "Create") | 
-        @Html.ActionLink("See surveys assigned to Classes / Activate ", "Index_Class_Survey")
+        @Html.ActionLink("Create a New Survey", "Create", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })
     </div>
 </p>
 <table class="table">
@@ -28,19 +27,15 @@
 
 @foreach (var item in Model)
 {
-    string courseName = "No Course";
     int questionCount = 0;
-    if(item.question_list != null)
+    string assignLink = "Assign to " + ViewBag.className + " Class";
+    if (item.question_list != null)
     {
         questionCount = item.question_list.Count();
     }
-    if(item.course_Id != null)
-    {
-        courseName = item.CourseModels.courseName;
-    }
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => courseName)
+            @Html.DisplayFor(modelItem => item.CourseModels.courseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SurveyName)
@@ -50,7 +45,7 @@
         </td>
         <td style="text-align:right;">
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
-            @Html.ActionLink("Assign to Class","Create_Join", new { id=item.survey_Id})
+            @Html.ActionLink(assignLink, "Create_Join", new { @id=item.survey_Id, @class_id = ViewContext.RouteData.Values["id"] })
         </td>
     </tr>
 }

@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.StudentModels>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = @ViewBag.this_class + " Class";
 }
-<center><h3>Class - @ViewBag.this_class</h3></center>
+<center><h3>@ViewBag.Title</h3></center>
 
 <table class="table">
     <tr>

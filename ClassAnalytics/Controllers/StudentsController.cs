@@ -33,7 +33,7 @@ namespace ClassAnalytics.Controllers
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.AddTo(emailaddress);
             myMessage.Subject = "Hey " + fName + "! Edulytics Account Activation Enclosed";
-            var credentials = new NetworkCredential("quikdevstudent", "Lexusi$3");
+            var credentials = new NetworkCredential(/*UserName*/"", /*Password*/"");
             var transportWeb = new Web(credentials);
             await transportWeb.DeliverAsync(myMessage);
         }
@@ -236,7 +236,7 @@ namespace ClassAnalytics.Controllers
             {
                 db.Entry(studentModels).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index/" + studentModels.class_Id);
             }
             return View(studentModels);
         }
@@ -272,7 +272,7 @@ namespace ClassAnalytics.Controllers
             StudentModels studentModels = db.studentModels.Find(id);
             db.studentModels.Remove(studentModels);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index/" + studentModels.class_Id);
         }
 
         protected override void Dispose(bool disposing)

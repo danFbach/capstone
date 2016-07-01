@@ -1,40 +1,16 @@
 ﻿@model ClassAnalytics.Models.StudentModels
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Remove " + Model.fName + " " + Model.lName;
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>StudentModels</h4>
+<h4 style="padding:15px;">Are you sure you want to remove @Model.fName @Model.lName and all of their data?</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.fName)
-        </dt>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.fName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.lName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.lName)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-primary-2" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
-</div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-primary-2" /> |
+        @Html.ActionLink("Back to Student List", "Index", new { id = Model.class_Id })
+    </div>
+}

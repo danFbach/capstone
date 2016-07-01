@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.SurveyJoinTableModel>
 
 @{
-    ViewBag.Title = "Survey Activation";
+    ViewBag.Title = ViewBag.thisClass + "'s Surveys";
 }      
 <center><h2 style="margin-top:30px;">@ViewBag.Title</h2></center>
+<div style="text-align:right;margin-top:-30px;">
+    @Html.ActionLink("Manage Other Program Surveys", "Index", new { id = ViewContext.RouteData.Values["id"] }) |
+    @Html.ActionLink("Return to Classes", "Index", "Class")
+</div>  
 @using (Html.BeginForm())
 {
-    <div class="row" style="width:100%;margin-left:10px;margin-top:-30px;padding-bottom:0px;">
-        <div class="col-xs-4" style="width:180px;margin-left:-25px;">
-            @Html.DropDownList("class_id", null, "All Classes", htmlAttributes: new { @class = "form-control" })
-        </div>
+    <div class="row" style="width:100%;margin-left:10px;margin-top:-40px;padding-bottom:10px;">
         <div class="col-xs-4" style="width:170px;padding-left:0px;">
             @Html.DropDownList("active", new SelectList(new List<Object>
                        {
@@ -22,21 +23,16 @@
         </div>
     </div>
 }
-<div style="text-align:right;margin-top:-15px;">
-    @Html.ActionLink("Return to Surveys", "Index")
-</div>  
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassModel.className)
-        </th>
-        <th>
+        <th class="col-md-4"></th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.SurveyModel.SurveyName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.active)
+        <th class="col-md-2">
+            @Html.Label("Actions")
         </th>
-        <th></th>
+        <th class="col-md-4"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -51,19 +47,15 @@
             active = "Deactivate";
         }
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassModel.className)
-            </td>
-            <td>
+            <td class="col-md-4"></td>
+            <td class="col-md-2">
                 @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.active)
-            </td>
-            <td>
+            <td class="col-md-2">
                 @Html.ActionLink(active, active, new { id = item.survey_join_Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.survey_join_Id })
             </td>
+            <td class="col-md-4"></td>
         </tr>
     }
 

@@ -17,14 +17,11 @@
 
 
 <center><h3>Grade Charts</h3></center>
-
+<h4 style="margin-top:-30px;padding-right:20px;text-align:right;">@Html.ActionLink("Return to Classes","Index","Class")</h4>
 @using (Html.BeginForm())
 {
-    <div class="row" style="margin:0 auto;padding-bottom:10px;">
+    <div class="row" style="margin-top:-35px;padding-bottom:10px;padding-left:20px;">
         <div class="col-xs-4" style="width:200px;">
-            @Html.DropDownListFor(m => m.class_id, Model.classList, "Select a Class", new { @class = "form-control" } )
-        </div>
-        <div class="col-xs-4" style="width:200px;margin-left:-20px;">
             @Html.DropDownListFor(m => m.task_id, Model.taskList, "Student Averages", new { @class = "form-control" } )
         </div>
         <div class="col-xs-2" style="margin-left:-10px;padding-left:0px;">
@@ -43,7 +40,7 @@
             var data = new google.visualization.DataTable();
             var grades_list = @Html.Raw(Json.Encode(grades));
             var grade_array = [];
-            for(i=grades_list.length-1;i>=0;i--){
+            for(i=0;i<grades_list.length;i++){
                 grade_array[grade_array.length] = [grades_list[i][0],grades_list[i][1]];
             }
             data.addColumn('string', 'Student');

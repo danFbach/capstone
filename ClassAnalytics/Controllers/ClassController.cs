@@ -43,7 +43,7 @@ namespace ClassAnalytics.Controllers
         {
             if(id != null)
             {
-                return RedirectToAction("Index/" + id, "GradeBook");
+                return RedirectToAction("Index", "GradeBook", id);
             }
             else
             {
