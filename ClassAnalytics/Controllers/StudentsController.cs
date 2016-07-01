@@ -123,7 +123,6 @@ namespace ClassAnalytics.Controllers
                 RegisterViewModel newUser = new RegisterViewModel();
                 newUser.Email = viewModel.newEmail;
                 newUser.Password = "R3$et_this";
-                newUser.ConfirmPassword = "R3$et_this";
                 newUser.ConfirmPassword = newUser.Password;
                 string username = makeUserName(student.fName,student.lName,0);
                 var user = new ApplicationUser { UserName = username, Email = newUser.Email };

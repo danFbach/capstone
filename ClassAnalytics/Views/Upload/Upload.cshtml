@@ -52,7 +52,7 @@
         <div class="form-group">
             @Html.Label("Upload File", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                <input class="form-control" type="file" name="file" id="file" accept=".pdf" />
+                <input class="form-control" type="file" name="file" id="file" accept=".pdf, .txt, .css, .js, .html" />
                 <h5 class="text-danger">@ViewBag.StatusMessage</h5>
             </div>
         </div>

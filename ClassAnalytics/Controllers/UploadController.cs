@@ -86,6 +86,43 @@ namespace ClassAnalytics.Controllers
             }
             return View(upload);
         }
+        public ActionResult ViewFile(int? id)
+        {
+            if(id != null)
+            {
+                UploadModel upload = db.uploadModel.Find(id);
+                var strs = upload.uploadName.Split('.');
+                string exts = strs[strs.Count() - 1];
+                if(exts == "pdf")
+                {
+                    return RedirectToAction("PDFView/" + id);
+                }
+                else if(exts == "txt" || exts == "css" || exts == "js" || exts == "html")
+                {
+                    return RedirectToAction("textView/" + id);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Class");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Class");
+            }
+        }
+        public ActionResult textView(int? id)
+        {
+            if (id != null)
+            {
+                UploadModel upload = db.uploadModel.Find(id);
+                return View(upload);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Class");
+            }
+        }
         public ActionResult PDFView(int? id)
         {
             if (id != null)
@@ -95,7 +132,7 @@ namespace ClassAnalytics.Controllers
             }
             else
             {
-                return RedirectToAction("uploadList");
+                return RedirectToAction("Index", "Class");
             }
         }
         public ActionResult uploadList(int? id)
@@ -160,98 +197,91 @@ namespace ClassAnalytics.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(HttpPostedFileBase file, UploadViewModel pdf)
+        public ActionResult Upload(HttpPostedFileBase file, UploadViewModel uploadModel)
         {
-            UploadModel newPdf = new UploadModel();
+            UploadModel newUpload = new UploadModel();
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if (file == null)
             {
-                pdf.classModel = db.classmodel.Find(pdf.class_id);
-                pdf.courses = courses(pdf.classModel.program_id);
+                uploadModel.classModel = db.classmodel.Find(uploadModel.class_id);
+                uploadModel.courses = courses(uploadModel.classModel.program_id);
                 ViewBag.StatusMessage = "File is invalid";
-                return View(pdf);
+                return View(uploadModel);
             }
             else
             {
                 if (ModelState.IsValid)
                 {
                     string relativePath = "";
-                    var ext = file.FileName.Split('.');
-                    string exts = ext[ext.Count() - 1];
-                    if (exts == "pdf")
+                    var strs = file.FileName.Split('.');
+                    string exts = strs[strs.Count() - 1];
+                    if (exts == "pdf" || exts == "txt" || exts == "css" || exts == "js" || exts == "html")
                     {
-                        if(pdf.uploadType == "Assignments")
-                        {
-                            relativePath = "~/Uploads/Assignments/";
-                        }
-                        else if(pdf.uploadType == "Resources")
-                        {
-                            relativePath = "~/Uploads/Resources/";
-                        }
+                        relativePath = "~/Uploads/" + uploadModel.uploadType + "/";
                         string path = null;
-                        if (pdf.uploadName != null)
+                        if (uploadModel.uploadName != null)
                         {
-                            pdf.uploadName = pdf.uploadName + "." + exts;
-                            path = Server.MapPath(relativePath + pdf.uploadName);
+                            uploadModel.uploadName = uploadModel.uploadName + "." + exts;
+                            path = Server.MapPath(relativePath + uploadModel.uploadName);
                         }
                         else
                         {
                             path = Server.MapPath(relativePath + file.FileName);
-                            pdf.uploadName = file.FileName;
+                            uploadModel.uploadName = file.FileName;
                         }
-                        newPdf = viewToModel(pdf, path);
-                        db.uploadModel.Add(newPdf);
+                        newUpload = viewToModel(uploadModel, path);
+                        db.uploadModel.Add(newUpload);
                         db.SaveChanges();
                         file.SaveAs(path);
                         return RedirectToAction("Index", "Class");
                     }
                     else
                     {
-                        pdf.classModel = db.classmodel.Find(pdf.class_id);
-                        pdf.courses = courses(pdf.classModel.program_id);
-                        return View(pdf);
+                        uploadModel.classModel = db.classmodel.Find(uploadModel.class_id);
+                        uploadModel.courses = courses(uploadModel.classModel.program_id);
+                        return View(uploadModel);
                     }
                 }
                 else
                 {
-                    pdf.classModel = db.classmodel.Find(pdf.class_id);
-                    pdf.courses = courses(pdf.classModel.program_id);
-                    ViewBag.StatusMessage = "File is not in PDF format.";
-                    return View(pdf);
+                    uploadModel.classModel = db.classmodel.Find(uploadModel.class_id);
+                    uploadModel.courses = courses(uploadModel.classModel.program_id);
+                    ViewBag.StatusMessage = "File is not in pdf, css, js, html or txt format.";
+                    return View(uploadModel);
                 }
             }
         }
         public UploadModel viewToModel(UploadViewModel viewModel, string path)
         {
-            UploadModel newPdf = new UploadModel();
+            UploadModel newUpload = new UploadModel();
             if(viewModel.upload_id != 0) {
-                newPdf.upload_id = viewModel.upload_id;
-                newPdf.filePath = viewModel.filePath;
-                newPdf.createDate = viewModel.createDate;
+                newUpload.upload_id = viewModel.upload_id;
+                newUpload.filePath = viewModel.filePath;
+                newUpload.createDate = viewModel.createDate;
             }
             else
             {
-                newPdf.filePath = path;
-                newPdf.createDate = DateTime.Now;
+                newUpload.filePath = path;
+                newUpload.createDate = DateTime.Now;
             }
-            newPdf.active = viewModel.active;
-            newPdf.class_id = viewModel.class_id;
-            newPdf.course_Id = viewModel.course_Id;
-            newPdf.uploadName = viewModel.uploadName;
-            newPdf.uploadType = viewModel.uploadType;
-            return newPdf;
+            newUpload.active = viewModel.active;
+            newUpload.class_id = viewModel.class_id;
+            newUpload.course_Id = viewModel.course_Id;
+            newUpload.uploadName = viewModel.uploadName;
+            newUpload.uploadType = viewModel.uploadType;
+            return newUpload;
         }
         public UploadViewModel modelToView(UploadModel upload)
         {
-            UploadViewModel newPdf = new UploadViewModel();
-            newPdf.filePath = upload.filePath;
-            newPdf.createDate = upload.createDate;
-            newPdf.active = upload.active;
-            newPdf.class_id = upload.class_id;
-            newPdf.course_Id = upload.course_Id;
-            newPdf.uploadName = upload.uploadName;
-            newPdf.uploadType = upload.uploadType;
-            return newPdf;
+            UploadViewModel newUpload = new UploadViewModel();
+            newUpload.filePath = upload.filePath;
+            newUpload.createDate = upload.createDate;
+            newUpload.active = upload.active;
+            newUpload.class_id = upload.class_id;
+            newUpload.course_Id = upload.course_Id;
+            newUpload.uploadName = upload.uploadName;
+            newUpload.uploadType = upload.uploadType;
+            return newUpload;
         }
         public List<SelectListItem> courses(int program_id)
         {
