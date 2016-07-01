@@ -7,6 +7,8 @@ using System.Data;
 using System.Threading.Tasks;
 using SendGrid;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Class_Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 using System.Net.Mail;

@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Program_Models;
+using ClassAnalytics.Models.Class_Models;
 using System.IO;
 
 namespace ClassAnalytics.Controllers
@@ -135,6 +137,10 @@ namespace ClassAnalytics.Controllers
                 new_class.class_Id = viewModel.class_Id;
                 new_class.program_id = viewModel.program_id;
                 new_class.ProgramModels = db.programModels.Find(viewModel.program_id);
+                if(!Directory.Exists(Server.MapPath("~//Uploads//classData//" + new_class.className)))
+                {
+                    Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + new_class.className));
+                }
                 db.classmodel.Add(new_class);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Students");

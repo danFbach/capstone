@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Program_Models;
+using ClassAnalytics.Models.Misc_Models;
+
 
 namespace ClassAnalytics.Controllers
 {
@@ -51,7 +54,7 @@ namespace ClassAnalytics.Controllers
                 {
                     if (course.program_Id == id)
                     {
-                        course.ProgramModels = program;
+                        course.programModels = program;
                         new_courses.Add(course);
                     }
                 }
@@ -78,7 +81,7 @@ namespace ClassAnalytics.Controllers
             ProgramModels program = db.programModels.Find(id);
             ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
             CourseModels course = new CourseModels();
-            course.ProgramModels = program;
+            course.programModels = program;
             course.program_Id = program.program_Id;
 
             return View(course);
@@ -120,7 +123,7 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CourseModels courseModels = db.coursemodels.Find(id);
-            courseModels.ProgramModels = db.programModels.Find(courseModels.program_Id);
+            courseModels.programModels = db.programModels.Find(courseModels.program_Id);
             if (courseModels == null)
             {
                 return HttpNotFound();
@@ -160,7 +163,7 @@ namespace ClassAnalytics.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CourseModels courseModels = db.coursemodels.Find(id);
-            courseModels.ProgramModels = db.programModels.Find(courseModels.program_Id);
+            courseModels.programModels = db.programModels.Find(courseModels.program_Id);
             if (courseModels == null)
             {
                 return HttpNotFound();

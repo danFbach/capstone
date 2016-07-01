@@ -222,9 +222,16 @@
     <Compile Include="Migrations\201606300208494_2.4.3.Designer.cs">
       <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\assignmentFileModel.cs" />
-    <Compile Include="Models\surveyCreateViewModel.cs" />
-    <Compile Include="Models\UploadViewModel.cs" />
+    <Compile Include="Migrations\201607010858556_trying student uploads.cs" />
+    <Compile Include="Migrations\201607010858556_trying student uploads.Designer.cs">
+      <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Task Models\TaskViewModel.cs" />
+    <Compile Include="Models\Uploads Models\assignmentFileModel.cs" />
+    <Compile Include="Models\Misc. Models\StudentEmail.cs" />
+    <Compile Include="Models\Survey Models\surveyCreateViewModel.cs" />
+    <Compile Include="Models\Uploads Models\studentUploads.cs" />
+    <Compile Include="Models\Uploads Models\UploadViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -233,32 +240,30 @@
       <DependentUpon>201606231730375_2.3.5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ClassModel.cs" />
-    <Compile Include="Models\ClassStudentViewModel.cs" />
-    <Compile Include="Models\CourseModels.cs" />
-    <Compile Include="Models\GradeBookModel.cs" />
-    <Compile Include="Models\GradebookViewModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InstructorModel.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MessagingModel.cs" />
-    <Compile Include="Models\MessagingViewModel.cs" />
-    <Compile Include="Models\UploadModel.cs" />
-    <Compile Include="Models\ProgClassViewModel.cs" />
-    <Compile Include="Models\ProgCourseViewModel.cs" />
-    <Compile Include="Models\ProgramModels.cs" />
-    <Compile Include="Models\StudentEmail.cs" />
-    <Compile Include="Models\StudentModels.cs" />
-    <Compile Include="Models\SurveyAnswers.cs" />
-    <Compile Include="Models\SurveyChartModel.cs" />
-    <Compile Include="Models\SurveyJoinTableModel.cs" />
-    <Compile Include="Models\SurveyModel.cs" />
-    <Compile Include="Models\SurveyQAViewModel.cs" />
-    <Compile Include="Models\SurveyQuestion.cs" />
-    <Compile Include="Models\TaskModel.cs" />
-    <Compile Include="Models\TaskTypeModels.cs" />
-    <Compile Include="Models\TaskViewModel.cs" />
+    <Compile Include="Models\Default Models\AccountViewModels.cs" />
+    <Compile Include="Models\Class Models\ClassModel.cs" />
+    <Compile Include="Models\Class Models\ClassStudentViewModel.cs" />
+    <Compile Include="Models\Misc. Models\CourseModels.cs" />
+    <Compile Include="Models\Gradebook Models\GradeBookModel.cs" />
+    <Compile Include="Models\Gradebook Models\GradebookViewModel.cs" />
+    <Compile Include="Models\Default Models\IdentityModels.cs" />
+    <Compile Include="Models\Misc. Models\InstructorModel.cs" />
+    <Compile Include="Models\Default Models\ManageViewModels.cs" />
+    <Compile Include="Models\Misc. Models\MessagingModel.cs" />
+    <Compile Include="Models\Misc. Models\MessagingViewModel.cs" />
+    <Compile Include="Models\Uploads Models\UploadModel.cs" />
+    <Compile Include="Models\Program Models\ProgClassViewModel.cs" />
+    <Compile Include="Models\Program Models\ProgCourseViewModel.cs" />
+    <Compile Include="Models\Program Models\ProgramModels.cs" />
+    <Compile Include="Models\Class Models\StudentModels.cs" />
+    <Compile Include="Models\Survey Models\SurveyAnswers.cs" />
+    <Compile Include="Models\Survey Models\SurveyChartModel.cs" />
+    <Compile Include="Models\Survey Models\SurveyJoinTableModel.cs" />
+    <Compile Include="Models\Survey Models\SurveyModel.cs" />
+    <Compile Include="Models\Survey Models\SurveyQAViewModel.cs" />
+    <Compile Include="Models\Survey Models\SurveyQuestion.cs" />
+    <Compile Include="Models\Task Models\TaskModel.cs" />
+    <Compile Include="Models\Task Models\TaskTypeModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -303,6 +308,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -483,6 +490,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\Assignments\" />
+    <Folder Include="Uploads\classData\Gold\" />
     <Folder Include="Uploads\Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +522,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606300208494_2.4.3.resx">
       <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607010858556_trying student uploads.resx">
+      <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,11 +1,17 @@
-﻿@model IEnumerable<ClassAnalytics.Models.UploadModel>
+﻿@model IEnumerable<ClassAnalytics.Models.Uploads_Models.UploadModel>
 
 @{
     
     ViewBag.Title = ViewBag.className + "'s Uploads";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="col-md-12">
+    <h2 style="text-align:center;">@ViewBag.Title</h2>
+    <h5 style="text-align:right;margin-top:-20px;">
+        @Html.ActionLink("Return to Classes", "Index", "Class") | 
+        @Html.ActionLink("New Upload", "Upload", new { id= ViewContext.RouteData.Values["id"] })
+    </h5>
+</div>
 
 <table class="table">
     <tr>
@@ -50,4 +56,3 @@
 }
 
 </table>
-@Html.ActionLink("Return to Classes", "Index","Class")

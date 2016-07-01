@@ -1,15 +1,33 @@
-﻿@model ClassAnalytics.Models.UploadModel
+﻿@model ClassAnalytics.Models.Uploads_Models.UploadModel
 @{
     ViewBag.Title = "Viewing " + Model.uploadName;
-    string file = Model.filePath;
+    var newFile = Server.MapPath("~//Uploads//" + Model.uploadType + "//" + Model.uploadName);
+    var userdata = File.ReadAllLines(newFile);
 }
 
 <center><h2>@ViewBag.Title</h2></center>
-<h4 style="text-align:right;margin-top:-30px;">@Html.ActionLink("Return to Uploads", "uploadList", new { id = Model.class_id })</h4>
+<h5 style="text-align:right;margin-top:-30px;">@Html.ActionLink("Return to Uploads", "uploadList", new { id = Model.class_id })</h5>
+<h5 style="text-align:left;margin-top:-30px;"><a href="~//Uploads//@Model.uploadType//@Model.uploadName" download>Download @Model.uploadName</a></h5>
+
+
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10" style="margin: 0 auto;">
-        <embed src="~/Uploads/@Model.uploadType/@Model.uploadName" style="background-color:rgba(255,255,255,.5);width:100%;height:500px;" />
+    <div class="col-md-10">
+        <pre style="background-color:#FFF;background-color:rgba(255,255,255,.75);height:500px;overflow:auto;">
+            @foreach(string line in userdata)
+            {
+                string thisLine = line;
+                if (thisLine == "")
+                {
+                    thisLine = "\t";
+                }
+                thisLine += "\n";
+                @Html.DisplayFor(item => thisLine);
+                    
+            }
+        </pre>
     </div>
     <div class="col-md-1"></div>
 </div>
+
+@*<embed class="pre code" src="~/Uploads/@Model.uploadType/@Model.uploadName" style="background-color:rgba(255,255,255,.5);width:100%;height:500px;">*@

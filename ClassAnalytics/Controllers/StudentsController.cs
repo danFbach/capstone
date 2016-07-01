@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,6 +11,10 @@ using System.Net.Mail;
 using SendGrid;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Task_Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Gradebook_Models;
+using ClassAnalytics.Models.Class_Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -130,6 +135,7 @@ namespace ClassAnalytics.Controllers
                 if (result.Succeeded)
                 {
                     student.student_account_Id = user.Id;
+                    Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
                     addRole(user);
                     studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName);
                     welcomeMessage(student, user);

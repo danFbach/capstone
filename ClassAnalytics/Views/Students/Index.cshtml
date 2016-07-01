@@ -1,9 +1,10 @@
-﻿@model IEnumerable<ClassAnalytics.Models.StudentModels>
+﻿@model IEnumerable<ClassAnalytics.Models.Class_Models.StudentModels>
 
 @{
     ViewBag.Title = @ViewBag.this_class + " Class";
 }
 <center><h3>@ViewBag.Title</h3></center>
+<h5 style="text-align:right;margin-top:-25px;">@Html.ActionLink("Return to Classes", "Index", "Class")</h5>
 
 <table class="table">
     <tr>
@@ -32,7 +33,5 @@
         </td>
     </tr>
 }
-
 </table>
 
-<center>@Html.ActionLink("Return to Classes", "Index", "Class")</center>

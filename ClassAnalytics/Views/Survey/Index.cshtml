@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.SurveyModel>
+﻿@model IEnumerable<ClassAnalytics.Models.Survey_Models.SurveyModel>
 
 @{
     ViewBag.Title = ViewBag.program + " Surveys";
@@ -8,7 +8,8 @@
 <p>
     <center><h2>@ViewBag.Title</h2></center>
     <div style="text-align:right;margin-top:-30px;">
-        @Html.ActionLink("Create a New Survey", "Create", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })
+        @Html.ActionLink("Create a New Survey", "Create", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" }) | 
+        @Html.ActionLink("Return to Classes","Index","Class")
     </div>
 </p>
 <table class="table">

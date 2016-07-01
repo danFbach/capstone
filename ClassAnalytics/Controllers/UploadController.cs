@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Uploads_Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Class_Models;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
@@ -46,6 +49,7 @@ namespace ClassAnalytics.Controllers
         {
             if(id != null)
             {
+                
                 UploadModel upload = db.uploadModel.Find(id);
                 return View(upload);
             }
@@ -233,7 +237,7 @@ namespace ClassAnalytics.Controllers
                         db.uploadModel.Add(newUpload);
                         db.SaveChanges();
                         file.SaveAs(path);
-                        return RedirectToAction("Index", "Class");
+                        return RedirectToAction("uploadList/" + uploadModel.class_id );
                     }
                     else
                     {

@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Task_Models;
+using ClassAnalytics.Models.Gradebook_Models;
+using ClassAnalytics.Models.Class_Models;
 using Microsoft.AspNet.Identity;
 
 namespace ClassAnalytics.Controllers

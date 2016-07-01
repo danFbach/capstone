@@ -9,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Survey_Models;
+using ClassAnalytics.Models.Program_Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Class_Models;
 
 namespace ClassAnalytics.Controllers
 {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.ProgClassViewModel>
+﻿@model IEnumerable<ClassAnalytics.Models.Program_Models.ProgClassViewModel>
 
 @{
     ViewBag.Title = "Class Management";
@@ -15,7 +15,7 @@
             <input type="submit" value="Search" class="btn btn-primary-2" />
         </div>
     }
-    <div class="col-sm-8" style="text-align:right;">
+    <div class="col-sm-8" style="text-align:right;margin-top:10px;padding-right:25px;">
         <h5>@Html.ActionLink("Add a new Class", "Create")</h5>
         <h5 class="text-danger">@ViewBag.statusMesssage</h5>
     </div>
@@ -31,33 +31,34 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td style="padding-top:10px;">
-            @Html.DisplayFor(modelItem => item.className)
-        </td>
-        <td style="padding-top:10px;">
-            @Html.DisplayFor(modelItem => item.ProgramModels.programName)
-        </td>
-        <td>
-            <div class="btn-group" style="margin:0px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Uploads</button>
-                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Upload", "Upload", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
-            </div>
-            <div class="btn-group" style="margin:0px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Students</button>
-                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Student","Create", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "Index", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
-            </div>
-            <div class="btn-group" style="margin:0px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
-                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("View Grades","Index", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new {id=item.class_Id}, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
-            </div>
-            <div class="btn-group" style="margin:0px;">
-                <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
-                <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
-            </div>
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="padding-top:10px;">
+                @Html.DisplayFor(modelItem => item.className)
+            </td>
+            <td style="padding-top:10px;">
+                @Html.DisplayFor(modelItem => item.ProgramModels.programName)
+            </td>
+            <td>
+                <div class="btn-group" style="margin:0px;">
+                    <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Uploads</button>
+                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Upload", "Upload", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+                </div>
+                <div class="btn-group" style="margin:0px;">
+                    <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Students</button>
+                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Student", "Create", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "Index", "Students", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+                </div>
+                <div class="btn-group" style="margin:0px;">
+                    <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
+                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("View Grades", "Index", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+                </div>
+                <div class="btn-group" style="margin:0px;">
+                    <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
+                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>

@@ -1740,6 +1740,7 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 14px;
   line-height: 1.428571429;
   color: #555;
+  background-color:#FFF;
   background-color: rgba(255,255,255,.5);
   border: 1px solid #cccccc;
   border-radius: 6px;
@@ -4966,6 +4967,7 @@ a.list-group-item.active > .badge,
   font-weight: 200;
   line-height: 2.1428571435;
   color: #111;
+  background-color:none;
   background:rgba(225,225,225,0);
   opacity: .7;
 }
