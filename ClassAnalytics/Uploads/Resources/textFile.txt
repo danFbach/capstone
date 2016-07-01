@@ -1,8 +1,0 @@
-Daniel Fehrenbach
-1) The "this" keyword is used when writing functions within a class, making them accessible externally in the class and can be taken advantage of by instantiating that individual function if needed. It allows that function to be called upon within the class as well as externally.
-
-2) A Javascript function is an action that is declared by using the function keyword. A function provides an action to the greater purpose of the class and/or document. Block scope refers to the scope of variables, in which the are scoped to the nearest parent function.
-
-3) Closures are a characteristic of javascript functions that dictates that the function will remember its environment/scope from when it was initially made, including any variables, extra functions and/or other variables.
-
-4), 5), 6) see attatched tester.js .zip
