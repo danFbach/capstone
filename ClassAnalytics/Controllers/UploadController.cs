@@ -16,12 +16,80 @@ namespace ClassAnalytics.Controllers
     public class UploadController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult studentUpload(int? id)
+        {
+            studentUploads uploads = new studentUploads();
+            if (id != null)
+            {
+                uploads.task_id = id;
+            }
+            return View(uploads);
+        }
         
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult studentUpload(HttpPostedFileBase file, studentUploads newUpload)
+        {
+            string userID = User.Identity.GetUserId();
+            string className = "";
+            List<StudentModels> students = db.studentModels.ToList();
+            StudentModels this_student = new StudentModels();
+            foreach(StudentModels student in students)
+            {
+                if(student.student_account_Id == userID)
+                {
+                    this_student = student;
+                }
+            }
+            this_student.ClassModel = db.classmodel.Find(this_student.class_Id);
+            className = this_student.ClassModel.className;
+            if(file == null)
+            {
+                ViewBag.StatusMessage = "No file Selected";
+                return View(newUpload);
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var strs = file.FileName.Split('.');
+                    string ext = strs[strs.Count() - 1];
+                    if(ext == "pdf" || ext == "txt" || ext == "css" || ext == "html" || ext == "js")
+                    {
+                        if(newUpload.file_name == null)
+                        {
+                            newUpload.file_name = file.FileName;
+                        }
+                        else
+                        {
+                            newUpload.file_name += ("." + ext);
+                        }
+                        string path = Server.MapPath("~//Uploads//classData//" + className + "//" + userID + "//" + newUpload.file_name);
+                        file.SaveAs(path);
+                        newUpload.class_name = className;
+                        newUpload.createDate = DateTime.Now;
+                        newUpload.student_account_id = userID;
+                        db.studentUpload.Add(newUpload);
+                        db.SaveChanges();
+                        return RedirectToAction("studentIndex");
+                    }
+                    else
+                    {
+                        return View(newUpload);
+                    }
+                }
+                else
+                {
+                    ViewBag.StatusMessage = "Invalid Filetype.";
+                    return View(newUpload);
+                }
+            }
+        }
         public ActionResult studentIndex()
         {
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             List<StudentModels> students = db.studentModels.ToList();
-            List<UploadModel> uploads = db.uploadModel.ToList();
+            List<studentUploads> uploads = db.studentUpload.ToList();
             List<UploadModel> thisUploads = new List<UploadModel>();
             StudentModels thisStudent = new StudentModels();
             foreach(StudentModels student in students)
@@ -33,14 +101,11 @@ namespace ClassAnalytics.Controllers
                 }
             }
             ViewBag.student = thisStudent.fName;
-            foreach(UploadModel upload in uploads)
+            foreach(studentUploads upload in uploads)
             {
-                if(upload.class_id == thisStudent.class_Id)
+                if(upload.student_account_id == UserId)
                 {
-                    if(upload.active == true)
-                    {
-                        thisUploads.Add(upload);
-                    }
+                    
                 }
             }
             return View(thisUploads);

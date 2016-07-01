@@ -193,7 +193,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessagingController.cs" />
     <Compile Include="Controllers\ProgramModelsController.cs" />
-    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
@@ -226,11 +226,16 @@
     <Compile Include="Migrations\201607010858556_trying student uploads.Designer.cs">
       <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607012003598_student upload fix v2.3.6.cs" />
+    <Compile Include="Migrations\201607012003598_student upload fix v2.3.6.Designer.cs">
+      <DependentUpon>201607012003598_student upload fix v2.3.6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Task Models\TaskViewModel.cs" />
     <Compile Include="Models\Uploads Models\assignmentFileModel.cs" />
     <Compile Include="Models\Misc. Models\StudentEmail.cs" />
     <Compile Include="Models\Survey Models\surveyCreateViewModel.cs" />
     <Compile Include="Models\Uploads Models\studentUploads.cs" />
+    <Compile Include="Models\Uploads Models\studentUploadViewModel.cs" />
     <Compile Include="Models\Uploads Models\UploadViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -308,8 +313,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="ClassDiagram1.cd" />
-    <Content Include="ClassDiagram2.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -486,11 +489,13 @@
     <Content Include="Views\Upload\Delete.cshtml" />
     <Content Include="Views\Upload\studentIndex.cshtml" />
     <Content Include="Views\Upload\textView.cshtml" />
+    <Content Include="Views\Upload\studentUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\Assignments\" />
     <Folder Include="Uploads\classData\Gold\" />
+    <Folder Include="Uploads\classData\Tacos\85120a17-ae6b-460e-a69f-21a501a541f3\" />
     <Folder Include="Uploads\Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +530,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607010858556_trying student uploads.resx">
       <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607012003598_student upload fix v2.3.6.resx">
+      <DependentUpon>201607012003598_student upload fix v2.3.6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

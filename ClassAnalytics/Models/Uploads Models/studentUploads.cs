@@ -9,7 +9,7 @@ namespace ClassAnalytics.Models.Uploads_Models
     public class studentUploads
     {
         [Key]
-        public string file_Id { get; set; }
+        public int id { get; set; }
         public string student_account_id { get; set; }
         public string class_name { get; set; }
         [Display(Name ="File Name")]

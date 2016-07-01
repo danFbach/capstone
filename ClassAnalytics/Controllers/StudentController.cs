@@ -21,7 +21,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace ClassAnalytics.Controllers
 {
-    public class StudentsController : Controller
+    public class StudentController : Controller
     {
         
         private ApplicationUserManager _userManager;
