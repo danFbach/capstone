@@ -90,8 +90,11 @@ namespace ClassAnalytics.Controllers
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             List<StudentModels> students = db.studentModels.ToList();
             List<studentUploads> uploads = db.studentUpload.ToList();
-            List<UploadModel> thisUploads = new List<UploadModel>();
+            List<UploadModel> classUploads = db.uploadModel.ToList();
             StudentModels thisStudent = new StudentModels();
+            studentUploadViewModel viewModel = new studentUploadViewModel();
+            viewModel.uploadList = new List<UploadModel>();
+            viewModel.studentUploadList = new List<studentUploads>();
             foreach(StudentModels student in students)
             {
                 if(student.student_account_Id == UserId)
@@ -105,10 +108,19 @@ namespace ClassAnalytics.Controllers
             {
                 if(upload.student_account_id == UserId)
                 {
-                    
+                    viewModel.studentUploadList.Add(upload);
                 }
             }
-            return View(thisUploads);
+            foreach(UploadModel upload in classUploads)
+            {
+                if(upload.class_id == thisStudent.class_Id)
+                {
+                    upload.courseModels = db.coursemodels.Find(upload.course_Id);
+                    viewModel.uploadList.Add(upload);
+                }
+            }
+            viewModel.uploadList = viewModel.uploadList.OrderByDescending(x => x.createDate).ToList();
+            return View(viewModel);
         }
         public ActionResult Edit(int? id)
         {

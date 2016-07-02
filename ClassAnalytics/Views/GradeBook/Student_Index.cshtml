@@ -1,5 +1,4 @@
-﻿@model ClassAnalytics.Models.GradebookViewModel
-
+﻿@model ClassAnalytics.Models.Gradebook_Models.GradebookViewModel
 @{
     ViewBag.Title = Model.studentName + "'s Gradebook";
 }
@@ -44,7 +43,8 @@
             @Html.DisplayFor(modelItem => item.grade)%
         </td>
         <td>
-            @Html.ActionLink("View Grade Details", "StudentDetails", new { id=item.grade_Id }) 
+            @Html.ActionLink("View Grade Details", "StudentDetails", new { id=item.grade_Id }) | 
+            @Html.ActionLink("Upload File for Task", "studentUpload", "Upload",new { id = item.task_Id }, new { @class="a" })
         </td>
     </tr>
 }

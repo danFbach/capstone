@@ -1,43 +1,73 @@
-﻿@model IEnumerable<ClassAnalytics.Models.Uploads_Models.UploadModel>
-
+﻿@model ClassAnalytics.Models.Uploads_Models.studentUploadViewModel
 @{
-
-    ViewBag.Title = ViewBag.student + "'s Uploads";
+    ViewBag.Title = ViewBag.student + "'s File Manager";
 }
 
 <h2>@ViewBag.Title</h2>
+<h5>@Html.ActionLink("New Upload", "studentUpload", "Upload")</h5>
+<div class="row">
+    <div class="col-md-6">
+        <h4 style="text-align:center;">Class Files</h4>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th style="text-align:left;">
+                    @Html.Label("Upload Name")
+                </th>
+                <th>
+                    @Html.Label("Upload Type")
+                </th>
+                <th>
+                    @Html.Label("Course")
+                </th>
+            </tr>
 
-<table class="table">
-    <tr>
-        <th></th>
-        <th style="text-align:left;">
-            @Html.DisplayNameFor(m => m.uploadName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.course_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.uploadType)
-        </th>
-    </tr>
+            @foreach (var item in Model.uploadList)
+            {
+                <tr>
+                    <td style="width:115px;">
+                        @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td style="text-align:left;">
+                        @Html.ActionLink(item.uploadName, "ViewFile", new { id = item.upload_id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.uploadType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.courseModels.courseName)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4 style="text-align:center;">Your Files</h4>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th style="text-align:left;">
+                    @Html.Label("Upload Name")
+                </th>
+                <th>
+                    @Html.Label("Upload Date")
+                </th>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td style="width:115px;">
-                @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
-            </td>
-            <td style="text-align:left;">
-                @Html.ActionLink(item.uploadName, "PDFView", new { id = item.upload_id })
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.courseModels.courseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.uploadType)
-            </td>
-        </tr>
-    }
-
-</table>
-@Html.ActionLink("Return to Classes", "Index", "Class")
+            @foreach (var item in Model.studentUploadList)
+            {
+                <tr>
+                    <td style="width:115px;">
+                        @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td style="text-align:left;">
+                        @Html.ActionLink(item.file_name, "ViewFile", new { id = item.id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.createDate)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
