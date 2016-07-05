@@ -6,7 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-ClassAnalytics/Controllers/CommunicationController.cs
+# ClassAnalytics/Controllers/CommunicationController.cs
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
