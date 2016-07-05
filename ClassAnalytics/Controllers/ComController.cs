@@ -15,7 +15,7 @@ using System.Net.Mail;
 
 namespace ClassAnalytics.Controllers
 {
-    public class CommunicationController : Controller
+    public class ComController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         
