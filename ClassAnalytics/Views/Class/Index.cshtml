@@ -51,7 +51,7 @@
                 </div>
                 <div class="btn-group" style="margin:0px;">
                     <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
-                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("View Grades", "Index", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
+                    <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("View Grades", "Index", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Assign or Create Task", "Index", "Course", new { id = item.program_id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Grade Charts", "AdminCharts", "GradeBook", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item.class_Id }, new { @class = "navbar_links" })</div>
                 </div>
                 <div class="btn-group" style="margin:0px;">
                     <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>

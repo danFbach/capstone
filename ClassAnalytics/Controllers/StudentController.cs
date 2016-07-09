@@ -120,12 +120,12 @@ namespace ClassAnalytics.Controllers
             if (ModelState.IsValid)
             {
                 StudentModels student = new StudentModels();
+                RegisterViewModel newUser = new RegisterViewModel();
                 student.ClassModel = db.classmodel.Find(viewModel.class_Id);
                 student.ClassModel.ProgramModels = db.programModels.Find(student.ClassModel.program_id);
                 student.student_Id = viewModel.student_Id;
                 student.fName = viewModel.fName;
                 student.lName = viewModel.lName;
-                RegisterViewModel newUser = new RegisterViewModel();
                 newUser.Email = viewModel.newEmail;
                 newUser.Password = "R3$et_this";
                 newUser.ConfirmPassword = newUser.Password;
@@ -138,23 +138,9 @@ namespace ClassAnalytics.Controllers
                     db.studentModels.Add(student);
                     Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
                     addRole(user);
-                    studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName);
+                    //studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName); //Commented out while trouble shooting, uncomment to enable confirmation emails, username/password for send grid also required in function
                     welcomeMessage(student, user);
-                    List<TaskModel> tasks = db.taskModel.ToList();
-                    foreach (TaskModel task in tasks)
-                    {
-                        task.CourseModels = db.coursemodels.Find(task.course_Id);
-                        GradeBookModel grade = new GradeBookModel();
-                        if (task.CourseModels.program_Id == student.ClassModel.program_id)
-                        {
-                            grade.class_Id = student.class_Id;
-                            grade.pointsEarned = null;
-                            grade.possiblePoints = task.points;
-                            grade.student_Id = student.student_Id;
-                            grade.task_Id = task.task_Id;
-                            db.gradeBookModel.Add(grade);
-                        }
-                    }
+                    createGrades(student); //create gradebook entries retroactively for tasks already assigned to class
                     db.SaveChanges();                
                     return RedirectToAction("Index", "Class");
                 }
@@ -164,6 +150,25 @@ namespace ClassAnalytics.Controllers
             }
             viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
             return View(viewModel);
+        }
+        public void createGrades(StudentModels student)
+        {
+            List<ClassTaskJoinModel> classTask = db.classTask.ToList();
+            foreach (ClassTaskJoinModel _tasks in classTask)
+            {
+                if (_tasks.class_id == student.class_Id)
+                {
+                    GradeBookModel grade = new GradeBookModel();
+                    TaskModel task = db.taskModel.Find(_tasks.task_id);
+                    grade.class_Id = student.class_Id;
+                    grade.pointsEarned = null;
+                    grade.possiblePoints = task.points;
+                    grade.student_Id = student.student_Id;
+                    grade.task_Id = _tasks.task_id;
+                    db.gradeBookModel.Add(grade);
+                    db.SaveChanges();
+                }
+            }
         }
         public void addRole(ApplicationUser user)
         {
@@ -182,7 +187,6 @@ namespace ClassAnalytics.Controllers
             message.dateSent = DateTime.Now;
             db.messagingModel.Add(message);
         }
-
         public string makeUserName(string firstName, string lastName, int count)
         {
             string username;
@@ -205,7 +209,6 @@ namespace ClassAnalytics.Controllers
                 return username;
             }
         }
-
         // GET: Students/Edit/5
         public ActionResult Edit(int? id)
         {

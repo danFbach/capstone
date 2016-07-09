@@ -203,6 +203,12 @@
     <Compile Include="Migrations\201607080818220_v2_5.Designer.cs">
       <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607091825413_classTask.cs" />
+    <Compile Include="Migrations\201607091825413_classTask.Designer.cs">
+      <DependentUpon>201607091825413_classTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Class Models\assignTaskViewModel.cs" />
+    <Compile Include="Models\Class Models\ClassTaskJoinModel.cs" />
     <Compile Include="Models\Instructor Models\InstrctrClassJoin.cs" />
     <Compile Include="Models\Instructor Models\InstructorDetailViewModel.cs" />
     <Compile Include="Models\Instructor Models\InstructorClassJoinModel.cs" />
@@ -471,6 +477,7 @@
     <Content Include="Views\Instructor\addToClass.cshtml" />
     <Content Include="Views\Shared\_Instructor_Layout.cshtml" />
     <Content Include="Views\Instructor\removeFromClass.cshtml" />
+    <Content Include="Views\Class\assignClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -490,6 +497,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201607080818220_v2_5.resx">
       <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607091825413_classTask.resx">
+      <DependentUpon>201607091825413_classTask.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

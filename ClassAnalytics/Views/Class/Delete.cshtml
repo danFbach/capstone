@@ -1,27 +1,16 @@
 ﻿@model ClassAnalytics.Models.Class_Models.ClassModel
 
 @{
-    ViewBag.Title = "Remove Class";
+    ViewBag.Title = "Remove " + Model.className + "?";
 }
 
 <div>
-    <h3>@ViewBag.Title</h3>
+    <h3 style="padding-left:20px;">@ViewBag.Title</h3>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.className)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.className)
-        </dd>
-
-    </dl>
-
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-actions no-color" style="padding-left:20px;">
             <input type="submit" value="Delete" class="btn btn-primary-2" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>

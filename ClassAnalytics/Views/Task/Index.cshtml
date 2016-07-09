@@ -49,6 +49,7 @@
             @Html.DisplayFor(modelItem => item.endDate)
         </td>
         <td>
+            @Html.ActionLink("Assign to Class", "assignClass", "Class", new { task_id=item.task_Id }, new { @class="" }) | 
             @Html.ActionLink("Modify", "Edit", new { id=item.task_Id }) |
             @Html.ActionLink("Remove", "Delete", new { id=item.task_Id })
         </td>

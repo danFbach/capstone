@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using ClassAnalytics.Models;
 using ClassAnalytics.Models.Program_Models;
 using ClassAnalytics.Models.Class_Models;
+using ClassAnalytics.Models.Task_Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Gradebook_Models;
 using System.IO;
 
 namespace ClassAnalytics.Controllers
@@ -16,7 +19,90 @@ namespace ClassAnalytics.Controllers
     public class ClassController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-       
+        
+        public ActionResult assignClass(int? task_id)
+        {
+            if(task_id != null)
+            {
+                assignTaskViewModel viewModel = new assignTaskViewModel();
+                ClassTaskJoinModel classTask = new ClassTaskJoinModel();
+                classTask.task = db.taskModel.Find(task_id);
+                classTask.task_id = classTask.task.task_Id;
+                viewModel.classTask = classTask;
+                viewModel = getClasses(viewModel);
+                return View(viewModel);
+            }
+            ViewBag.statusMessage = "Error";
+            return View("Index");
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult assignClass(assignTaskViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                ClassTaskJoinModel classTask = new ClassTaskJoinModel();
+                List<ClassTaskJoinModel> tasks = db.classTask.ToList();
+                classTask.class_id = viewModel.classTask.class_id;
+                classTask.task_id = viewModel.classTask.task_id;
+                classTask._class = db.classmodel.Find(classTask.class_id);
+                classTask.task = db.taskModel.Find(classTask.task_id);
+                foreach(ClassTaskJoinModel task in tasks)
+                {
+                    if(task.class_id == classTask.class_id)
+                    {
+                        if(task.task_id == classTask.task_id)
+                        {
+                            viewModel.classTask.task = db.taskModel.Find(classTask.task_id);
+                            viewModel = getClasses(viewModel);
+                            ViewBag.statusMessage = classTask.task.taskName + " is already assigned to " + classTask._class.className + ".";
+                            return View(viewModel);
+                        }
+                    }
+                }
+                db.classTask.Add(classTask);
+                createGrades(classTask.task, classTask.class_id);
+                db.SaveChanges();
+                ViewBag.statusMessage = classTask.task.taskName + " has been assigned to" + classTask._class.className;
+                return RedirectToAction("Index");
+            }
+            ViewBag.statusMessage = "Invalid Entry";
+            return RedirectToAction("Index");
+        }
+        public assignTaskViewModel getClasses(assignTaskViewModel viewModel)
+        {
+            List<ClassModel> classes = db.classmodel.ToList();
+            viewModel.classes = new List<SelectListItem>();
+            foreach (ClassModel _class in classes)
+            {
+                CourseModels course = db.coursemodels.Find(viewModel.classTask.task.course_Id);
+                if (_class.program_id == course.program_Id)
+                {
+                    viewModel.classes.Add(new SelectListItem() { Text = _class.className, Value = _class.class_Id.ToString() });
+                }
+            }
+            return viewModel;
+        }
+        public void createGrades(TaskModel task, int class_id)
+        {
+            List<StudentModels> students = db.studentModels.ToList();
+            foreach (StudentModels student in students)
+            {
+                GradeBookModel grade = new GradeBookModel();
+                student.ClassModel = db.classmodel.Find(student.class_Id);
+                task.CourseModels = db.coursemodels.Find(task.course_Id);
+                if (student.class_Id == class_id)
+                {
+                    grade.class_Id = class_id;
+                    grade.pointsEarned = null;
+                    grade.possiblePoints = task.points;
+                    grade.student_Id = student.student_Id;
+                    grade.task_Id = task.task_Id;
+                    db.gradeBookModel.Add(grade);
+                }
+            }
+        }
         public ActionResult studentIndex(int? id)
         {
             if (id != null)
