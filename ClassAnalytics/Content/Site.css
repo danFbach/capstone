@@ -59,53 +59,53 @@ textarea {
     transition: background 2s ease-in-out;
 }
 
-    .sidebar-dropdown-menu .divider {
-        height: 1px;
-        margin: 9px 0;
-        overflow: hidden;
-        background-color: #e5e5e5;
-    }
+.sidebar-dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
 
-    .sidebar-dropdown-menu > li > a {
-        display: block;
-        padding: 3px 20px;
-        clear: both;
-        font-weight: normal;
-        line-height: 1.428571429;
-        color: #333333;
-        white-space: nowrap;
-    }
+.sidebar-dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
 
-        .sidebar-dropdown-menu > li > a:hover,
-        .sidebar-dropdown-menu > li > a:focus {
-            color: #ffffff;
-            text-decoration: none;
-            background-color: #428bca;
-        }
+.sidebar-dropdown-menu > li > a:hover,
+.sidebar-dropdown-menu > li > a:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #428bca;
+}
 
-    .sidebar-dropdown-menu > .active > a,
-    .sidebar-dropdown-menu > .active > a:hover,
-    .sidebar-dropdown-menu > .active > a:focus {
-        color: #ffffff;
-        text-decoration: none;
-        background-color: #428bca;
-        outline: 0;
-    }
+.sidebar-dropdown-menu > .active > a,
+.sidebar-dropdown-menu > .active > a:hover,
+.sidebar-dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #428bca;
+    outline: 0;
+}
 
-    .sidebar-dropdown-menu > .disabled > a,
-    .sidebar-dropdown-menu > .disabled > a:hover,
-    .sidebar-dropdown-menu > .disabled > a:focus {
-        color: #999999;
-    }
+.sidebar-dropdown-menu > .disabled > a,
+.sidebar-dropdown-menu > .disabled > a:hover,
+.sidebar-dropdown-menu > .disabled > a:focus {
+    color: #999999;
+}
 
-        .sidebar-dropdown-menu > .disabled > a:hover,
-        .sidebar-dropdown-menu > .disabled > a:focus {
-            text-decoration: none;
-            cursor: not-allowed;
-            background-color: transparent;
-            background-image: none;
-            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-        }
+.sidebar-dropdown-menu > .disabled > a:hover,
+.sidebar-dropdown-menu > .disabled > a:focus {
+    text-decoration: none;
+    cursor: not-allowed;
+    background-color: transparent;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
 
 .open > .sidebar-dropdown-menu {
     display: block;
@@ -123,19 +123,19 @@ textarea {
     padding: 8px;
 }
 
-    .btn-primary-new:hover,
-    .btn-primary-new:focus,
-    .btn-primary-new:active,
-    .btn-primary-new.active,
-    .open .dropdown-toggle.btn-primary-new {
-        color: #428bca;
-        border: #428bca solid 1px;
-        background-color:#FFF;
-        background-color: rgba(255,255,255,.5);
-        -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        text-align: center;
-    }
+.btn-primary-new:hover,
+.btn-primary-new:focus,
+.btn-primary-new:active,
+.btn-primary-new.active,
+.open .dropdown-toggle.btn-primary-new {
+    color: #428bca;
+    border: #428bca solid 1px;
+    background-color:#FFF;
+    background-color: rgba(255,255,255,.5);
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
 
 .btn-primary-2 {
     color: #555;
@@ -151,13 +151,23 @@ textarea {
     transition: color .3s ease-in-out;
 }
 
-    .btn-primary-2:hover,
-    .btn-primary-2:focus,
-    .btn-primary-2:active,
-    .btn-primary-2.active,
-    .open .dropdown-toggle.btn-primary-2 {
-        color: #428bca;
-        background-color:#FFF;
-        border-left: none;
-        text-align: center;
-    }
+.btn-primary-2:hover,
+.btn-primary-2:focus,
+.btn-primary-2:active,
+.btn-primary-2.active,
+.open .dropdown-toggle.btn-primary-2 {
+    color: #428bca;
+    background-color:#FFF;
+    border-left: none;
+    text-align: center;
+}
+
+.navbar_actions {
+    font-size:12pt;
+    color:#FFF;
+}
+.navbar_actions:hover,
+.navbar_actions:focus,
+.navbar.actions:active {
+    color:#CCC;
+}

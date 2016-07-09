@@ -7,13 +7,13 @@ namespace ClassAnalytics.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class _24newuploadmodel : IMigrationMetadata
+    public sealed partial class v2_5 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_24newuploadmodel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(v2_5));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606300106595_2.4 new upload model"; }
+            get { return "201607080818220_v2_5"; }
         }
         
         string IMigrationMetadata.Source

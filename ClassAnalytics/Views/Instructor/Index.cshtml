@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ClassAnalytics.Models.Instructor_Models.InstructorModel>
+
+@{
+    ViewBag.Title = "Instructors";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Add Instructor", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.ActionLink("Add to Program", "addProgram", new { id=item.instructor_Id}) | 
+            @Html.ActionLink("Edit", "Edit", new { id=item.instructor_Id }) |
+            @Html.ActionLink("View/Edit Classes", "Details", new { id=item.instructor_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.instructor_Id })
+        </td>
+    </tr>
+}
+
+</table>

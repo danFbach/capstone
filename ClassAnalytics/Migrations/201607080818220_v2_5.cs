@@ -3,7 +3,7 @@ namespace ClassAnalytics.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _235 : DbMigration
+    public partial class v2_5 : DbMigration
     {
         public override void Up()
         {
@@ -58,9 +58,9 @@ namespace ClassAnalytics.Migrations
                         grade = c.Decimal(precision: 18, scale: 2),
                     })
                 .PrimaryKey(t => t.grade_Id)
-                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: false)
+                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: true)
                 .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
-                .ForeignKey("dbo.TaskModels", t => t.task_Id, cascadeDelete: true)
+                .ForeignKey("dbo.TaskModels", t => t.task_Id, cascadeDelete: false)
                 .Index(t => t.student_Id)
                 .Index(t => t.task_Id)
                 .Index(t => t.class_Id);
@@ -76,7 +76,7 @@ namespace ClassAnalytics.Migrations
                         student_account_Id = c.String(),
                     })
                 .PrimaryKey(t => t.student_Id)
-                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: true)
+                .ForeignKey("dbo.ClassModels", t => t.class_Id, cascadeDelete: false)
                 .Index(t => t.class_Id);
             
             CreateTable(
@@ -109,15 +109,28 @@ namespace ClassAnalytics.Migrations
                 .PrimaryKey(t => t.taskType_Id);
             
             CreateTable(
+                "dbo.InstrctrClassJoins",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        instructor_id = c.Int(nullable: false),
+                        class_id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.ClassModels", t => t.class_id, cascadeDelete: true)
+                .Index(t => t.class_id);
+            
+            CreateTable(
                 "dbo.InstructorModels",
                 c => new
                     {
-                        instuctor_Id = c.Int(nullable: false, identity: true),
+                        instructor_Id = c.Int(nullable: false, identity: true),
                         fName = c.String(nullable: false),
                         lName = c.String(nullable: false),
-                        instructor_account_Id = c.String(nullable: false),
+                        email = c.String(nullable: false),
+                        instructor_account_Id = c.String(),
                     })
-                .PrimaryKey(t => t.instuctor_Id);
+                .PrimaryKey(t => t.instructor_Id);
             
             CreateTable(
                 "dbo.MessagingModels",
@@ -208,6 +221,21 @@ namespace ClassAnalytics.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
+                "dbo.studentUploads",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        student_account_id = c.String(),
+                        class_name = c.String(),
+                        file_name = c.String(),
+                        createDate = c.DateTime(nullable: false),
+                        task_id = c.Int(),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.TaskModels", t => t.task_id)
+                .Index(t => t.task_id);
+            
+            CreateTable(
                 "dbo.SurveyAnswers",
                 c => new
                     {
@@ -218,9 +246,9 @@ namespace ClassAnalytics.Migrations
                         survey_join_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.answer_Id)
-                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: false)
+                .ForeignKey("dbo.StudentModels", t => t.student_Id, cascadeDelete: true)
                 .ForeignKey("dbo.SurveyJoinTableModels", t => t.survey_join_id, cascadeDelete: true)
-                .ForeignKey("dbo.SurveyQuestions", t => t.question_Id, cascadeDelete: false )
+                .ForeignKey("dbo.SurveyQuestions", t => t.question_Id, cascadeDelete: true)
                 .Index(t => t.student_Id)
                 .Index(t => t.question_Id)
                 .Index(t => t.survey_join_id);
@@ -246,10 +274,10 @@ namespace ClassAnalytics.Migrations
                     {
                         survey_Id = c.Int(nullable: false, identity: true),
                         SurveyName = c.String(),
-                        course_Id = c.Int(),
+                        course_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.survey_Id)
-                .ForeignKey("dbo.CourseModels", t => t.course_Id)
+                .ForeignKey("dbo.CourseModels", t => t.course_Id, cascadeDelete: false)
                 .Index(t => t.course_Id);
             
             CreateTable(
@@ -261,13 +289,34 @@ namespace ClassAnalytics.Migrations
                         survey_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.question_Id)
-                .ForeignKey("dbo.SurveyModels", t => t.survey_Id, cascadeDelete: true)
+                .ForeignKey("dbo.SurveyModels", t => t.survey_Id, cascadeDelete: false)
                 .Index(t => t.survey_Id);
+            
+            CreateTable(
+                "dbo.UploadModels",
+                c => new
+                    {
+                        upload_id = c.Int(nullable: false, identity: true),
+                        uploadName = c.String(),
+                        class_id = c.Int(),
+                        filePath = c.String(),
+                        active = c.Boolean(nullable: false),
+                        createDate = c.DateTime(nullable: false),
+                        uploadType = c.String(),
+                        course_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.upload_id)
+                .ForeignKey("dbo.ClassModels", t => t.class_id)
+                .ForeignKey("dbo.CourseModels", t => t.course_Id)
+                .Index(t => t.class_id)
+                .Index(t => t.course_Id);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.UploadModels", "course_Id", "dbo.CourseModels");
+            DropForeignKey("dbo.UploadModels", "class_id", "dbo.ClassModels");
             DropForeignKey("dbo.SurveyAnswers", "question_Id", "dbo.SurveyQuestions");
             DropForeignKey("dbo.SurveyAnswers", "survey_join_id", "dbo.SurveyJoinTableModels");
             DropForeignKey("dbo.SurveyJoinTableModels", "survey_Id", "dbo.SurveyModels");
@@ -275,12 +324,14 @@ namespace ClassAnalytics.Migrations
             DropForeignKey("dbo.SurveyModels", "course_Id", "dbo.CourseModels");
             DropForeignKey("dbo.SurveyJoinTableModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.SurveyAnswers", "student_Id", "dbo.StudentModels");
+            DropForeignKey("dbo.studentUploads", "task_id", "dbo.TaskModels");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.MessagingModels", "sending_User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.MessagingModels", "receiving_User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.InstrctrClassJoins", "class_id", "dbo.ClassModels");
             DropForeignKey("dbo.GradeBookModels", "task_Id", "dbo.TaskModels");
             DropForeignKey("dbo.TaskModels", "taskType_Id", "dbo.TaskTypeModels");
             DropForeignKey("dbo.TaskModels", "course_Id", "dbo.CourseModels");
@@ -289,6 +340,8 @@ namespace ClassAnalytics.Migrations
             DropForeignKey("dbo.GradeBookModels", "class_Id", "dbo.ClassModels");
             DropForeignKey("dbo.CourseModels", "program_Id", "dbo.ProgramModels");
             DropForeignKey("dbo.ClassModels", "program_id", "dbo.ProgramModels");
+            DropIndex("dbo.UploadModels", new[] { "course_Id" });
+            DropIndex("dbo.UploadModels", new[] { "class_id" });
             DropIndex("dbo.SurveyQuestions", new[] { "survey_Id" });
             DropIndex("dbo.SurveyModels", new[] { "course_Id" });
             DropIndex("dbo.SurveyJoinTableModels", new[] { "survey_Id" });
@@ -296,6 +349,7 @@ namespace ClassAnalytics.Migrations
             DropIndex("dbo.SurveyAnswers", new[] { "survey_join_id" });
             DropIndex("dbo.SurveyAnswers", new[] { "question_Id" });
             DropIndex("dbo.SurveyAnswers", new[] { "student_Id" });
+            DropIndex("dbo.studentUploads", new[] { "task_id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -304,6 +358,7 @@ namespace ClassAnalytics.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.MessagingModels", new[] { "sending_User_Id" });
             DropIndex("dbo.MessagingModels", new[] { "receiving_User_Id" });
+            DropIndex("dbo.InstrctrClassJoins", new[] { "class_id" });
             DropIndex("dbo.TaskModels", new[] { "course_Id" });
             DropIndex("dbo.TaskModels", new[] { "taskType_Id" });
             DropIndex("dbo.StudentModels", new[] { "class_Id" });
@@ -312,10 +367,12 @@ namespace ClassAnalytics.Migrations
             DropIndex("dbo.GradeBookModels", new[] { "student_Id" });
             DropIndex("dbo.CourseModels", new[] { "program_Id" });
             DropIndex("dbo.ClassModels", new[] { "program_id" });
+            DropTable("dbo.UploadModels");
             DropTable("dbo.SurveyQuestions");
             DropTable("dbo.SurveyModels");
             DropTable("dbo.SurveyJoinTableModels");
             DropTable("dbo.SurveyAnswers");
+            DropTable("dbo.studentUploads");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
@@ -323,6 +380,7 @@ namespace ClassAnalytics.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.MessagingModels");
             DropTable("dbo.InstructorModels");
+            DropTable("dbo.InstrctrClassJoins");
             DropTable("dbo.TaskTypeModels");
             DropTable("dbo.TaskModels");
             DropTable("dbo.StudentModels");

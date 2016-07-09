@@ -186,10 +186,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
-    <Compile Include="Controllers\CommunicationController.cs" />
+    <Compile Include="Controllers\ComController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\GradeBookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstructorController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessagingController.cs" />
     <Compile Include="Controllers\ProgramModelsController.cs" />
@@ -198,38 +199,14 @@
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
-    <Compile Include="Migrations\201606250551171_upload test.cs" />
-    <Compile Include="Migrations\201606250551171_upload test.Designer.cs">
-      <DependentUpon>201606250551171_upload test.cs</DependentUpon>
+    <Compile Include="Migrations\201607080818220_v2_5.cs" />
+    <Compile Include="Migrations\201607080818220_v2_5.Designer.cs">
+      <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606291613509_upload-update.cs" />
-    <Compile Include="Migrations\201606291613509_upload-update.Designer.cs">
-      <DependentUpon>201606291613509_upload-update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606300106595_2.4 new upload model.cs" />
-    <Compile Include="Migrations\201606300106595_2.4 new upload model.Designer.cs">
-      <DependentUpon>201606300106595_2.4 new upload model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606300109471_2.4.1.cs" />
-    <Compile Include="Migrations\201606300109471_2.4.1.Designer.cs">
-      <DependentUpon>201606300109471_2.4.1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606300114012_2.4.2.cs" />
-    <Compile Include="Migrations\201606300114012_2.4.2.Designer.cs">
-      <DependentUpon>201606300114012_2.4.2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606300208494_2.4.3.cs" />
-    <Compile Include="Migrations\201606300208494_2.4.3.Designer.cs">
-      <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607010858556_trying student uploads.cs" />
-    <Compile Include="Migrations\201607010858556_trying student uploads.Designer.cs">
-      <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607012003598_student upload fix v2.3.6.cs" />
-    <Compile Include="Migrations\201607012003598_student upload fix v2.3.6.Designer.cs">
-      <DependentUpon>201607012003598_student upload fix v2.3.6.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Instructor Models\InstrctrClassJoin.cs" />
+    <Compile Include="Models\Instructor Models\InstructorDetailViewModel.cs" />
+    <Compile Include="Models\Instructor Models\InstructorClassJoinModel.cs" />
+    <Compile Include="Models\Misc. Models\ClassAndProgram.cs" />
     <Compile Include="Models\Task Models\TaskViewModel.cs" />
     <Compile Include="Models\Uploads Models\assignmentFileModel.cs" />
     <Compile Include="Models\Misc. Models\StudentEmail.cs" />
@@ -240,10 +217,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606231730375_2.3.5.cs" />
-    <Compile Include="Migrations\201606231730375_2.3.5.Designer.cs">
-      <DependentUpon>201606231730375_2.3.5.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Default Models\AccountViewModels.cs" />
     <Compile Include="Models\Class Models\ClassModel.cs" />
@@ -252,7 +225,7 @@
     <Compile Include="Models\Gradebook Models\GradeBookModel.cs" />
     <Compile Include="Models\Gradebook Models\GradebookViewModel.cs" />
     <Compile Include="Models\Default Models\IdentityModels.cs" />
-    <Compile Include="Models\Misc. Models\InstructorModel.cs" />
+    <Compile Include="Models\Instructor Models\InstructorModel.cs" />
     <Compile Include="Models\Default Models\ManageViewModels.cs" />
     <Compile Include="Models\Misc. Models\MessagingModel.cs" />
     <Compile Include="Models\Misc. Models\MessagingViewModel.cs" />
@@ -490,6 +463,14 @@
     <Content Include="Views\Upload\studentIndex.cshtml" />
     <Content Include="Views\Upload\textView.cshtml" />
     <Content Include="Views\Upload\studentUpload.cshtml" />
+    <Content Include="Views\Instructor\Create.cshtml" />
+    <Content Include="Views\Instructor\Delete.cshtml" />
+    <Content Include="Views\Instructor\Details.cshtml" />
+    <Content Include="Views\Instructor\Edit.cshtml" />
+    <Content Include="Views\Instructor\Index.cshtml" />
+    <Content Include="Views\Instructor\addToClass.cshtml" />
+    <Content Include="Views\Shared\_Instructor_Layout.cshtml" />
+    <Content Include="Views\Instructor\removeFromClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -507,32 +488,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606231730375_2.3.5.resx">
-      <DependentUpon>201606231730375_2.3.5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606250551171_upload test.resx">
-      <DependentUpon>201606250551171_upload test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606291613509_upload-update.resx">
-      <DependentUpon>201606291613509_upload-update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606300106595_2.4 new upload model.resx">
-      <DependentUpon>201606300106595_2.4 new upload model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606300109471_2.4.1.resx">
-      <DependentUpon>201606300109471_2.4.1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606300114012_2.4.2.resx">
-      <DependentUpon>201606300114012_2.4.2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606300208494_2.4.3.resx">
-      <DependentUpon>201606300208494_2.4.3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607010858556_trying student uploads.resx">
-      <DependentUpon>201607010858556_trying student uploads.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607012003598_student upload fix v2.3.6.resx">
-      <DependentUpon>201607012003598_student upload fix v2.3.6.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607080818220_v2_5.resx">
+      <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

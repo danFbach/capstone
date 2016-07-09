@@ -135,6 +135,7 @@ namespace ClassAnalytics.Controllers
                 if (result.Succeeded)
                 {
                     student.student_account_Id = user.Id;
+                    db.studentModels.Add(student);
                     Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
                     addRole(user);
                     studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName);
@@ -168,7 +169,7 @@ namespace ClassAnalytics.Controllers
         {
             IdentityUserRole role = new IdentityUserRole();
             role.UserId = user.Id;
-            role.RoleId = "New Student";
+            role.RoleId = "New User";
             UserManager.AddToRole(role.UserId, role.RoleId);
         }
         public void welcomeMessage(StudentModels student, ApplicationUser user)
@@ -180,7 +181,6 @@ namespace ClassAnalytics.Controllers
             message.sending_id = this.User.Identity.GetUserId();
             message.dateSent = DateTime.Now;
             db.messagingModel.Add(message);
-            db.studentModels.Add(student);
         }
 
         public string makeUserName(string firstName, string lastName, int count)

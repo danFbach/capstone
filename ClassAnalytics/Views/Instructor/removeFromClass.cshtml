@@ -1,0 +1,13 @@
+﻿@model ClassAnalytics.Models.Instructor_Models.InstructorClassJoinModel
+
+<h4>Are you sure you want to remove @ViewBag.instructor from the @Model.classModel.className class?</h4>
+<hr />
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-primary-2" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}

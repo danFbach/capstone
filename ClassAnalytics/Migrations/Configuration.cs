@@ -4,7 +4,11 @@ namespace ClassAnalytics.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using ClassAnalytics.Models;
+    using ClassAnalytics.Models.Class_Models;
+    using ClassAnalytics.Models.Program_Models;
+    using ClassAnalytics.Models.Task_Models;
+    using ClassAnalytics.Models.Misc_Models;
+    using ClassAnalytics.Models.Survey_Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ClassAnalytics.Models.ApplicationDbContext>
     {
@@ -26,19 +30,21 @@ namespace ClassAnalytics.Migrations
             //);
             //context.Roles.AddOrUpdate(x => x.Id,
             //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Admin" },
-            //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "New Student" },
+            //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Instructor" },
+            //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "School Director" },
+            //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "New User" },
             //   new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Student" }
             //);
             //context.classmodel.AddOrUpdate(x => x.class_Id,
-            ////    new ClassModel { className = "Flourine", program_id = 1 },
-            ////    new ClassModel { className = "Oxygen", program_id = 1 },
-            ////    new ClassModel { className = "Magnesium", program_id = 1 },
+            //    new ClassModel { className = "Flourine", program_id = 1 },
+            //    new ClassModel { className = "Oxygen", program_id = 1 },
+            //    new ClassModel { className = "Magnesium", program_id = 1 },
             //    new ClassModel { className = "Gold", program_id = 1 },
-            //    new ClassModel { className = "Plutonium", program_id = 2 }
-            ////    new ClassModel { className = "Barium", program_id = 2 }
+            //    new ClassModel { className = "Plutonium", program_id = 2 },
+            //    new ClassModel { className = "Barium", program_id = 2 }
             //);
             //context.coursemodels.AddOrUpdate(x => x.course_Id,
-            ////    new CourseModels { courseName = "Python", startDate = "06/07/2017", endDate = "06/12/2017", program_Id = 1 },
+            //    new CourseModels { courseName = "Python", startDate = "06/07/2017", endDate = "06/12/2017", program_Id = 1 },
             //    new CourseModels { courseName = "C#", startDate = "06/22/2017", endDate = "06/27/2017", program_Id = 1 },
             //    new CourseModels { courseName = "JavaScript", startDate = "06/15/2017", endDate = "06/20/2017", program_Id = 1 },
             //    new CourseModels { courseName = "Python", startDate = "06/07/2017", endDate = "06/12/2017", program_Id = 2 }

@@ -39,7 +39,8 @@ namespace ClassAnalytics.Models
         public DbSet<Survey_Models.SurveyModel> surveyModel { get; set; }
         public DbSet<Survey_Models.SurveyQuestion> surveyQuestion { get; set; }
         public DbSet<Task_Models.TaskModel> taskModel { get; set; }
-        public DbSet<Misc_Models.InstructorModel> instructorModel { get; set; }
+        public DbSet<Instructor_Models.InstructorModel> instructorModel { get; set; }
+        public DbSet<Instructor_Models.InstrctrClassJoin> instructorClassJoin { get; set; }
         public DbSet<Misc_Models.MessagingModel> messagingModel { get; set; }
         public DbSet<Uploads_Models.UploadModel> uploadModel { get; set; }
         public DbSet<Uploads_Models.studentUploads> studentUpload { get; set; }

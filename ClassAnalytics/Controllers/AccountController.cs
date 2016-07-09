@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,12 +10,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ClassAnalytics.Models;
+using ClassAnalytics.Models.Class_Models;
+using ClassAnalytics.Models.Instructor_Models;
 
 namespace ClassAnalytics.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -267,8 +271,30 @@ namespace ClassAnalytics.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+                List<StudentModels> students = db.studentModels.ToList();
+                List<InstructorModel> instructors = db.instructorModel.ToList();
+                bool role = false;
                 UserManager.RemoveFromRole(user.Id, "0");
-                UserManager.AddToRole(user.Id, "Student");
+                foreach(InstructorModel instructor in instructors)
+                {
+                    if(instructor.instructor_account_Id == user.Id)
+                    {
+                        UserManager.AddToRole(user.Id, "Admin");
+                        role = true;
+                        break;
+                    }
+                }
+                if(role == false)
+                {
+                    foreach(StudentModels student in students)
+                    {
+                        if(student.student_account_Id == user.Id)
+                        {
+                            UserManager.AddToRole(user.Id, "Student");
+                            break;
+                        }
+                    }
+                }
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
