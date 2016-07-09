@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.CourseModels
+﻿@model ClassAnalytics.Models.Misc_Models.CourseModels
 
 @{
     ViewBag.Title = "Create a course";
@@ -24,8 +24,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.program_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.ValueFor(model => model.ProgramModels.programName)
-                @Html.ValidationMessageFor(model => model.ProgramModels, "", new { @class = "text-danger" })
+                @Html.ValueFor(model => model.programModels.programName)
+                @Html.ValidationMessageFor(model => model.programModels, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">

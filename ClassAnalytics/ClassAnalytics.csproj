@@ -421,10 +421,10 @@
     <Content Include="Views\TaskType\Delete.cshtml" />
     <Content Include="Views\TaskType\Edit.cshtml" />
     <Content Include="Views\TaskType\Index.cshtml" />
-    <Content Include="Views\Students\Create.cshtml" />
-    <Content Include="Views\Students\Delete.cshtml" />
-    <Content Include="Views\Students\Edit.cshtml" />
-    <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\Student\Create.cshtml" />
+    <Content Include="Views\Student\Delete.cshtml" />
+    <Content Include="Views\Student\Edit.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\GradeBook\Create.cshtml" />
     <Content Include="Views\GradeBook\Delete.cshtml" />
     <Content Include="Views\GradeBook\Edit.cshtml" />

@@ -35,9 +35,8 @@
             @Html.DisplayFor(modelItem => item.email)
         </td>
         <td>
-            @Html.ActionLink("Add to Program", "addProgram", new { id=item.instructor_Id}) | 
-            @Html.ActionLink("Edit", "Edit", new { id=item.instructor_Id }) |
             @Html.ActionLink("View/Edit Classes", "Details", new { id=item.instructor_Id }) |
+            @Html.ActionLink("Modify Instructor", "Edit", new { id = item.instructor_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.instructor_Id })
         </td>
     </tr>

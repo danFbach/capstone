@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.CourseModels
+﻿@model ClassAnalytics.Models.Misc_Models.CourseModels
 
 @{
     ViewBag.Title = "Remove a Course";
@@ -16,11 +16,11 @@
             @Html.DisplayFor(model => model.courseName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ProgramModels.programName)
+            @Html.DisplayNameFor(model => model.programModels.programName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ProgramModels.programName)
+            @Html.DisplayFor(model => model.programModels.programName)
         </dd>
 
     </dl>

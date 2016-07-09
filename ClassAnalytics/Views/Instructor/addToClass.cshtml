@@ -1,7 +1,8 @@
 ﻿@model ClassAnalytics.Models.Instructor_Models.InstructorClassJoinModel
 
 @{
-    ViewBag.Title = "Add program to Instructor";
+    ViewBag.Title = "Add a class to Instructor";
+    string name = Model.instructor.fName + " " + Model.instructor.lName;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,13 +12,12 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.instructor_Id)
     <div class="form-horizontal">
-        <h4>InstrctrProgramJoin</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.instructor_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Display(Model.instructor.fName + " " + Model.instructor.lName)
+            <div class="col-md-10" style="padding-top:5px;">
+                @Html.DisplayFor(model => name)
             </div>
         </div>
 
@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary-2" />
+                <input type="submit" value="Add" class="btn btn-primary-2" />
             </div>
         </div>
     </div>
