@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ClassAnalytics.Models.Class_Models.programListViewModel>
+
+@{
+    ViewBag.Title = "Your Classes";
+}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<h4>@ViewBag.Title</h4>
+<hr />
+<div class="container">
+    <div class="col-md-4">
+        <div class="row" style="border:solid 1px #FFF;">
+            <div class="col-md-3">
+                @Html.Label("Class")
+            </div>
+            <div class="col-md-3">
+                @Html.Label("Program")
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row class" style="border:solid 1px #FFF;">
+                <div class="col-md-4">
+                    @Html.DisplayFor(m => item._class.className)
+                </div>
+                <div class="col-md-8">
+                    @Html.DisplayFor(m => item.program.programName)
+                </div>
+            </div>
+            foreach (var item1 in item.courses)
+            {
+                <div class="row course" style="border:solid 1px #FFF;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        @Html.Label("Course")
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(m => item1.course.courseName)
+                    </div>
+                </div>
+                <div class="row task" style="border:solid 1px #FFF;">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">
+                        <h5>@Html.Label("Tasks")</h5>
+                    </div>
+                    @foreach (var item2 in item1.tasks)
+                    {
+                        <div class="col-md-5">
+                            @Html.DisplayFor(m => item2.taskName)
+                        </div>
+                        <script type="text/javascript">
+                            $("document").ready(function () {
+                                $(".course, .task").hide();
+                                $(".class").click(function () {
+                                    $(".course").show(500)
+                                });
+                                $(".course").click(function () {
+                                    $(".task").show(500);
+                                });
+                            });
+                        </script>
+                    }
+                </div>
+            }
+
+        }
+    </div>
+    <div class="col-md-8"></div>
+</div>

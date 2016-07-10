@@ -20,6 +20,48 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         
+        public ActionResult iIndex()
+        {
+            List<programListViewModel> listViewModel = new List<programListViewModel>();
+            courseListViewModel courseModel = new courseListViewModel();
+            programListViewModel viewModel = new programListViewModel();
+            List<ClassModel> classes = db.classmodel.ToList();
+            List<ProgramModels> programs = db.programModels.ToList();
+            List<CourseModels> courses = db.coursemodels.ToList();
+            List<TaskModel> tasks = db.taskModel.ToList();
+            foreach(ClassModel _class in classes)
+            {
+                viewModel = new programListViewModel();
+                viewModel._class = _class;
+                foreach (ProgramModels program in programs)
+                {
+                    if(program.program_Id == _class.program_id)
+                    {
+                        viewModel.program = program;
+                        viewModel.courses = new List<courseListViewModel>();
+                        foreach (CourseModels course in courses)
+                        {
+                            courseModel = new courseListViewModel();
+                            if(course.program_Id == program.program_Id)
+                            {
+                                courseModel.course = course;
+                                courseModel.tasks = new List<TaskModel>();
+                                foreach (TaskModel task in tasks)
+                                {
+                                    if(task.course_Id == course.course_Id)
+                                    {
+                                        courseModel.tasks.Add(task);
+                                    }
+                                }
+                                viewModel.courses.Add(courseModel);
+                            }
+                        }
+                        listViewModel.Add(viewModel);
+                    }
+                }
+            }
+            return View(listViewModel);
+        }
         public ActionResult assignClass(int? task_id)
         {
             if(task_id != null)
