@@ -11,3 +11,17 @@ a.navbar_links:focus {
     color:#ccc;
     outline: none;
 }
+
+a.iIndex_links {
+    color: #FFF;
+    text-decoration: none;
+}
+a.iIndex_links:hover,
+a.iIndex_links:focus {
+    color: #00b386;
+    text-decoration: underline;
+}
+a.iIndex_links:focus {
+    color:#ccc;
+    outline: none;
+}

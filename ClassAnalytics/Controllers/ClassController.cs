@@ -25,10 +25,10 @@ namespace ClassAnalytics.Controllers
             List<programListViewModel> listViewModel = new List<programListViewModel>();
             courseListViewModel courseModel = new courseListViewModel();
             programListViewModel viewModel = new programListViewModel();
+            List<ClassTaskJoinModel> joinTask = db.classTask.ToList();
             List<ClassModel> classes = db.classmodel.ToList();
             List<ProgramModels> programs = db.programModels.ToList();
             List<CourseModels> courses = db.coursemodels.ToList();
-            List<TaskModel> tasks = db.taskModel.ToList();
             foreach(ClassModel _class in classes)
             {
                 viewModel = new programListViewModel();
@@ -46,12 +46,22 @@ namespace ClassAnalytics.Controllers
                             {
                                 courseModel.course = course;
                                 courseModel.tasks = new List<TaskModel>();
-                                foreach (TaskModel task in tasks)
-                                {
-                                    if(task.course_Id == course.course_Id)
+                                foreach(ClassTaskJoinModel classTask in joinTask)
+                                { 
+                                    if(classTask.class_id == _class.class_Id)
                                     {
-                                        courseModel.tasks.Add(task);
+                                        TaskModel task = db.taskModel.Find(classTask.task_id);
+                                        if(task.course_Id == course.course_Id)
+                                        {
+                                            courseModel.tasks.Add(task);
+                                        }
                                     }
+                                }
+                                if(courseModel.tasks.Count() == 0)
+                                {
+                                    TaskModel task = new TaskModel();
+                                    task.taskName = "No tasks assigned yet";
+                                    courseModel.tasks.Add(task);
                                 }
                                 viewModel.courses.Add(courseModel);
                             }

@@ -266,6 +266,7 @@
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\chalkboard.jpg" />
     <Content Include="Content\mathteacher-student-whiteboard.jpg" />
+    <Content Include="Content\minus.jpg" />
     <Content Include="Scripts\bootstrap-hover-dropdown.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
