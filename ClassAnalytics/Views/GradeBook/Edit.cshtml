@@ -19,6 +19,8 @@
             @Html.HiddenFor(model => model.grade_Id)
             @Html.HiddenFor(model => model.class_Id)
             @Html.HiddenFor(model => model.student_Id)
+            @Html.HiddenFor(m => m.possiblePoints)
+            @Html.HiddenFor(m => m.task_Id)
             <div class="col-md-10">
                 @Html.Value("Student")
                 @Html.ValidationMessageFor(model => model.student_Id, "", new { @class = "text-danger" })
@@ -60,7 +62,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary-new" />
+                <input type="submit" value="Save" class="btn btn-primary-2" />
             </div>
         </div>
     </div>

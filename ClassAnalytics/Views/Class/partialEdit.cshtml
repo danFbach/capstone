@@ -1,0 +1,30 @@
+﻿@model ClassAnalytics.Models.Gradebook_Models.GradeBookModel
+
+@using (Html.BeginForm("partialEdit","Class"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.class_Id)
+    @Html.HiddenFor(m => m.grade)
+    @Html.HiddenFor(m => m.grade_Id)
+    @Html.HiddenFor(m => m.possiblePoints)
+    @Html.HiddenFor(m => m.student_Id)
+    @Html.HiddenFor(m => m.task_Id)
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.pointsEarned, new { htmlAttributes = new { @class = "form-control", placeholder="Points" } })
+            </div>
+            <div class="col-md-6">
+                @Html.EditorFor(m => m.assignment_notes, new { htmlAttributes = new { @class = "form-control", placeholder="Notes" } })
+            </div>
+            <div class="col-md-3">
+                <div class="form-group" style="margin:0 auto;">
+                    <input type="submit" value="Update Grade" class="btn btn-primary-2" style="padding:5px;" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

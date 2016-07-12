@@ -10,6 +10,6 @@ namespace ClassAnalytics.Models.Class_Models
     public class courseListViewModel
     {
         public CourseModels course { get; set; }
-        public List<TaskModel> tasks { get; set; }
+        public List<taskListViewModel> tasks { get; set; }
     }
 }

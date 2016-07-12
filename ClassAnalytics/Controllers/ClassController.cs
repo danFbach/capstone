@@ -20,53 +20,100 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult partialEdit(GradeBookModel gradeBookModel)
+        {
+            if (gradeBookModel.assignment_notes == null)
+            {
+                gradeBookModel.assignment_notes = "";
+            }
+            if (ModelState.IsValid)
+            {
+                if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
+                gradeBookModel.grade = Convert.ToDecimal((gradeBookModel.pointsEarned / gradeBookModel.possiblePoints) * 100);
+                GradeBookModel grade = db.gradeBookModel.Find(gradeBookModel.grade_Id);
+                db.gradeBookModel.Remove(grade);
+                db.gradeBookModel.Add(gradeBookModel);
+                db.SaveChanges();
+                return RedirectToAction("iIndex");
+            }
+            else
+            {
+                return RedirectToAction("iIndex");
+            }
+        }
+        public ActionResult StudentDetails(int? id)
+        {
+            if (!this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var grade = db.gradeBookModel.Find(id);
+            grade.ClassModel = db.classmodel.Find(grade.class_Id);
+            grade.StudentModels = db.studentModels.Find(grade.student_Id);
+            grade.TaskModel = db.taskModel.Find(grade.task_Id);
+            grade.possiblePoints = grade.TaskModel.points;
+
+            return View(grade);
+        }
         public ActionResult iIndex()
         {
             List<programListViewModel> listViewModel = new List<programListViewModel>();
-            courseListViewModel courseModel = new courseListViewModel();
-            programListViewModel viewModel = new programListViewModel();
+           courseListViewModel courseModel = new courseListViewModel();
+             programListViewModel programListView = new programListViewModel();
+            List<GradeBookModel> grades = db.gradeBookModel.ToList();
             List<ClassTaskJoinModel> joinTask = db.classTask.ToList();
             List<ClassModel> classes = db.classmodel.ToList();
             List<ProgramModels> programs = db.programModels.ToList();
             List<CourseModels> courses = db.coursemodels.ToList();
-            foreach(ClassModel _class in classes)
+            foreach (ClassModel _class in classes)
             {
-                viewModel = new programListViewModel();
-                viewModel._class = _class;
+                programListView = new programListViewModel();
+                programListView._class = _class;
                 foreach (ProgramModels program in programs)
                 {
-                    if(program.program_Id == _class.program_id)
+                    if (program.program_Id == _class.program_id)
                     {
-                        viewModel.program = program;
-                        viewModel.courses = new List<courseListViewModel>();
+                        programListView.program = program;
+                        programListView.courses = new List<courseListViewModel>();
                         foreach (CourseModels course in courses)
                         {
                             courseModel = new courseListViewModel();
-                            if(course.program_Id == program.program_Id)
+                            if (course.program_Id == program.program_Id)
                             {
                                 courseModel.course = course;
-                                courseModel.tasks = new List<TaskModel>();
-                                foreach(ClassTaskJoinModel classTask in joinTask)
-                                { 
-                                    if(classTask.class_id == _class.class_Id)
+                                courseModel.tasks = new List<taskListViewModel>();
+                                foreach (ClassTaskJoinModel classTask in joinTask)
+                                {
+                                    taskListViewModel newTask = new taskListViewModel();
+                                    newTask.grades = new List<GradeBookModel>();
+                                    if (classTask.class_id == _class.class_Id)
                                     {
                                         TaskModel task = db.taskModel.Find(classTask.task_id);
-                                        if(task.course_Id == course.course_Id)
+                                        if (task.course_Id == course.course_Id)
                                         {
-                                            courseModel.tasks.Add(task);
+                                            newTask.task = task;
+                                            foreach (GradeBookModel grade in grades)
+                                            {
+                                                if (grade.class_Id == _class.class_Id)
+                                                {
+                                                    if (grade.task_Id == task.task_Id)
+                                                    {
+                                                        grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                                                        newTask.grades.Add(grade);
+                                                    }
+                                                }
+                                            }
+                                            newTask.grades.OrderBy(x => x.StudentModels.lName);
+                                            courseModel.tasks.Add(newTask);
                                         }
                                     }
                                 }
-                                if(courseModel.tasks.Count() == 0)
-                                {
-                                    TaskModel task = new TaskModel();
-                                    task.taskName = "No tasks assigned yet";
-                                    courseModel.tasks.Add(task);
-                                }
-                                viewModel.courses.Add(courseModel);
+                                programListView.courses.Add(courseModel);
                             }
                         }
-                        listViewModel.Add(viewModel);
+                        listViewModel.Add(programListView);
                     }
                 }
             }
@@ -74,7 +121,7 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult assignClass(int? task_id)
         {
-            if(task_id != null)
+            if (task_id != null)
             {
                 assignTaskViewModel viewModel = new assignTaskViewModel();
                 ClassTaskJoinModel classTask = new ClassTaskJoinModel();
@@ -100,11 +147,11 @@ namespace ClassAnalytics.Controllers
                 classTask.task_id = viewModel.classTask.task_id;
                 classTask._class = db.classmodel.Find(classTask.class_id);
                 classTask.task = db.taskModel.Find(classTask.task_id);
-                foreach(ClassTaskJoinModel task in tasks)
+                foreach (ClassTaskJoinModel task in tasks)
                 {
-                    if(task.class_id == classTask.class_id)
+                    if (task.class_id == classTask.class_id)
                     {
-                        if(task.task_id == classTask.task_id)
+                        if (task.task_id == classTask.task_id)
                         {
                             viewModel.classTask.task = db.taskModel.Find(classTask.task_id);
                             viewModel = getClasses(viewModel);
@@ -168,7 +215,7 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult addStudent(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 return RedirectToAction("Create/" + id, "Students");
             }
@@ -181,7 +228,7 @@ namespace ClassAnalytics.Controllers
         // GET: Class
         public ActionResult classGrades(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 return RedirectToAction("Index", "GradeBook", id);
             }
@@ -200,7 +247,7 @@ namespace ClassAnalytics.Controllers
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             var classes = db.classmodel.ToList();
             List<ProgClassViewModel> new_list = new List<ProgClassViewModel>();
-            if(program_id!=null)
+            if (program_id != null)
             {
                 foreach (ClassModel a_class in classes)
                 {
@@ -275,7 +322,7 @@ namespace ClassAnalytics.Controllers
                 new_class.class_Id = viewModel.class_Id;
                 new_class.program_id = viewModel.program_id;
                 new_class.ProgramModels = db.programModels.Find(viewModel.program_id);
-                if(!Directory.Exists(Server.MapPath("~//Uploads//classData//" + new_class.className)))
+                if (!Directory.Exists(Server.MapPath("~//Uploads//classData//" + new_class.className)))
                 {
                     Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + new_class.className));
                 }

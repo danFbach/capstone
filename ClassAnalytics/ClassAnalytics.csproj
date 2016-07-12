@@ -485,6 +485,7 @@
     <Content Include="Views\Class\assignClass.cshtml" />
     <Content Include="Views\Class\viewAssignClass.cshtml" />
     <Content Include="Views\Class\iIndex.cshtml" />
+    <Content Include="Views\Class\partialEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
