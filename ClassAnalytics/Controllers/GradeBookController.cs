@@ -69,58 +69,53 @@ namespace ClassAnalytics.Controllers
             return View(this_grade);
         }
 
-        public ActionResult AdminCharts(int? task_id, int? id)
+        public ActionResult AdminCharts(int? id, int? task_id)
         {
-            GradebookViewModel viewModel = new GradebookViewModel();
-            viewModel.taskList = new List<SelectListItem>();
-            List<TaskModel> tasks = db.taskModel.ToList();
-            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
-            if (id != null)
-            {
-                ClassModel this_class = db.classmodel.Find(id);
-                foreach (TaskModel task in tasks)
-                {
-                    task.CourseModels = db.coursemodels.Find(task.course_Id);
-                    if (task.CourseModels.program_Id == this_class.program_id)
-                    {
-                        viewModel.taskList.Add(new SelectListItem() { Text = task.taskName, Value = task.task_Id.ToString() });
-                    }
-                }
-            }
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            else
+            GradebookViewModel viewModel = new GradebookViewModel();
+            viewModel.taskList = new List<SelectListItem>();
+            viewModel.grades = new List<GradeBookModel>();
+            List<TaskModel> tasks = db.taskModel.ToList();
+            List<GradeBookModel> grades = db.gradeBookModel.ToList();
+            ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
+            if (id == null)
             {
-                if (id == null)
+                return RedirectToAction("Index", "Class");
+            }
+            ClassModel this_class = db.classmodel.Find(id);
+            foreach (TaskModel task in tasks)
+            {
+                task.CourseModels = db.coursemodels.Find(task.course_Id);
+                if (task.CourseModels.program_Id == this_class.program_id)
                 {
-                    return RedirectToAction("Index", "Class");
+                    viewModel.taskList.Add(new SelectListItem() { Text = task.taskName, Value = task.task_Id.ToString() });
                 }
-                List<GradeBookModel> this_grades = db.gradeBookModel.ToList();
-                viewModel.grades = new List<GradeBookModel>();
-                foreach (GradeBookModel grade in this_grades)
+            }
+            foreach (GradeBookModel grade in grades)
+            {
+                grade.TaskModel = db.taskModel.Find(grade.task_Id);
+
+                if (grade.class_Id == id)
                 {
-                    grade.TaskModel = db.taskModel.Find(grade.task_Id);     
-                                   
-                    if (grade.class_Id == id)
+                    if (task_id == null)
                     {
-                        if (task_id == null)
-                        {
-                            viewModel.grades = classAverage(id);
-                            break;
-                        }
-                        else if (grade.task_Id == task_id)
-                        {
-                            grade.StudentModels = db.studentModels.Find(grade.student_Id);
-                            grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
-                            viewModel.grades.Add(grade);
-                        }
+                        viewModel.grades = classAverage(id);
+                        break;
+                    }
+                    else if (grade.task_Id == task_id)
+                    {
+                        grade.StudentModels = db.studentModels.Find(grade.student_Id);
+                        grade.possiblePoints = db.taskModel.Find(grade.task_Id).points;
+                        viewModel.grades.Add(grade);
                     }
                 }
-                viewModel.grades = viewModel.grades.OrderByDescending(x => x.grade).ToList();
-                return View(viewModel);
             }
+            viewModel.taskList = viewModel.taskList.OrderBy(x => x.Text).ToList();
+            viewModel.grades = viewModel.grades.OrderByDescending(x => x.grade).ToList();
+            return View(viewModel);
         }
         public List<GradeBookModel> classAverage(int? class_id)
         {
@@ -142,7 +137,7 @@ namespace ClassAnalytics.Controllers
                         grade.TaskModel = new TaskModel();
                         if (one_Grade.student_Id == student.student_Id)
                         {
-                             if(one_Grade.pointsEarned != null)
+                            if (one_Grade.pointsEarned != null)
                             {
                                 grade.TaskModel = db.taskModel.Find(one_Grade.task_Id);
                                 possible += one_Grade.TaskModel.points;
@@ -209,18 +204,18 @@ namespace ClassAnalytics.Controllers
             else
             {
                 GradebookViewModel viewModel = new GradebookViewModel();
-                List<ClassTaskJoinModel> joinModel =db.classTask.ToList();
+                List<ClassTaskJoinModel> joinModel = db.classTask.ToList();
                 viewModel.taskList = new List<SelectListItem>();
                 List<TaskModel> tasks = db.taskModel.ToList();
                 viewModel.grades = new List<GradeBookModel>();
                 List<GradeBookModel> gradeBookModel = db.gradeBookModel.Include(g => g.StudentModels).Include(g => g.TaskModel).Include(g => g.ClassModel).Include(g => g.TaskModel.CourseModels).ToList();
                 ClassModel this_class = db.classmodel.Find(id);
-                foreach(ClassTaskJoinModel classTask in joinModel)
+                foreach (ClassTaskJoinModel classTask in joinModel)
                 {
-                    if(classTask.class_id == id)
+                    if (classTask.class_id == id)
                     {
                         classTask.task = db.taskModel.Find(classTask.task_id);
-                        viewModel.taskList.Add(new SelectListItem() { Text = classTask.task.taskName, Value = classTask.task_id.ToString() });                        
+                        viewModel.taskList.Add(new SelectListItem() { Text = classTask.task.taskName, Value = classTask.task_id.ToString() });
                     }
                 }
                 foreach (GradeBookModel grade in gradeBookModel)

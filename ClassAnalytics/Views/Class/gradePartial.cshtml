@@ -1,0 +1,18 @@
+﻿@model ClassAnalytics.Models.Gradebook_Models.GradeBookModel
+
+@{
+    string name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
+}
+
+<div class="col-md-5">
+    @Html.DisplayFor(m => name)
+</div>
+<div class="col-md-2">
+    @Html.DisplayFor(m => m.pointsEarned)
+</div>
+<div class="col-md-2">
+    @Html.DisplayFor(m => m.possiblePoints)
+</div>
+<div class="col-md-3">
+    @Html.DisplayFor(m => m.grade)%
+</div>

@@ -105,7 +105,7 @@ namespace ClassAnalytics.Controllers
                                                     }
                                                 }
                                             }
-                                            newTask.grades.OrderBy(x => x.StudentModels.lName);
+                                            newTask.grades = newTask.grades.OrderBy(x => x.StudentModels.lName).ToList();
                                             courseModel.tasks.Add(newTask);
                                         }
                                     }
@@ -328,7 +328,7 @@ namespace ClassAnalytics.Controllers
                 }
                 db.classmodel.Add(new_class);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Students");
+                return RedirectToAction("iIndex");
             }
 
             return View(viewModel);
@@ -383,7 +383,7 @@ namespace ClassAnalytics.Controllers
             {
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("iIndex");
             }
             ViewBag.program_Id = new SelectList(db.programModels, "pragram_Id", "programName");
             List<ProgramModels> programs = db.programModels.ToList();
@@ -426,7 +426,7 @@ namespace ClassAnalytics.Controllers
             ClassModel classModel = db.classmodel.Find(id);
             db.classmodel.Remove(classModel);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("iIndex");
         }
 
         protected override void Dispose(bool disposing)

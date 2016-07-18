@@ -102,124 +102,118 @@
                                 </a>
                             </div>
                         </div>
-                        if (_course.tasks.Count() == 0)
-                        {
-                            <script type="text/javascript">
-                                $("document").ready(function () {
-                                    $("#@c1@c1Count, #@c1Minus@c1MCount, #@tRow@tRCount, #@tMinus@tMCount").hide(
-                                    );
-                                    $("#@c0@c0count").click(function () {
-                                        $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@tRow@tRCount").slideDown()
-                                    });
-                                    $("#@c1Row@c1RCount").click(function () {
-                                        $("#@c1@c1Count, #@c1Minus@c1MCount").slideUp()
-                                    });
+                        @*@{
+                                ViewDataDictionary viewdata = new ViewDataDictionary();
+                                viewdata.Add("course_Id",_course.course.course_Id);
+                                viewdata.Add("class_Id", item._class.class_Id);
+                                Html.RenderPartial("uploadPartial", viewdata);
+                            }*@
+                    if (_course.tasks.Count() == 0)
+                    {
+                        <script type="text/javascript">
+                            $("document").ready(function () {
+                                $("#@c1@c1Count, #@c1Minus@c1MCount, #@tRow@tRCount, #@tMinus@tMCount").hide(
+                                );
+                                $("#@c0@c0count").click(function () {
+                                    $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@tRow@tRCount").slideDown()
                                 });
-                            </script>
+                                $("#@c1Row@c1RCount").click(function () {
+                                    $("#@c1@c1Count, #@c1Minus@c1MCount").slideUp()
+                                });
+                            });
+                        </script>
 
-                        }
-                        else
+                    }
+                    else
+                    {
+                        foreach (var _task in _course.tasks)
                         {
-                            foreach (var _task in _course.tasks)
-                            {
-                                <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
-                                    <div class="col-md-4" id="@gRow@gRCount">
-                                        @if (_task.grades.Count() != 0)
-                                        {
-                                            <img id="@gMinus@gMCount" src="~/Content/minus.jpg" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
-                                        }
-                                    </div>
-                                    <div class="col-md-8" id="@t@tCount" style="border-bottom:solid 1px #FFF;">
-                                        <a class="iIndex_links">
-                                            <div class="col-md-3">
-                                                @Html.Label("Task")
-                                            </div>
-                                            <div class="col-md-4">
-                                                @Html.DisplayFor(m => _task.task.taskName)
-                                            </div>
-                                        </a>
-                                        <div class="col-md-5">
-                                            @Html.ActionLink("View Chart", "AdminCharts", "GradeBook", new { id = item._class.class_Id, task_id = _task.task.task_Id }, new { @class = "iIndex_links" }) |
-                                            @Html.ActionLink("View Grades", "Index", "GradeBook", new { id = item._class.class_Id, task_id = _task.task.task_Id }, new { @class = "iIndex_links" })
+                            <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
+                                <div class="col-md-4" id="@gRow@gRCount">
+                                    @if (_task.grades.Count() != 0)
+                                    {
+                                        <img id="@gMinus@gMCount" src="~/Content/minus.jpg" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                    }
+                                </div>
+                                <div class="col-md-8" id="@t@tCount" style="border-bottom:solid 1px #FFF;">
+                                    <a class="iIndex_links">
+                                        <div class="col-md-3">
+                                            @Html.Label("Task")
                                         </div>
+                                        <div class="col-md-4">
+                                            @Html.DisplayFor(m => _task.task.taskName)
+                                        </div>
+                                    </a>
+                                    <div class="col-md-5">
+                                        @Html.ActionLink("View Chart", "AdminCharts", "GradeBook", new { id = item._class.class_Id, task_id = _task.task.task_Id }, new { @class = "iIndex_links" })
                                     </div>
                                 </div>
-                                if (_task.grades.Count() == 0)
-                                {
-                                    <script type="text/javascript">
-                                        $("document").ready(function () {
-                                            $("#@c1@c1Count, #@t@tCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@tRow@tRCount").hide(
-                                            );
-                                            $("#@c0@c0count").click(function () {
-                                                $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount").slideDown()
-                                            });
-                                            $("#@c1@c1Count").click(function () {
-                                                $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideDown()
-                                            });
-                                            $("#@c1Row@c1RCount").click(function () {
-                                                $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
-                                            });
-                                            $("#@tRow@tRCount").click(function () {
-                                                $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
-                                            });
+                            </div>
+                            if (_task.grades.Count() == 0)
+                            {
+                                <script type="text/javascript">
+                                    $("document").ready(function () {
+                                        $("#@c1@c1Count, #@t@tCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@tRow@tRCount").hide(
+                                        );
+                                        $("#@c0@c0count").click(function () {
+                                            $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount").slideDown()
                                         });
-                                    </script>
-                                }
-                                else
-                                {
-                                    <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
-                                        <div class="col-md-4">
+                                        $("#@c1@c1Count").click(function () {
+                                            $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideDown()
+                                        });
+                                        $("#@c1Row@c1RCount").click(function () {
+                                            $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
+                                        });
+                                        $("#@tRow@tRCount").click(function () {
+                                            $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
+                                        });
+                                    });
+                                </script>
+                            }
+                            else
+                            {
+                                <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
+                                    <div class="col-md-4" id="@submit@submitCount">
+                                    </div>
+                                    <div class="col-md-7" id="@g@gCount" style="border-bottom:solid 1px #fff;">
+                                        <div class="col-md-5">
+                                            @Html.Label("Student")
                                         </div>
-                                        <div class="col-md-7" id="@g@gCount" style="border-bottom:solid 1px #fff;">
-                                            <div class="col-md-5">
-                                                @Html.Label("Student")
-                                            </div>
-                                            <div class="col-md-2">
-                                                @Html.Label("Earned")
-                                            </div>
-                                            <div class="col-md-2">
-                                                @Html.Label("Possible")
-                                            </div>
-                                            <div class="col-md-3">
-                                                @Html.Label("Grade - %")
-                                            </div>
+                                        <div class="col-md-2">
+                                            @Html.Label("Earned")
                                         </div>
-                                        <div class="col-md-1">
-
+                                        <div class="col-md-2">
+                                            @Html.Label("Possible")
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.Label("Grade - %")
                                         </div>
                                     </div>
-                                    foreach (var _grade in _task.grades)
-                                    {
-                                        string name = _grade.StudentModels.lName + ", " + _grade.StudentModels.fName;
-                                        <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
-                                            <div class="col-md-4">
-                                            </div>
-                                            <div class="col-md-7" id="@g@gCount" style="border-bottom:solid 1px #fff;">
-                                                <div class="col-md-5">
-                                                    @Html.DisplayFor(m => name)
-                                                </div>
-                                                <div class="col-md-2">
-                                                    @Html.DisplayFor(m => _grade.pointsEarned)
-                                                </div>
-                                                <div class="col-md-2">
-                                                    @Html.DisplayFor(m => _grade.possiblePoints)
-                                                </div>
-                                                <div class="col-md-3">
-                                                    @Html.DisplayFor(m => _grade.grade)%
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1" id="@gEdit@gECount">
-                                                <a class="iIndex_links">
-                                                    Change
-                                                </a>
-                                            </div>
+                                    <div class="col-md-1">
+
+                                    </div>
+                                </div>
+                                foreach (var _grade in _task.grades)
+                                {
+                                    <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
+
+                                        <div class="col-md-4" id="@submit@submitCount">
                                         </div>
-                                        <div class="row" id="@editRow@eRCount" style="width:100%;margin-left:0px;margin-right:0px;padding:5px;">
-                                            @{Html.RenderPartial("partialEdit", _grade);}
+                                        <div class="col-md-7" id="@g@gCount" style="border-bottom:solid 1px #fff;">
+                                            @{ Html.RenderPartial("gradePartial", _grade);}
                                         </div>
+                                        <div class="col-md-1" id="@gEdit@gECount">
+                                            <a class="iIndex_links">
+                                                Change
+                                            </a>
+                                        </div>
+                                    </div>
+                                            <div class="row" id="@editRow@eRCount" style="width:100%;margin-left:0px;margin-right:0px;padding:5px;">
+                                                @{Html.RenderPartial("partialEdit", _grade);}
+                                            </div>
                                             <script type="text/javascript">
                                                 $("document").ready(function () {
-                                                    $("#@c1@c1Count, #@t@tCount, #@g@gCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@gMinus@gMCount,  #@tRow@tRCount, #@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount").hide(
+                                                    $("#@c1@c1Count, #@t@tCount, #@g@gCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@gMinus@gMCount,  #@tRow@tRCount, #@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount, #@submit@submitCount").hide(
                                                     );
                                                     $("#@c0@c0count").click(function () {
                                                         $("#@c1@c1Count, #@c1Minus@c1MCount, #@tRow@tRCount").slideDown()
@@ -228,7 +222,7 @@
                                                         $("#@t@tCount, #@tMinus@tMCount, #@gRow@gRCount").slideDown()
                                                     });
                                                     $("#@t@tCount").click(function () {
-                                                        $("#@g@gCount, #@gMinus@gMCount, #@gEdit@gECount").slideDown()
+                                                        $("#@g@gCount, #@gMinus@gMCount, #@gEdit@gECount, #@submit@submitCount").slideDown()
                                                     });
                                                     $("#@gEdit@gECount").click(function () {
                                                         $("#@editRow@eRCount").slideDown(function () {
@@ -236,36 +230,37 @@
                                                         });
                                                     });
                                                     $("#@c1Row@c1RCount").click(function () {
-                                                        $("#@c1@c1Count, #@c1Minus@c1MCount, #@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount, #@tRow@tRCount, #@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount").slideUp()
+                                                        $("#@c1@c1Count, #@c1Minus@c1MCount, #@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount, #@tRow@tRCount, #@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount, #@submit@submitCount").slideUp()
                                                     });
                                                     $("#@tRow@tRCount").click(function () {
-                                                        $("#@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount,#@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount").slideUp()
+                                                        $("#@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount,#@gRow@gRCount, #@gEdit@gECount, #@editRow@eRCount, #@submit@submitCount").slideUp()
                                                     });
                                                     $("#@gRow@gRCount").click(function () {
-                                                        $("#@g@gCount, #@gMinus@gMCount, #@gEdit@gECount, #@editRow@eRCount").slideUp()
+                                                        $("#@g@gCount, #@gMinus@gMCount, #@gEdit@gECount, #@editRow@eRCount, #@submit@submitCount").slideUp()
                                                     });
                                                 });
                                             </script>
-                                        eRCount += 1;
-                                        gCount += 1;
-                                        gECount += 1;
-                                    }
-                                    gMCount += 1;
-                                    gRCount += 1;
-                                }
-                                tCount += 1;
-                            }
+                                                                        eRCount += 1;
+                                                                        gCount += 1;
+                                                                        gECount += 1;
+                                                                        submitCount += 1;
+                                                                    }
+                                                                    gMCount += 1;
+                                                                    gRCount += 1;
+                                                                }
+                                                                tCount += 1;
+                                                            }
 
-                        }
-                        tMCount += 1;
-                        tRCount += 1;
-                        c1Count += 1;
-                    }
+                                                        }
+                                                        tMCount += 1;
+                                                        tRCount += 1;
+                                                        c1Count += 1;
+                                                    }
                 </div>
-                c1RCount += 1;
-                c1MCount += 1;
-                c0count += 1;
-            }
+                                                        c1RCount += 1;
+                                                        c1MCount += 1;
+                                                        c0count += 1;
+                                                    }
         </div>
     </div>
     <div class="col-md-1"></div>
