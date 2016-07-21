@@ -19,7 +19,7 @@ namespace ClassAnalytics.Controllers
     public class ClassController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult partialEdit(GradeBookModel gradeBookModel)
@@ -36,12 +36,9 @@ namespace ClassAnalytics.Controllers
                 db.gradeBookModel.Remove(grade);
                 db.gradeBookModel.Add(gradeBookModel);
                 db.SaveChanges();
-                return RedirectToAction("iIndex");
+                return RedirectToAction("Index");
             }
-            else
-            {
-                return RedirectToAction("iIndex");
-            }
+            return RedirectToAction("Index");
         }
         public ActionResult StudentDetails(int? id)
         {
@@ -57,11 +54,11 @@ namespace ClassAnalytics.Controllers
 
             return View(grade);
         }
-        public ActionResult iIndex()
+        public ActionResult Index(string status)
         {
             List<programListViewModel> listViewModel = new List<programListViewModel>();
-           courseListViewModel courseModel = new courseListViewModel();
-             programListViewModel programListView = new programListViewModel();
+            courseListViewModel courseModel = new courseListViewModel();
+            programListViewModel programListView = new programListViewModel();
             List<GradeBookModel> grades = db.gradeBookModel.ToList();
             List<ClassTaskJoinModel> joinTask = db.classTask.ToList();
             List<ClassModel> classes = db.classmodel.ToList();
@@ -93,6 +90,7 @@ namespace ClassAnalytics.Controllers
                                         TaskModel task = db.taskModel.Find(classTask.task_id);
                                         if (task.course_Id == course.course_Id)
                                         {
+                                            task.TaskTypeModels = db.TaskTypeModels.Find(task.taskType_Id);
                                             newTask.task = task;
                                             foreach (GradeBookModel grade in grades)
                                             {
@@ -110,6 +108,7 @@ namespace ClassAnalytics.Controllers
                                         }
                                     }
                                 }
+                                courseModel.tasks = courseModel.tasks.OrderBy(x => x.task.TaskTypeModels.taskType).ToList();
                                 programListView.courses.Add(courseModel);
                             }
                         }
@@ -237,35 +236,35 @@ namespace ClassAnalytics.Controllers
                 return View("Index");
             }
         }
-        public ActionResult Index(int? program_id)
-        {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            ViewBag.statusMessage = "";
-            ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
-            var classes = db.classmodel.ToList();
-            List<ProgClassViewModel> new_list = new List<ProgClassViewModel>();
-            if (program_id != null)
-            {
-                foreach (ClassModel a_class in classes)
-                {
-                    if (a_class.program_id == program_id)
-                    {
-                        new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
-                    }
-                }
-            }
-            else
-            {
-                foreach (ClassModel a_class in classes)
-                {
-                    new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
-                }
-            }
-            return View(new_list);
-        }
+        //public ActionResult Index(int? program_id)
+        //{
+        //    if (!this.User.IsInRole("Admin"))
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    ViewBag.statusMessage = "";
+        //    ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
+        //    var classes = db.classmodel.ToList();
+        //    List<ProgClassViewModel> new_list = new List<ProgClassViewModel>();
+        //    if (program_id != null)
+        //    {
+        //        foreach (ClassModel a_class in classes)
+        //        {
+        //            if (a_class.program_id == program_id)
+        //            {
+        //                new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (ClassModel a_class in classes)
+        //        {
+        //            new_list.Add(new ProgClassViewModel() { class_Id = a_class.class_Id, className = a_class.className, program_id = a_class.program_id, ProgramModels = db.programModels.Find(a_class.program_id) });
+        //        }
+        //    }
+        //    return View(new_list);
+        //}
 
         // GET: Class/Details/5
         public ActionResult Details(int? id)
@@ -328,7 +327,7 @@ namespace ClassAnalytics.Controllers
                 }
                 db.classmodel.Add(new_class);
                 db.SaveChanges();
-                return RedirectToAction("iIndex");
+                return RedirectToAction("Index");
             }
 
             return View(viewModel);
@@ -383,7 +382,7 @@ namespace ClassAnalytics.Controllers
             {
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("iIndex");
+                return RedirectToAction("Index");
             }
             ViewBag.program_Id = new SelectList(db.programModels, "pragram_Id", "programName");
             List<ProgramModels> programs = db.programModels.ToList();
@@ -426,7 +425,7 @@ namespace ClassAnalytics.Controllers
             ClassModel classModel = db.classmodel.Find(id);
             db.classmodel.Remove(classModel);
             db.SaveChanges();
-            return RedirectToAction("iIndex");
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

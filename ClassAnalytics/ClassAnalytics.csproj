@@ -419,7 +419,7 @@
     <Content Include="Views\Class\Create.cshtml" />
     <Content Include="Views\Class\Delete.cshtml" />
     <Content Include="Views\Class\Edit.cshtml" />
-    <Content Include="Views\Class\Index.cshtml" />
+    <Content Include="Views\Class\oldIndex.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\Delete.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
@@ -484,7 +484,7 @@
     <Content Include="Views\Instructor\removeFromClass.cshtml" />
     <Content Include="Views\Class\assignClass.cshtml" />
     <Content Include="Views\Class\viewAssignClass.cshtml" />
-    <Content Include="Views\Class\iIndex.cshtml" />
+    <Content Include="Views\Class\Index.cshtml" />
     <Content Include="Views\Class\partialEdit.cshtml" />
     <Content Include="Views\Class\gradePartial.cshtml" />
   </ItemGroup>

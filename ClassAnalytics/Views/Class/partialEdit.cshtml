@@ -1,30 +1,64 @@
 ﻿@model ClassAnalytics.Models.Gradebook_Models.GradeBookModel
 
-@using (Html.BeginForm("partialEdit","Class"))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.class_Id)
-    @Html.HiddenFor(m => m.grade)
-    @Html.HiddenFor(m => m.grade_Id)
-    @Html.HiddenFor(m => m.possiblePoints)
-    @Html.HiddenFor(m => m.student_Id)
-    @Html.HiddenFor(m => m.task_Id)
-    <div class="row">
-        <div class="col-md-4">
-
-        </div>
-        <div class="col-md-8">
-            <div class="col-md-3">
-                @Html.EditorFor(m => m.pointsEarned, new { htmlAttributes = new { @class = "form-control", placeholder="Points" } })
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(m => m.assignment_notes, new { htmlAttributes = new { @class = "form-control", placeholder="Notes" } })
-            </div>
-            <div class="col-md-3">
-                <div class="form-group" style="margin:0 auto;">
-                    <input type="submit" value="Update Grade" class="btn btn-primary-2" style="padding:5px;" />
-                </div>
-            </div>
-        </div>
-    </div>
+@{
+    string name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
+    string change = "change";
+    string submit = "submit";
+    int id = Model.grade_Id;
 }
+
+<div class="col-md-10">
+    <div class="col-md-5">
+        @Html.DisplayFor(m => name)
+    </div>
+    <div class="col-md-2">
+        @Html.DisplayFor(m => m.pointsEarned)
+    </div>
+    <div class="col-md-2">
+        @Html.DisplayFor(m => m.possiblePoints)
+    </div>
+    <div class="col-md-3">
+        @Html.DisplayFor(m => m.grade)%
+    </div>
+</div>
+<div class="col-md-2" id="@change@id">
+    <a class="iIndex_links">
+        Change
+    </a>
+</div>
+
+<div class="row" id="@id" style="width:100%;padding-bottom:5px;">
+    @using (Html.BeginForm("partialEdit","Class"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.class_Id)
+        @Html.HiddenFor(m => m.grade)
+        @Html.HiddenFor(m => m.grade_Id)
+        @Html.HiddenFor(m => m.possiblePoints)
+        @Html.HiddenFor(m => m.student_Id)
+        @Html.HiddenFor(m => m.task_Id)
+        <div class="col-md-3">
+            @Html.EditorFor(m => m.pointsEarned, new { htmlAttributes = new { @class = "form-control", placeholder = "Points" } })
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(m => m.assignment_notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Notes" } })
+        </div>
+        <div class="col-md-3">
+            <div class="form-group" id="@submit@id" style="margin:0 auto;">
+                <input type="submit" value="Update Grade" class="btn btn-primary-2" style="padding:5px;" />
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+
+    $("document").ready(function () {
+        $("#@id").hide();
+        $("#@change@id").click(function () {
+            $("#@id").slideDown()
+        });
+        $("#submitButton").click(function () {
+            $("#@id").slideUp()
+        });
+    });
+</script>
