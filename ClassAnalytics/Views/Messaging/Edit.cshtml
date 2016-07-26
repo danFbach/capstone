@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.MessagingModel
+﻿@model ClassAnalytics.Models.Misc_Models.MessagingModel
 
 @{
     ViewBag.Title = "Edit";
@@ -17,18 +17,18 @@
         @Html.HiddenFor(model => model.message_Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.sender_account_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.sending_id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.sender_account_Id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.sender_account_Id, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.sending_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sending_id, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.recipient_account_Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.recieve_id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.recipient_account_Id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.recipient_account_Id, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.recieve_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.recieve_id, "", new { @class = "text-danger" })
             </div>
         </div>
 

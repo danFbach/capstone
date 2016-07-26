@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.StudentEmail
+﻿@model ClassAnalytics.Models.Misc_Models.StudentEmail
 
 @{
     ViewBag.Title = "Message To Student";
@@ -9,20 +9,20 @@
 @using (Html.BeginForm("InstToStudent", "Communication"))
 {
     <div class="container">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
             <div class="row">
-                @Html.TextAreaFor(m => m.message, new { @class = "form-control", rows = 8 })
+                @Html.TextAreaFor(m => m.message, new { @class = "form-control", rows = 5, style="max-width:auto;" })
             </div>
-            <div class="row">
-                <div class="col-md-7">
+            <div class="row" style="padding-top:10px;">
+                <div class="col-md-7" style="margin-left:-10px;">
                     @Html.DropDownListFor(m => m.student_Id, Model.students, "Select Student: ", new { @class = "form-control" })
                 </div>
-                <div class="col-md-4" style="margin-left:-20px;padding-left:0px;">
+                <div class="col-md-4" style="padding-left:0px;">
                     <input type="submit" value="Send" class="btn btn-primary-2" />
                 </div>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-3"></div>
     </div>
 }

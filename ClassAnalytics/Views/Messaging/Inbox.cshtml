@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.MessagingViewModel>
+﻿@model IEnumerable<ClassAnalytics.Models.Misc_Models.MessagingViewModel>
 
 @{
     ViewBag.Title = "Inbox";
@@ -40,26 +40,39 @@
                 </th>
                 <th></th>
             </tr>
-
-            @foreach (var item in Model)
+            @if (Model.Count() == 0)
             {
                 <tr>
                     <td>
-                        From: @Html.DisplayFor(modelItem => item.sender)
-                    </td>
-                    <td style="overflow:hidden;text-overflow:ellipsis;width:350px;">
-                        @Html.ActionLink(item.Message.subject, "Details", new { id = item.Message.message_Id })
-                    </td>
-                    <td style="width:50px;">
-                        @Html.DisplayFor(modelItem => item.Message.read)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Message.dateSent)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Remove", "Delete", new { id = item.Message.message_Id })
+                        <h4>No Messages</h4>
                     </td>
                 </tr>
+            }
+
+            else
+            {
+                foreach (var item in Model)
+                {
+
+
+                    <tr>
+                        <td>
+                            From: @Html.DisplayFor(modelItem => item.sender)
+                        </td>
+                        <td style="overflow:hidden;text-overflow:ellipsis;width:350px;">
+                            @Html.ActionLink(item.Message.subject, "Details", new { id = item.Message.message_Id })
+                        </td>
+                        <td style="width:50px;">
+                            @Html.DisplayFor(modelItem => item.Message.read)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Message.dateSent)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove", "Delete", new { id = item.Message.message_Id })
+                        </td>
+                    </tr>
+                }
             }
         </table>
     </div>

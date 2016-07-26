@@ -6,7 +6,8 @@
 <div class="col-sm-12" style="text-align:center;">
     <h2>@ViewBag.Title</h2>
     <div class="col-sm-12" style="text-align:right;margin-top:-30px;">
-        <h4>@Html.ActionLink("Return to Courses", "Index", "Course", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })</h4>
+        <h4>@Html.ActionLink("Return to Dashboard", "Index", "Class", new { @class = "a" })
+        @Html.ActionLink("New Task","Create","Task", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })</h4>
     </div>
     <h5 style="margin-top:-10px;">@ViewBag.course</h5>
 </div>

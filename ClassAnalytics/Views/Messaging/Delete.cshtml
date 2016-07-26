@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.MessagingModel
+﻿@model ClassAnalytics.Models.Misc_Models.MessagingModel
 
 @{
     ViewBag.Title = "Delete";
@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.sender_account_Id)
+            @Html.DisplayNameFor(model => model.sending_id)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.sender_account_Id)
+            @Html.DisplayFor(model => model.sending_id)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.recipient_account_Id)
+            @Html.DisplayNameFor(model => model.recieve_id)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.recipient_account_Id)
+            @Html.DisplayFor(model => model.recieve_id)
         </dd>
 
         <dt>

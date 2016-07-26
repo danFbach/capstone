@@ -464,11 +464,11 @@
     <Content Include="Views\Survey\fill_out_survey.cshtml" />
     <Content Include="Views\GradeBook\AdminCharts.cshtml" />
     <Content Include="Views\Survey\SurveyBarChart.cshtml" />
-    <Content Include="Views\Communication\StudentToInstructor.cshtml" />
-    <Content Include="Views\Communication\StudentToStudent.cshtml" />
-    <Content Include="Views\Communication\InstToStudent.cshtml" />
-    <Content Include="Views\Communication\InstToClass.cshtml" />
-    <Content Include="Views\Communication\AdminMessaging.cshtml" />
+    <Content Include="Views\Com\StudentToInstructor.cshtml" />
+    <Content Include="Views\Com\StudentToStudent.cshtml" />
+    <Content Include="Views\Com\InstToStudent.cshtml" />
+    <Content Include="Views\Com\InstToClass.cshtml" />
+    <Content Include="Views\Com\AdminMessaging.cshtml" />
     <Content Include="Views\GradeBook\StudentDetails.cshtml" />
     <Content Include="Views\Messaging\Create.cshtml" />
     <Content Include="Views\Messaging\Delete.cshtml" />

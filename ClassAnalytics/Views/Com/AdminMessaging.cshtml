@@ -1,4 +1,5 @@
-﻿
+﻿@model ClassAnalytics.Models.Misc_Models.StudentEmail
+
 @{
     ViewBag.Title = "Messaging";
 }
@@ -6,17 +7,17 @@
 
 <center><h2>@ViewBag.Title</h2></center>
 
-<h4>Send a @Html.ActionLink("Message", "InstToClass", "Communication") to a Class.</h4>
+<h4>Send a @Html.ActionLink("Message", "InstToClass", "Com") to a Class.</h4>
 
 <h6>Or, to message an individual student, please first select a class below.</h6>
 
 @using (Html.BeginForm())
 {
     <div class="row" style="">
-        <div class="col-xs-4" style="width:200px;padding-right:0px;">
+        <div class="col-xs-4" style="width:200px;">
             @Html.DropDownList("class_id", null, "Select a Class: ", htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-xs-2" style="width:150px;padding-left:0px;margin-left:-3px;">
+        <div class="col-xs-2" style="width:150px;">
             <input type="submit" value="Continue" class="btn btn-primary-2" />
         </div>
     </div>
