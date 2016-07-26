@@ -1,4 +1,4 @@
-﻿@model ClassAnalytics.Models.Uploads_Models.UploadModel
+﻿@model ClassAnalytics.Models.Uploads_Models.UploadViewModel
 
 @{
     ViewBag.Title = "Modify Upload";
@@ -13,11 +13,10 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.upload_id)
+        @Html.HiddenFor(m => m.upload_id)
         @Html.HiddenFor(m => m.class_id)
-        @Html.HiddenFor(m => m.filePath)
+        @Html.HiddenFor(m => m.relativePath)
         @Html.HiddenFor(m => m.createDate)
-        @Html.HiddenFor(m => m.course_Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.uploadName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,19 +25,13 @@
                 @Html.ValidationMessageFor(model => model.uploadName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(m => m.active, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.course_Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.DropDownListFor(m => m.active, new SelectList(new List<Object>
-                       {
-                       new { value = true , text = "Active" },
-                       new { value = false , text = "Inactive"  }
-                       }, "value", "text", 2), "Active/Inactive", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.active, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.course_Id, Model.courses, "Course [Optional]", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(m => m.uploadType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
@@ -48,6 +41,17 @@
                        new { value = "Resources" , text = "Resource"  }
                        }, "value", "text", 2), "Select Upload Type:", new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.uploadType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.active, new SelectList(new List<Object>
+                       {
+                       new { value = true , text = "Active" },
+                       new { value = false , text = "Inactive"  }
+                       }, "value", "text", 2), "Active/Inactive", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.active, "", new { @class = "text-danger" })
             </div>
         </div>
 

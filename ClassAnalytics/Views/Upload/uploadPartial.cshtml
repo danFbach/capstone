@@ -1,0 +1,45 @@
+﻿@model ClassAnalytics.Models.Uploads_Models.UploadViewModel
+
+@{ 
+    Layout = null;
+}
+
+@using (Html.BeginForm("uploadPartial","Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="row">
+        <div class="col-md-11" style="padding:0px;">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.upload_id)
+            @Html.HiddenFor(m => m.class_id)
+            <div class="col-md-3" style="padding:5px;">
+                @Html.EditorFor(model => model.uploadName, new { htmlAttributes = new { @class = "form-control", placeholder = "Rename [Optional]" } })
+                @Html.ValidationMessageFor(model => model.uploadName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-3" style="padding:5px;">
+                @Html.DropDownListFor(m => m.uploadType, new SelectList(new List<Object>
+                    {
+                    new { value = "Assignments" , text = "Assignment" },
+                    new { value = "Resources" , text = "Resource"  }
+                    }, "value", "text", 2), "Select Upload Type:", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.uploadType, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-3" style="padding:5px;">
+                @Html.DropDownListFor(m => m.course_Id, Model.courses, "Course [Optional]", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.course_Id, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-3" style="padding:5px;">
+                <input class="form-control" type="file" name="file" id="file" accept=".pdf, .txt, .css, .js, .html" />
+            </div>
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="Save" style="margin-top:5px;" class="btn btn-primary-2" />
+        </div>
+
+    </div>
+}

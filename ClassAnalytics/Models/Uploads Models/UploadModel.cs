@@ -19,7 +19,7 @@ namespace ClassAnalytics.Models.Uploads_Models
         public int? class_id { get; set; }
         public ClassModel classModel { get; set; }
         [Display(Name = "File")]
-        public string filePath { get; set; }
+        public string relativePath { get; set; }
         [Required]
         [Display(Name ="Active")]
         public bool active { get; set; }

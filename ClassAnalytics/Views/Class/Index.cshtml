@@ -2,26 +2,23 @@
 
 @{
     ViewBag.Title = "Your Class Dashboard";
-    int c0count = 0;
-    int c1Count = 0;
-    int tCount = 0;
-    int gCount = 0;
-    int c1MCount = 0;
-    int tMCount = 0;
-    int gMCount = 0;
-    int c1RCount = 0;
-    int tRCount = 0;
-    int gRCount = 0;
     string c0 = "c0-";
     string c1 = "c1-";
     string t = "t-";
     string g = "g-";
-    string c1Minus = "c1Minus";
-    string tMinus = "tMinus";
-    string gMinus = "gMinus";
+    string hide = "hide";
+    string upBtn = "upBtn";
+    string upload = "upload";
+    string c1down = "c1down";
+    string tright = "tright";
+    string tdown = "tdown";
+    string gDown = "gDown";
     string c1Row = "c1Row";
+    string c1right = "c1right";
     string tRow = "tRow";
     string gRow = "gRow";
+    string gRight = "gRight";
+    string gradeRow = "gradeRow";
 }
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -37,41 +34,43 @@
     <div class="col-md-10">
         <div class="row" style="border:solid 1px #FFF;border-radius:5px;width:100%;">
             <div class="row" style="border:none;">
-                <div class="col-md-2">
+                <div class="col-md-1">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     @Html.Label("Class")
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     @Html.Label("Program")
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-4">
                     @Html.Label("Actions")
                 </div>
             </div>
             @foreach (var item in Model)
             {
                 <div class="row" style="margin-left:0px;margin-right:0px;border-top:solid 1px #FFF;padding-top:10px;height:100%;">
-                    <div class="col-md-2" id="@c1Row@c1RCount">
-                        <img id="@c1Minus@c1MCount" src="~/Content/minus.jpg" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                    <div class="col-md-1" id="@c1Row@item._class.class_Id">
+                        <img id="@c1right@item._class.class_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                        <img id="@c1down@item._class.class_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                     </div>
-                    <div class="col-md-4">
-                        <div class="row" id="@c0@c0count">
-                            <a class="iIndex_links">
-                                <div class="col-md-6">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <a class="iIndex_links" id="@c0@item._class.class_Id">
+                                <div class="col-md-4">
                                     @Html.DisplayFor(m => item._class.className)
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     @Html.DisplayFor(m => item.program.programName)
                                 </div>
                             </a>
+                            <div class="col-md-3">
+                                <a class="iIndex_links" id="@upBtn@item._class.class_Id">Uploads</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="btn-group" style="margin:0px;">
-                            <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Uploads</button>
-                            <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Upload", "Upload", "Upload", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Uploads", "uploadList", "Upload", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
-                        </div>
+                    <div class="col-md-4">
                         <div class="btn-group" style="margin:0px;">
                             <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
                             <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Student", "Create", "Student", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "Index", "Student", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
@@ -79,6 +78,17 @@
                         <div class="btn-group" style="margin:0px;">
                             <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
                             <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
+                        </div>
+                    </div>
+                    <div class="row" id="@upload@item._class.class_Id" style="width:100%;">
+                        <div class="col-md-1">
+                            <button style="margin-top:5px;margin-left:10px;" class="btn-primary-2" id="@hide@item._class.class_Id">Hide</button>
+                        </div>
+                        <div class="col-md-11">
+                            @{
+                                Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
+                                Html.RenderAction("uploadList", "upload", new { id = item._class.class_Id });
+                            }
                         </div>
                     </div>
                     @foreach (var _course in item.courses)
@@ -89,10 +99,11 @@
                             courseLabel += " - No Tasks";
                         }
                         <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
-                            <div class="col-md-3" id="@tRow@tRCount">
-                                <img id="@tMinus@tMCount" src="~/Content/minus.jpg" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                            <div class="col-md-2" id="@tRow@item._class.class_Id-@_course.course.course_Id">
+                                <img id="@tright@item._class.class_Id-@_course.course.course_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                <img id="@tdown@item._class.class_Id-@_course.course.course_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                             </div>
-                            <div class="col-md-9" id="@c1@c1Count" style="border:solid 1px #FFF;border-radius:5px;">
+                            <div class="col-md-10" id="@c1@item._class.class_Id-@_course.course.course_Id" style="border:solid 1px #FFF;border-radius:5px;">
                                 <a class="iIndex_links">
                                     <div class="col-md-4">
                                         @Html.Label(courseLabel)
@@ -110,13 +121,29 @@
                         {
                             <script type="text/javascript">
                                 $("document").ready(function () {
-                                    $("#@c1@c1Count, #@c1Minus@c1MCount, #@tRow@tRCount, #@tMinus@tMCount").hide(
+                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@upload@item._class.class_Id").hide(
                                     );
-                                    $("#@c0@c0count").click(function () {
-                                        $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@tRow@tRCount").slideDown()
+                                    $("#@c0@item._class.class_Id").click(function () {
+                                        $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
                                     });
-                                    $("#@c1Row@c1RCount").click(function () {
-                                        $("#@c1@c1Count, #@c1Minus@c1MCount").slideUp()
+                                    $("#@c0@item._class.class_Id").click(function () {
+                                        $("#@c1right@item._class.class_Id").fadeOut(500, function () {
+                                            $("#@c1down@item._class.class_Id").fadeIn();
+                                        });
+                                    });
+                                    $("#@c1Row@item._class.class_Id").click(function () {
+                                        $("#@c1@item._class.class_Id-@_course.course.course_Id").slideUp()
+                                    });
+                                    $("#@c1Row@item._class.class_Id").click(function () {
+                                        $("#@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(500, function () {
+                                            $("#@c1right@item._class.class_Id").fadeIn();
+                                        });
+                                    });
+                                    $("#@upBtn@item._class.class_Id").click(function () {
+                                        $("#@upload@item._class.class_Id").slideDown();
+                                    });
+                                    $("#@hide@item._class.class_Id").click(function () {
+                                        $("#@upload@item._class.class_Id").slideUp();
                                     });
                                 });
                             </script>
@@ -127,13 +154,14 @@
                             foreach (var _task in _course.tasks)
                             {
                                 <div class="row" style="width:100%;margin-left:0px;margin-right:0px;">
-                                    <div class="col-md-4" id="@gRow@gRCount">
+                                    <div class="col-md-3" id="@gRow@item._class.class_Id-@_task.task.task_Id">
                                         @if (_task.grades.Count() != 0)
                                         {
-                                            <img id="@gMinus@gMCount" src="~/Content/minus.jpg" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                            <img id="@gRight@_task.task.task_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                            <img id="@gDown@_task.task.task_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                                         }
                                     </div>
-                                    <div class="col-md-8" id="@t@tCount" style="border:solid 1px #FFF;border-radius:5px;">
+                                    <div class="col-md-9" id="@t@item._class.class_Id-@_task.task.task_Id" style="border:solid 1px #FFF;border-radius:5px;">
                                         <a class="iIndex_links">
                                             <div class="col-md-3">
                                                 @Html.DisplayFor(m => _task.task.TaskTypeModels.taskType)
@@ -151,95 +179,144 @@
                                 {
                                     <script type="text/javascript">
                                         $("document").ready(function () {
-                                            $("#@c1@c1Count, #@t@tCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@tRow@tRCount").hide(
+                                            $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@upload@item._class.class_Id").hide(
                                             );
-                                            $("#@c0@c0count").click(function () {
-                                                $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount").slideDown()
+                                            $("#@c0@item._class.class_Id").click(function () {
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tright@item._class.class_Id-@_course.course.course_Id").slideDown()
                                             });
-                                            $("#@c1@c1Count").click(function () {
-                                                $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideDown()
+                                            $("#@c0@item._class.class_Id").click(function () {
+                                                $("#@c1right@item._class.class_Id").fadeOut(500, function () {
+                                                    $("#@c1down@item._class.class_Id").fadeIn();
+                                                });
                                             });
-                                            $("#@c1Row@c1RCount").click(function () {
-                                                $("#@c1@c1Count, #@c1Minus@c1MCount, #@c1Row@c1RCount, #@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
+                                            $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                $("#@t@item._class.class_Id-@_task.task.task_Id").slideDown()
                                             });
-                                            $("#@tRow@tRCount").click(function () {
-                                                $("#@t@tCount, #@tMinus@tMCount, #@tRow@tRCount").slideUp()
+                                            $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(500, function () {
+                                                    $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeIn();
+                                                });
+                                            });
+                                            $("#@c1Row@item._class.class_Id").click(function () {
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@c1Row@item._class.class_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideUp()
+                                            });
+                                            $("#@c1Row@item._class.class_Id").click(function () {
+                                                $("#@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(500, function () {
+                                                    $("#@c1right@item._class.class_Id").fadeIn();
+                                                });
+                                            });
+                                            $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                $("#@t@item._class.class_Id-@_task.task.task_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideUp()
+                                            });
+                                            $("#@upBtn@item._class.class_Id").click(function () {
+                                                $("#@upload@item._class.class_Id").slideDown();
+                                            });
+                                            $("#@hide@item._class.class_Id").click(function () {
+                                                $("#@upload@item._class.class_Id").slideUp();
                                             });
                                         });
                                     </script>
                                 }
                                 else
                                 {
-                                    <div class="row" id="@g@gCount" style="width:100%;margin-left:0px;margin-right:0px;">
+                                    <div class="row" id="@gradeRow@item._class.class_Id-@_task.task.task_Id" style="width:100%;margin-left:0px;margin-right:0px;">
                                         <div class="col-md-4">
                                         </div>
-                                        <div class="col-md-6" style="border:solid 1px #FFF;border-radius:5px;">
-                                            <div class="col-md-6">
-                                                @Html.Label("Student")
+                                        <div class="col-md-8" style="border:solid 1px #FFF;border-radius:5px;padding:0px;">
+                                            <div class="col-md-9">
+                                                <div class="col-md-5">
+                                                    @Html.Label("Student")
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.Label("Earned")
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.Label("Possible")
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.Label("Grade - %")
+                                                </div>
                                             </div>
-                                            <div class="col-md-2">
-                                                @Html.Label("Earned")
+                                            <div class="col-md-3">
                                             </div>
-                                            <div class="col-md-2">
-                                                @Html.Label("Possible")
-                                            </div>
-                                            <div class="col-md-2">
-                                                @Html.Label("Grade - %")
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-
                                         </div>
                                     </div>
                                     foreach (var _grade in _task.grades)
                                     {
-                                        <div class="row" id="@g@gCount" style="width:100%;margin-left:0px;margin-right:0px;">
+                                        string submit = "submit";
+                                        <div class="row" id="@g@_grade.grade_Id" style="width:100%;margin-left:0px;margin-right:0px;">
                                             <div class="col-md-4">
                                             </div>
-                                            <div class="col-md-8" style="border:solid 1px #FFF;border-top:none;border-right:none;border-radius:5px;">
+                                            <div class="col-md-8" id="@submit@_grade.grade_Id" style="border:solid 1px #FFF;border-radius:5px;">
                                                 @{ Html.RenderPartial("partialEdit", _grade);}
                                             </div>
                                         </div>
                                         <script type="text/javascript">
                                             $("document").ready(function () {
-                                                $("#@c1@c1Count, #@t@tCount, #@g@gCount, #@c1Minus@c1MCount, #@tMinus@tMCount, #@gMinus@gMCount,  #@tRow@tRCount, #@gRow@gRCount").hide(
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@upload@item._class.class_Id").hide(
                                                 );
-                                                $("#@c0@c0count").click(function () {
-                                                    $("#@c1@c1Count, #@c1Minus@c1MCount, #@tRow@tRCount").slideDown()
+                                                $("#@c0@item._class.class_Id").click(function () {
+                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tright@item._class.class_Id-@_course.course.course_Id").slideDown()
                                                 });
-                                                $("#@c1@c1Count").click(function () {
-                                                    $("#@t@tCount, #@tMinus@tMCount, #@gRow@gRCount").slideDown()
+                                                $("#@c0@item._class.class_Id").click(function () {
+                                                    $("#@c1right@item._class.class_Id").fadeOut(500, function () {
+                                                        $("#@c1down@item._class.class_Id").fadeIn();
+                                                    });
                                                 });
-                                                $("#@t@tCount").click(function () {
-                                                    $("#@g@gCount, #@gMinus@gMCount").slideDown()
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                    $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideDown()
                                                 });
-                                                $("#@c1Row@c1RCount").click(function () {
-                                                    $("#@c1@c1Count, #@c1Minus@c1MCount, #@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount, #@tRow@tRCount, #@gRow@gRCount").slideUp()
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                    $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(500, function () {
+                                                        $("#@tdown@item._class.class_Id-@_course.course.course_Id, @gRight@_task.task.task_Id").fadeIn();
+                                                    });
                                                 });
-                                                $("#@tRow@tRCount").click(function () {
-                                                    $("#@t@tCount, #@tMinus@tMCount, #@g@gCount, #@gMinus@gMCount,#@gRow@gRCount").slideUp()
+                                                $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                    $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideDown()
                                                 });
-                                                $("#@gRow@gRCount").click(function () {
-                                                    $("#@g@gCount, #@gMinus@gMCount").slideUp()
+                                                $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                    $("#@gRight@_task.task.task_Id").fadeOut(500, function () {
+                                                        $("#@gDown@_task.task.task_Id").fadeIn();
+                                                    });
+                                                });
+                                                $("#@c1Row@item._class.class_Id").click(function () {
+                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@gDown@_task.task.task_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideUp();
+                                                });
+                                                $("#@c1Row@item._class.class_Id").click(function () {
+                                                    $("#@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(500, function () {
+                                                        $("#@c1right@item._class.class_Id").fadeIn();
+                                                    });
+                                                });
+                                                $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                    $("#@t@item._class.class_Id-@_task.task.task_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@gDown@_task.task.task_Id,#@gRow@item._class.class_Id-@_task.task.task_Id").slideUp();
+                                                });
+                                                $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                    $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
+                                                        $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeIn();
+                                                    });
+                                                });
+                                                $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                    $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideUp();
+                                                });
+                                                $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                    $("#@gDown@_task.task.task_Id").fadeOut(function () {
+                                                        $("#@gRight@_task.task.task_Id").fadeIn();
+                                                    });
+                                                });
+                                                $("#@upBtn@item._class.class_Id").click(function () {
+                                                    $("#@upload@item._class.class_Id").slideDown();
+                                                });
+                                                $("#@hide@item._class.class_Id").click(function () {
+                                                    $("#@upload@item._class.class_Id").slideUp();
                                                 });
                                             });
                                         </script>
-                                                                        gCount += 1;
                                                                     }
-                                                                    gMCount += 1;
-                                                                    gRCount += 1;
                                                                 }
-                                                                tCount += 1;
                                                             }
                                                         }
-                                                        tMCount += 1;
-                                                        tRCount += 1;
-                                                        c1Count += 1;
                                                     }
                 </div>
-                                                        c1RCount += 1;
-                                                        c1MCount += 1;
-                                                        c0count += 1;
                                                     }
         </div>
     </div>

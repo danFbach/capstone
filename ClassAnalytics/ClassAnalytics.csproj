@@ -207,6 +207,14 @@
     <Compile Include="Migrations\201607091825413_classTask.Designer.cs">
       <DependentUpon>201607091825413_classTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607211305133_student upload modified.cs" />
+    <Compile Include="Migrations\201607211305133_student upload modified.Designer.cs">
+      <DependentUpon>201607211305133_student upload modified.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.cs" />
+    <Compile Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.Designer.cs">
+      <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Class Models\assignTaskViewModel.cs" />
     <Compile Include="Models\Class Models\classListViewModel.cs" />
     <Compile Include="Models\Class Models\ClassTaskJoinModel.cs" />
@@ -223,6 +231,7 @@
     <Compile Include="Models\Survey Models\surveyCreateViewModel.cs" />
     <Compile Include="Models\Uploads Models\studentUploads.cs" />
     <Compile Include="Models\Uploads Models\studentUploadViewModel.cs" />
+    <Compile Include="Models\Uploads Models\uploadListViewModel.cs" />
     <Compile Include="Models\Uploads Models\UploadViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -265,8 +274,10 @@
     <Content Include="Content\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\chalkboard.jpg" />
+    <Content Include="Content\down-pointer.png" />
     <Content Include="Content\mathteacher-student-whiteboard.jpg" />
     <Content Include="Content\minus.jpg" />
+    <Content Include="Content\right-pointer.png" />
     <Content Include="Scripts\bootstrap-hover-dropdown.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -487,6 +498,7 @@
     <Content Include="Views\Class\Index.cshtml" />
     <Content Include="Views\Class\partialEdit.cshtml" />
     <Content Include="Views\Class\gradePartial.cshtml" />
+    <Content Include="Views\Upload\uploadPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -509,6 +521,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607091825413_classTask.resx">
       <DependentUpon>201607091825413_classTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607211305133_student upload modified.resx">
+      <DependentUpon>201607211305133_student upload modified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.resx">
+      <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

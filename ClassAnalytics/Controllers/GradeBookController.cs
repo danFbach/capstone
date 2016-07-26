@@ -78,6 +78,7 @@ namespace ClassAnalytics.Controllers
             GradebookViewModel viewModel = new GradebookViewModel();
             viewModel.taskList = new List<SelectListItem>();
             viewModel.grades = new List<GradeBookModel>();
+            List<ClassTaskJoinModel> classTasks = db.classTask.ToList();
             List<TaskModel> tasks = db.taskModel.ToList();
             List<GradeBookModel> grades = db.gradeBookModel.ToList();
             ViewBag.class_Id = new SelectList(db.classmodel, "class_Id", "className");
@@ -86,12 +87,12 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Class");
             }
             ClassModel this_class = db.classmodel.Find(id);
-            foreach (TaskModel task in tasks)
+            foreach(ClassTaskJoinModel task in classTasks)
             {
-                task.CourseModels = db.coursemodels.Find(task.course_Id);
-                if (task.CourseModels.program_Id == this_class.program_id)
+                if(task.class_id == this_class.class_Id)
                 {
-                    viewModel.taskList.Add(new SelectListItem() { Text = task.taskName, Value = task.task_Id.ToString() });
+                    TaskModel newTask = db.taskModel.Find(task.task_id);
+                    viewModel.taskList.Add(new SelectListItem() { Text = newTask.taskName, Value = newTask.task_Id.ToString() });
                 }
             }
             foreach (GradeBookModel grade in grades)

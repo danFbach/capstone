@@ -20,25 +20,29 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [ValidateAntiForgeryToken]
+        
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult partialEdit(GradeBookModel gradeBookModel)
         {
-            if (gradeBookModel.assignment_notes == null)
+            GradeBookModel grade = db.gradeBookModel.Find(gradeBookModel.grade_Id);
+            if(grade.pointsEarned != gradeBookModel.pointsEarned || grade.assignment_notes != gradeBookModel.assignment_notes)
             {
-                gradeBookModel.assignment_notes = "";
-            }
-            if (ModelState.IsValid)
-            {
+                if (gradeBookModel.assignment_notes == null)
+                {
+                    gradeBookModel.assignment_notes = "";
+                }
                 if (gradeBookModel.pointsEarned < 0) { gradeBookModel.pointsEarned = 0; }
                 gradeBookModel.grade = Convert.ToDecimal((gradeBookModel.pointsEarned / gradeBookModel.possiblePoints) * 100);
-                GradeBookModel grade = db.gradeBookModel.Find(gradeBookModel.grade_Id);
                 db.gradeBookModel.Remove(grade);
                 db.gradeBookModel.Add(gradeBookModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult StudentDetails(int? id)
         {

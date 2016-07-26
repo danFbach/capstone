@@ -1,58 +1,82 @@
-﻿@model IEnumerable<ClassAnalytics.Models.Uploads_Models.UploadModel>
+﻿@model ClassAnalytics.Models.Uploads_Models.uploadListViewModel
 
 @{
-    
+    Layout = null;
     ViewBag.Title = ViewBag.className + "'s Uploads";
 }
+<div class="container"  >
+    <div class="col-md-12">
+        <h4 style="text-align:center;">@ViewBag.Title</h4>
+    </div>
+    <div class="col-md-6" style="height:200px;overflow-y:auto;">
+        <table class="table" style="">
+            <tr>
+                <th style="text-align:left;">
+                    @Html.Label("Upload Name")
+                </th>
+                <th>
+                    @Html.Label("Course")
+                </th>
+                <th>
+                    @Html.Label("Type")
+                </th>
+                <th></th>
+            </tr>
 
-<div class="col-md-12">
-    <h2 style="text-align:center;">@ViewBag.Title</h2>
-    <h5 style="text-align:right;margin-top:-20px;">
-        @Html.ActionLink("Return to Classes", "Index", "Class") | 
-        @Html.ActionLink("New Upload", "Upload", new { id= ViewContext.RouteData.Values["id"] })
-    </h5>
+            @foreach (var item in Model.instructorUploads)
+            {
+                <tr>
+                    <td style="text-align:left;">
+                        @Html.ActionLink(item.uploadName, "ViewFile", new { id = item.upload_id })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.courseModels.courseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.uploadType)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Modify", "Edit", new { id = item.upload_id })
+                        @Html.ActionLink("Remove", "Delete", new { id = item.upload_id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6" style="height:200px;overflow-y:auto;">
+        <table class="table">
+            <tr>
+                <th style="text-align:left;">
+                    @Html.Label("Student Name")
+                </th>
+                <th>
+                    @Html.Label("File Name")
+                </th>
+                <th>
+                    @Html.Label("Task")
+                </th>
+            </tr>
+
+            @foreach (var item in Model.studentUploads)
+            {
+                string name = item.studentModel.lName + ", " + item.studentModel.fName;
+                string taskName = "none";
+                if (item.taskModel != null)
+                {
+                    taskName = item.taskModel.taskName;
+                }
+                <tr>
+                    <td style="text-align:left;">
+                        @Html.DisplayFor(m => name)
+                </td>
+                <td>
+                    @Html.ActionLink(item.file_name, "viewStudentFile", new { id = item.id })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => taskName)
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
 </div>
-
-<table class="table">
-    <tr>
-        <th></th>
-        <th style="text-align:left;">
-            @Html.DisplayNameFor(m => m.uploadName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.course_Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.uploadType)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td style="width:115px;">
-            @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
-        </td>
-        <td style="text-align:left;">
-            @Html.ActionLink(item.uploadName,"ViewFile", new { id=item.upload_id})
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.courseModels.courseName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.uploadType)
-        </td>
-        <td>
-            @Html.ActionLink("Modify Upload", "Edit", new { id = item.upload_id }) | 
-            @Html.ActionLink("Remove", "Delete", new { id = item.upload_id })
-        </td>
-    </tr>
-}
-
-</table>

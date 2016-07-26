@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -66,9 +67,8 @@ namespace ClassAnalytics.Controllers
                         }
                         string path = Server.MapPath("~//Uploads//classData//" + className + "//" + userID + "//" + newUpload.file_name);
                         file.SaveAs(path);
-                        newUpload.class_name = className;
                         newUpload.createDate = DateTime.Now;
-                        newUpload.student_account_id = userID;
+                        newUpload.student_id = this_student.student_Id;
                         db.studentUpload.Add(newUpload);
                         db.SaveChanges();
                         return RedirectToAction("studentIndex");
@@ -106,7 +106,7 @@ namespace ClassAnalytics.Controllers
             ViewBag.student = thisStudent.fName;
             foreach(studentUploads upload in uploads)
             {
-                if(upload.student_account_id == UserId)
+                if(upload.student_id == thisStudent.student_Id)
                 {
                     viewModel.studentUploadList.Add(upload);
                 }
@@ -126,46 +126,57 @@ namespace ClassAnalytics.Controllers
         {
             if(id != null)
             {
-                
                 UploadModel upload = db.uploadModel.Find(id);
-                return View(upload);
+                List<CourseModels> courses = db.coursemodels.ToList();
+                ClassModel _class = db.classmodel.Find(upload.class_id);
+                UploadViewModel viewModel = new UploadViewModel();
+                viewModel = modelToView(upload);
+                viewModel.courses = new List<SelectListItem>();
+                foreach(CourseModels course in courses)
+                {
+                    if(course.program_Id == _class.program_id)
+                    {
+                        viewModel.courses.Add(new SelectListItem() { Text = course.courseName, Value = course.course_Id.ToString() });
+                    }
+                }
+                return View(viewModel);
             }
             return RedirectToAction("Index", "Class");
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Edit(UploadModel upload)
+        public ActionResult Edit(UploadViewModel ViewModel)
         {
             if (ModelState.IsValid)
             {
+                UploadModel upload = new UploadModel();
+                upload = viewToModel(ViewModel);
                 UploadModel oldFile = db.uploadModel.Find(upload.upload_id);
                 var strs = upload.uploadName.Split('.');
                 string ext = strs[strs.Count()-1];
                 var oldstr = oldFile.uploadName.Split('.');
                 string oldext = oldstr[oldstr.Count() - 1];
-                string relativePath = "~/Uploads/" + upload.uploadType + "/";
-                string oldRelativePath = "~/Uploads/" + oldFile.uploadType + "/";
-                if(ext != oldext)
+                upload.classModel = db.classmodel.Find(upload.class_id);
+                string newRelative = "//Uploads//classData//" + upload.classModel.className + "//instructorUploads//" + upload.uploadType + "//";
+                if (ext != oldext)
                 {
                     upload.uploadName += ( "." + oldext);
                 }
-                if (System.IO.File.Exists(upload.filePath))
+                if (System.IO.File.Exists(Server.MapPath(oldFile.relativePath)))
                 {
-                    System.IO.File.Move(Server.MapPath(oldRelativePath + oldFile.uploadName), Server.MapPath(relativePath + upload.uploadName));
+                    System.IO.File.Move(Server.MapPath(oldFile.relativePath), Server.MapPath(newRelative + upload.uploadName));
                 }
-                UploadModel dbUpload = db.uploadModel.Find(upload.upload_id);
-                if (dbUpload == null)
+                else
                 {
-                    db.uploadModel.Add(upload);
-                    return RedirectToAction("uploadList/" + upload.class_id);
+                    return RedirectToAction("Index", "Class");
                 }
-                db.Entry(dbUpload).CurrentValues.SetValues(upload);
-                dbUpload.filePath = Server.MapPath(relativePath+upload.uploadName);
-                db.Entry(dbUpload).State = EntityState.Modified;
+                db.Entry(oldFile).CurrentValues.SetValues(upload);
+                oldFile.relativePath = newRelative + upload.uploadName;
+                db.Entry(oldFile).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("uploadList/" + upload.class_id);
+                return RedirectToAction("Index","Class");
             }
-            return View(upload);
+            return View(ViewModel);
         }
         public ActionResult ViewFile(int? id)
         {
@@ -216,6 +227,67 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Class");
             }
         }
+        public ActionResult uploadPartial(int? id)
+        {
+            if(id != null)
+            {
+                UploadViewModel viewModel = new Models.Uploads_Models.UploadViewModel();
+                viewModel.class_id = id;
+                ClassModel _class = db.classmodel.Find(id);
+                viewModel.courses = courses(_class.program_id);                
+                return PartialView(viewModel);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult uploadPartial(HttpPostedFileBase file, UploadViewModel uploadModel)
+        {
+            UploadModel upload = new UploadModel();
+            if(file == null)
+            {
+                return RedirectToAction("Index", "Class");
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    uploadModel.classModel = db.classmodel.Find(uploadModel.class_id);
+                    string relativePath = "";
+                    var strs = file.FileName.Split('.');
+                    string exts = strs[strs.Count() - 1];
+                    relativePath = "//Uploads//classData//" + uploadModel.classModel.className + "//instructorUploads//" + uploadModel.uploadType + "//";
+                    string path = null;
+                    if (!Directory.Exists(Server.MapPath(relativePath)))
+                    {
+                        Directory.CreateDirectory(Server.MapPath(relativePath));
+                    }
+                    if (uploadModel.uploadName != null)
+                    {
+                        uploadModel.uploadName = uploadModel.uploadName + "." + exts;
+                        path = Server.MapPath(relativePath + uploadModel.uploadName);
+                    }
+                    else
+                    {
+                        path = Server.MapPath(relativePath + file.FileName);
+                        uploadModel.uploadName = file.FileName;
+                    }
+                    uploadModel.relativePath = relativePath + uploadModel.uploadName;
+                    upload = viewToModel(uploadModel);
+                    db.uploadModel.Add(upload);
+                    db.SaveChanges();
+                    file.SaveAs(path);
+                    return RedirectToAction("Index", "Class");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Class");
+                }
+            }
+        }
         public ActionResult uploadList(int? id)
         {
             if (this.User.IsInRole("Student"))
@@ -224,8 +296,11 @@ namespace ClassAnalytics.Controllers
             }
             if (id != null)
             {
-                List<UploadModel> new_uploads = new List<UploadModel>();
+                uploadListViewModel viewModel = new uploadListViewModel();
+                viewModel.instructorUploads = new List<UploadModel>();
+                viewModel.studentUploads = new List<studentUploads>();
                 List<UploadModel> uploads = db.uploadModel.ToList();
+                List<studentUploads> stUploads = db.studentUpload.ToList();
                 foreach (UploadModel upload in uploads)
                 {
                     if (upload.class_id == id)
@@ -238,21 +313,23 @@ namespace ClassAnalytics.Controllers
                         else
                         {
                             upload.courseModels = new CourseModels();
-                            upload.courseModels.courseName = "No Course Selected";
+                            upload.courseModels.courseName = "No Course";
                         }
-                        new_uploads.Add(upload);
+                        viewModel.instructorUploads.Add(upload);
                     }
                 }
-                if (new_uploads.Count() == 0)
+                foreach(studentUploads upload in stUploads)
                 {
-                    return RedirectToAction("Index", "Class");
+                    upload.studentModel = db.studentModels.Find(upload.student_id);
+                    if(upload.studentModel.class_Id == id)
+                    {
+                        viewModel.studentUploads.Add(upload);
+                    }
                 }
-                else
-                {
-                    ViewBag.className = db.classmodel.Find(id).className;
-                    new_uploads.OrderBy(m => m.createDate);
-                    return View(new_uploads);
-                }
+                ViewBag.className = db.classmodel.Find(id).className;
+                viewModel.instructorUploads.OrderBy(m => m.createDate);
+                viewModel.studentUploads.OrderBy(m => m.createDate);
+                return View(viewModel);
             }
             else
             {
@@ -293,13 +370,18 @@ namespace ClassAnalytics.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    uploadModel.classModel = db.classmodel.Find(uploadModel.class_id);
                     string relativePath = "";
                     var strs = file.FileName.Split('.');
                     string exts = strs[strs.Count() - 1];
                     if (exts == "pdf" || exts == "txt" || exts == "css" || exts == "js" || exts == "html")
                     {
-                        relativePath = "~/Uploads/" + uploadModel.uploadType + "/";
+                        relativePath = "~//Uploads/classData//" + uploadModel.classModel.className + "//instructorUploads//" + uploadModel.uploadType + "//";
                         string path = null;
+                        if (!Directory.Exists(Server.MapPath(relativePath)))
+                        {
+                            Directory.CreateDirectory(Server.MapPath(relativePath));
+                        }
                         if (uploadModel.uploadName != null)
                         {
                             uploadModel.uploadName = uploadModel.uploadName + "." + exts;
@@ -310,7 +392,8 @@ namespace ClassAnalytics.Controllers
                             path = Server.MapPath(relativePath + file.FileName);
                             uploadModel.uploadName = file.FileName;
                         }
-                        newUpload = viewToModel(uploadModel, path);
+                        uploadModel.relativePath = "classData//" + uploadModel.classModel.className + "//instructorUploads//" + uploadModel.uploadType + "//";
+                        newUpload = viewToModel(uploadModel);
                         db.uploadModel.Add(newUpload);
                         db.SaveChanges();
                         file.SaveAs(path);
@@ -332,17 +415,17 @@ namespace ClassAnalytics.Controllers
                 }
             }
         }
-        public UploadModel viewToModel(UploadViewModel viewModel, string path)
+        public UploadModel viewToModel(UploadViewModel viewModel)
         {
             UploadModel newUpload = new UploadModel();
             if(viewModel.upload_id != 0) {
                 newUpload.upload_id = viewModel.upload_id;
-                newUpload.filePath = viewModel.filePath;
+                newUpload.relativePath = viewModel.relativePath;
                 newUpload.createDate = viewModel.createDate;
             }
             else
             {
-                newUpload.filePath = path;
+                newUpload.relativePath = viewModel.relativePath;
                 newUpload.createDate = DateTime.Now;
             }
             newUpload.active = viewModel.active;
@@ -355,7 +438,11 @@ namespace ClassAnalytics.Controllers
         public UploadViewModel modelToView(UploadModel upload)
         {
             UploadViewModel newUpload = new UploadViewModel();
-            newUpload.filePath = upload.filePath;
+            if (upload.upload_id != 0)
+            {
+                newUpload.upload_id = upload.upload_id;
+            }
+            newUpload.relativePath = upload.relativePath;
             newUpload.createDate = upload.createDate;
             newUpload.active = upload.active;
             newUpload.class_id = upload.class_id;
@@ -407,9 +494,9 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Home");
             }
             UploadModel upload = db.uploadModel.Find(id);
-            if (System.IO.File.Exists(upload.filePath))
+            if (System.IO.File.Exists(upload.relativePath))
             {
-                System.IO.File.Delete(upload.filePath);
+                System.IO.File.Delete(upload.relativePath);
             }
             db.uploadModel.Remove(upload);
             db.SaveChanges();

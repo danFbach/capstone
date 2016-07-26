@@ -4,11 +4,12 @@
     string name = Model.StudentModels.lName + ", " + Model.StudentModels.fName;
     string change = "change";
     string submit = "submit";
+    string newGrade = "newGrade";
     int id = Model.grade_Id;
 }
 
-<div class="col-md-10">
-    <div class="col-md-5">
+<div class="col-md-9" id="@newGrade@id">
+    <div class="col-md-5" style="padding:0px;">
         @Html.DisplayFor(m => name)
     </div>
     <div class="col-md-2">
@@ -21,44 +22,47 @@
         @Html.DisplayFor(m => m.grade)%
     </div>
 </div>
-<div class="col-md-2" id="@change@id">
-    <a class="iIndex_links">
-        Change
+<div class="col-md-3" id="@change@id">
+    <a class="iIndex_links" style="text-align:center;">
+        Change Grade
     </a>
 </div>
-
-<div class="row" id="@id" style="width:100%;padding-bottom:5px;">
-    @using (Html.BeginForm("partialEdit","Class"))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("partialEdit", "Class"))
+{
+    <div class="row" id="@id" style="width:100%;padding-bottom:5px;">
         @Html.HiddenFor(m => m.class_Id)
-        @Html.HiddenFor(m => m.grade)
         @Html.HiddenFor(m => m.grade_Id)
         @Html.HiddenFor(m => m.possiblePoints)
         @Html.HiddenFor(m => m.student_Id)
         @Html.HiddenFor(m => m.task_Id)
+        @Html.AntiForgeryToken()
         <div class="col-md-3">
-            @Html.EditorFor(m => m.pointsEarned, new { htmlAttributes = new { @class = "form-control", placeholder = "Points" } })
+            @Html.EditorFor(m => Model.pointsEarned, new { htmlAttributes = new { @class = "form-control", placeholder = "Points", id = id + "earned" } })
         </div>
         <div class="col-md-6">
-            @Html.EditorFor(m => m.assignment_notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Notes" } })
+            @Html.EditorFor(m => Model.assignment_notes, new { htmlAttributes = new { @class = "form-control", placeholder = "Notes", id = id + "notes" } })
         </div>
         <div class="col-md-3">
-            <div class="form-group" id="@submit@id" style="margin:0 auto;">
-                <input type="submit" value="Update Grade" class="btn btn-primary-2" style="padding:5px;" />
+            <div class="form-group" style="margin:0 auto;">
+                <input type="submit" id="@submit@id" value="Update Grade" class="btn btn-primary-2" style="padding:5px;" />
             </div>
         </div>
-    }
-</div>
-<script type="text/javascript">
+    </div>
 
+}
+<script type="text/javascript">
     $("document").ready(function () {
         $("#@id").hide();
         $("#@change@id").click(function () {
             $("#@id").slideDown()
         });
-        $("#submitButton").click(function () {
+        $("#@submit@id").click(function () {
             $("#@id").slideUp()
         });
+        @*$("#@submit@id").click(function () {
+            var earned = getElementById(@id+"earned").val();
+            var notes = getElementById(@id+"notes").val();
+            $("#@id").load("partialEdit?grade_id=" + Model.grade_Id + "&earned=" + earned + "&notes=" + notes,"Class",null, Request.Url.Scheme);
+        });*@
     });
 </script>
