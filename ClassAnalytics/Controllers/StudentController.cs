@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Net.Mail;
-using SendGrid;
 using System.Web.Mvc;
+using SendGrid;
 using ClassAnalytics.Models;
 using ClassAnalytics.Models.Task_Models;
 using ClassAnalytics.Models.Misc_Models;
@@ -37,10 +37,12 @@ namespace ClassAnalytics.Controllers
             myMessage.Html = a_message;
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.AddTo(emailaddress);
-            myMessage.Subject = "Hey " + fName + "! Edulytics Account Activation Enclosed";
-            var credentials = new NetworkCredential(/*UserName*/"", /*Password*/"");
+            myMessage.Subject = "Hey " + fName + "!      Account Activation Enclosed";
+            var credentials = new NetworkCredential("juniordevpractice", "Pqow0192@&");
             var transportWeb = new Web(credentials);
             await transportWeb.DeliverAsync(myMessage);
+            Console.WriteLine("Email Sent");
+            Console.ReadLine();
         }
 
         public void AccountController(ApplicationUserManager userManager)
@@ -138,11 +140,11 @@ namespace ClassAnalytics.Controllers
                     db.studentModels.Add(student);
                     Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
                     addRole(user);
-                    //studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName); //Commented out while trouble shooting, uncomment to enable confirmation emails, username/password for send grid also required in function
+                    studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName); //Commented out while trouble shooting, uncomment to enable confirmation emails, username/password for send grid also required in function
                     welcomeMessage(student, user);
                     createGrades(student); //create gradebook entries retroactively for tasks already assigned to class
                     db.SaveChanges();                
-                    return RedirectToAction("Index", "Class");
+                    return RedirectToAction("Index/" + student.class_Id, "Student");
                 }
                 viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
                 ViewBag.StatusMessage = "Email is already in use or Invalid.";

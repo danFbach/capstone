@@ -1,7 +1,8 @@
 ﻿@model ClassAnalytics.Models.Misc_Models.CourseModels
 
 @{
-    ViewBag.Title = "Create a course";
+    ViewBag.Title = "Add a Course to " + @ViewBag.program;
+    string returnLinkText = "Back to " + ViewBag.program + " Home";
 }
 
 @using (Html.BeginForm()) 
@@ -9,8 +10,8 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Create new Course</h4>
-        <h5>@ViewBag.program</h5>
+        <h4>@ViewBag.Title</h4>
+        <h5>@ViewBag.date</h5>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(m => m.program_Id)
@@ -52,5 +53,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Programs", "Index", "ProgramModels")
+    @Html.ActionLink(returnLinkText, "Index", "Course", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })
 </div>

@@ -28,7 +28,8 @@ namespace ClassAnalytics.Controllers
             if (id != null)
             {
                 CourseModels course = db.coursemodels.Find(id);
-                ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
+                ViewBag.course = course.courseName;
+                ViewBag.date = course.startDate + " - " + course.endDate;
                 List<TaskModel> tasks = db.taskModel.ToList();
                 List<TaskModel> new_tasks = new List<TaskModel>();
                 foreach (TaskModel task in tasks)
@@ -80,7 +81,8 @@ namespace ClassAnalytics.Controllers
                 int course_id = Convert.ToInt32(id);
                 task.course_Id = course_id;
                 CourseModels course = db.coursemodels.Find(id);
-                ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
+                ViewBag.course = course.courseName;
+                ViewBag.date = course.startDate + " - " + course.endDate;
                 ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
                 task.CourseModels = new CourseModels();
                 task.CourseModels = db.coursemodels.Find(course_id);
@@ -122,7 +124,8 @@ namespace ClassAnalytics.Controllers
 
                 return RedirectToAction("Index/" + viewModel.course_Id, "Task");
             }
-            ViewBag.course = course.courseName + ": " + course.startDate + " - " + course.endDate;
+            ViewBag.course = course.courseName;
+            ViewBag.date = course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
             return RedirectToAction("Index","ProgramModels");
         }

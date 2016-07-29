@@ -42,14 +42,14 @@ namespace ClassAnalytics.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ProgramModels program = db.programModels.Find(id);
             List<CourseModels> courses = db.coursemodels.ToList();
             List<CourseModels> new_courses = new List<CourseModels>();
-            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
             ViewBag.program_id = new SelectList(db.programModels, "program_Id", "programName");
             if(id != null)
             {
-                ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
+                ProgramModels program = db.programModels.Find(id);
+                ViewBag.program = program.programName;
+                ViewBag.date = program.startDate + " - " + program.endDate;
                 foreach (CourseModels course in courses)
                 {
                     if (course.program_Id == id)
@@ -79,7 +79,8 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "ProgramModels");
             }
             ProgramModels program = db.programModels.Find(id);
-            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
+            ViewBag.program = program.programName;
+            ViewBag.date = program.startDate + " - " + program.endDate;
             CourseModels course = new CourseModels();
             course.programModels = program;
             course.program_Id = program.program_Id;
@@ -107,7 +108,8 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index/" + id);
             }
             ProgramModels program = db.programModels.Find(course.program_Id);
-            ViewBag.program = program.programName + ": " + program.startDate + " - " + program.endDate;
+            ViewBag.program = program.programName;
+            ViewBag.date = program.startDate + " - " + program.endDate;
             return View(course);
         }
 

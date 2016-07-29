@@ -4,7 +4,8 @@
     ViewBag.Title = @ViewBag.this_class + "'s Students";
 }
 <center><h3>@ViewBag.Title</h3></center>
-<h5 style="text-align:right;margin-top:-25px;">@Html.ActionLink("Return to Classes", "Index", "Class")</h5>
+<h5 style="text-align:right;margin-top:-25px;">@Html.ActionLink("Return to Classes", "Index", "Class") | 
+    @Html.ActionLink("New Student", "Create", "Student", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })</h5>
 
 <table class="table">
     <tr>

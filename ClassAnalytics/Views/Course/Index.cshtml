@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.Misc_Models.CourseModels>
 
 @{
-    ViewBag.Title = "Course Home";
+    ViewBag.Title = ViewBag.program + " Home";
 }
 
 <center><h2>@ViewBag.Title</h2></center>
-<center><h5>@ViewBag.program</h5></center>
+<center><h5>@ViewBag.date</h5></center>
 <h5 style="text-align:right;margin-top:-30px;">
     @Html.ActionLink("Return to Programs", "Index", "ProgramModels") | 
-    @Html.ActionLink("Return to Classes","Index","Class")
+    @Html.ActionLink("Add a Course", "Create", "Course", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a"}) | 
+    @Html.ActionLink("Go to Classes","Index","Class")
 </h5>
 
 <table class="table">

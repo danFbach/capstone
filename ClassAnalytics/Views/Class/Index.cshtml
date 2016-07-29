@@ -80,15 +80,23 @@
                             <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
                         </div>
                     </div>
-                    <div class="row" id="@upload@item._class.class_Id" style="width:100%;">
-                        <div class="col-md-1">
-                            <button style="margin-top:5px;margin-left:10px;" class="btn-primary-2" id="@hide@item._class.class_Id">Hide</button>
+                    <div class="row" id="@upload@item._class.class_Id" style="width:100%;padding:10px;margin: 0 auto;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <button style="margin-top:5px;" class="btn-primary-2" id="@hide@item._class.class_Id">Hide</button>
+                            </div>
+                            <div class="col-md-11" style="padding-left:0px;">
+                                @{
+                                    Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
+                                }
+                            </div>
                         </div>
-                        <div class="col-md-11">
-                            @{
-                                Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
-                                Html.RenderAction("uploadList", "upload", new { id = item._class.class_Id });
-                            }
+                        <div class="row">
+                            <div class="col-md-12" style="padding:0px;">
+                                @{
+                                    Html.RenderAction("uploadList", "upload", new { id = item._class.class_Id });
+                                }
+                            </div>
                         </div>
                     </div>
                     @foreach (var _course in item.courses)
