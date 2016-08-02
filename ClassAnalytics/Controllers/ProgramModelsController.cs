@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
 using System.Web;
+using System.Net;
+using System.Data;
+using System.Linq;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Collections.Generic;
 using ClassAnalytics.Models;
 using ClassAnalytics.Models.Program_Models;
 

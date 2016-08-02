@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ClassAnalytics.Models.Survey_Models.SurveyModel>
 
 @{
-    ViewBag.Title = ViewBag.program + " Surveys";
+    ViewBag.Title = ViewBag.className + " Surveys";
 }
 
 
@@ -28,8 +28,16 @@
 
 @foreach (var item in Model)
 {
+    string active = "";
+    if (item.active == false)
+    {
+        active = "Activate";
+    }
+    else
+    {
+        active = "Deactivate";
+    }
     int questionCount = 0;
-    string assignLink = "Assign to " + ViewBag.className + " Class";
     if (item.question_list != null)
     {
         questionCount = item.question_list.Count();
@@ -45,8 +53,9 @@
             @Html.DisplayFor(modelItem => questionCount)
         </td>
         <td style="text-align:right;">
+            @Html.ActionLink("View Questions", "QuestionList", new { id=item.survey_Id}) | 
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
-            @Html.ActionLink(assignLink, "Create_Join", new { @id=item.survey_Id, @class_id = ViewContext.RouteData.Values["id"] })
+            @Html.ActionLink(active, active, new { id = item.survey_Id })
         </td>
     </tr>
 }

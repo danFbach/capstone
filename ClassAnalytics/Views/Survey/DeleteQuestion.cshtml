@@ -1,0 +1,30 @@
+﻿@model ClassAnalytics.Models.Survey_Models.SurveyQuestion
+
+@{ 
+    ViewBag.Title = "Remove Question";
+}
+
+<h4>Are you sure you want to remove this question from '@ViewBag.surveyName'?</h4>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-primary-new" /> |
+            @Html.ActionLink("Return to Questions", "QuestionList", new { id = Model.survey_Id})
+        </div>
+    }
+</div>

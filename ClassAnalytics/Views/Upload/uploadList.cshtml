@@ -15,9 +15,6 @@
                     @Html.Label("Upload Name")
                 </th>
                 <th>
-                    @Html.Label("Course")
-                </th>
-                <th>
                     @Html.Label("Type")
                 </th>
                 <th></th>
@@ -28,9 +25,6 @@
                 <tr>
                     <td style="text-align:left;max-width:150px;word-wrap:break-word;">
                         @Html.ActionLink(item.uploadName, "ViewFile", new { id = item.upload_id })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.courseModels.courseName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.uploadType)

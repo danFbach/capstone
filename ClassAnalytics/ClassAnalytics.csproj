@@ -223,11 +223,16 @@
     <Compile Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.Designer.cs">
       <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608021145250_survey structure simplification.cs" />
+    <Compile Include="Migrations\201608021145250_survey structure simplification.Designer.cs">
+      <DependentUpon>201608021145250_survey structure simplification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Class Models\assignTaskViewModel.cs" />
     <Compile Include="Models\Class Models\classListViewModel.cs" />
     <Compile Include="Models\Class Models\ClassTaskJoinModel.cs" />
     <Compile Include="Models\Class Models\courseListViewModel.cs" />
     <Compile Include="Models\Class Models\programListViewModel.cs" />
+    <Compile Include="Models\Class Models\studentListViewModel.cs" />
     <Compile Include="Models\Class Models\taskListViewModel.cs" />
     <Compile Include="Models\Instructor Models\InstrctrClassJoin.cs" />
     <Compile Include="Models\Instructor Models\InstructorDetailViewModel.cs" />
@@ -263,7 +268,6 @@
     <Compile Include="Models\Class Models\StudentModels.cs" />
     <Compile Include="Models\Survey Models\SurveyAnswers.cs" />
     <Compile Include="Models\Survey Models\SurveyChartModel.cs" />
-    <Compile Include="Models\Survey Models\SurveyJoinTableModel.cs" />
     <Compile Include="Models\Survey Models\SurveyModel.cs" />
     <Compile Include="Models\Survey Models\SurveyQAViewModel.cs" />
     <Compile Include="Models\Survey Models\SurveyQuestion.cs" />
@@ -416,7 +420,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Student_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -476,8 +480,6 @@
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
     <Content Include="Views\Survey\Create_Question.cshtml" />
-    <Content Include="Views\Survey\Index_Class_Survey.cshtml" />
-    <Content Include="Views\Survey\Create_Join.cshtml" />
     <Content Include="Views\Survey\Student_Index.cshtml" />
     <Content Include="Views\Survey\fill_out_survey.cshtml" />
     <Content Include="Views\GradeBook\AdminCharts.cshtml" />
@@ -519,6 +521,11 @@
     <Content Include="Views\Upload\uploadPartial.cshtml" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <Content Include="Views\Student\newStudentPartial.cshtml" />
+    <Content Include="Views\Student\listStudentPartial.cshtml" />
+    <Content Include="Views\Survey\QuestionList.cshtml" />
+    <Content Include="Views\Survey\EditQuestion.cshtml" />
+    <Content Include="Views\Survey\DeleteQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -526,7 +533,6 @@
     <Folder Include="Uploads\classData\Gold\" />
     <Folder Include="Uploads\classData\Tacos\85120a17-ae6b-460e-a69f-21a501a541f3\" />
     <Folder Include="Uploads\Resources\" />
-    <Folder Include="Views\sendgridTestControllerAPIKey\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -544,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.resx">
       <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608021145250_survey structure simplification.resx">
+      <DependentUpon>201608021145250_survey structure simplification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

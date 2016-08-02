@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using ClassAnalytics.Models;
-using ClassAnalytics.Models.Instructor_Models;
-using ClassAnalytics.Models.Program_Models;
-using ClassAnalytics.Models.Class_Models;
-using ClassAnalytics.Models.Misc_Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using System.IO;
+using System.Web;
+using System.Net;
+using System.Linq;
+using System.Data;
+using System.Web.Mvc;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using ClassAnalytics.Models;
+using ClassAnalytics.Models.Class_Models;
+using ClassAnalytics.Models.Instructor_Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ClassAnalytics.Controllers
 {

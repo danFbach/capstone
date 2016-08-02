@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ClassAnalytics.Models.Class_Models.studentListViewModel>
+
+<table class="table" style="width:873px;margin-left:15px;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.student.fName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.student.lName)
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+        <th>
+            @Html.DisplayName("Actions")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.student.fName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.student.lName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.ActionLink("Modify Student", "Edit", new { id = item.student.student_Id }) |
+                @Html.ActionLink("Remove Student", "Delete", new { id = item.student.student_Id })
+            </td>
+        </tr>
+    }
+</table>

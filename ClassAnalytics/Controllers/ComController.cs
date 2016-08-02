@@ -96,7 +96,7 @@ namespace ClassAnalytics.Controllers
             myMessage.Text = "The message that is being sent is: " + message + "...Html can also be added to make the emails look nicer.";
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.Subject = "New Edulytics Message From " + instructorName;
-            var credentials = new NetworkCredential("username", "password");
+            var credentials = new NetworkCredential("", ""); ///UNAME/PW
             var transportWeb = new Web(credentials);
             await transportWeb.DeliverAsync(myMessage);
         }

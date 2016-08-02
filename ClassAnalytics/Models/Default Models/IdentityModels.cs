@@ -36,7 +36,6 @@ namespace ClassAnalytics.Models
         public DbSet<Program_Models.ProgramModels> programModels { get; set; }
         public DbSet<Class_Models.StudentModels> studentModels { get; set; }
         public DbSet<Survey_Models.SurveyAnswers> surveyAnswers { get; set; }
-        public DbSet<Survey_Models.SurveyJoinTableModel> surveyJoinTableModel { get; set; }
         public DbSet<Survey_Models.SurveyModel> surveyModel { get; set; }
         public DbSet<Survey_Models.SurveyQuestion> surveyQuestion { get; set; }
         public DbSet<Instructor_Models.InstructorModel> instructorModel { get; set; }

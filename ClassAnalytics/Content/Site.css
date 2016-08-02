@@ -16,8 +16,8 @@ th {
     margin-top: 35px;
     padding-left: 15px;
     padding-right: 15px;
-    background: rgb(66, 139, 202);
-    background: rgba(66, 139, 202, 0.85);
+    background: rgb(0, 111, 38);
+    background: rgba(0, 111, 38, 0.85);
     border-radius: 10px;
 }
 
@@ -118,7 +118,7 @@ textarea {
     height: 100%;
     transition: color .3s ease-in-out;
     margin-top: 5px;
-    padding: 8px;
+    padding: 6px;
 }
 
 .btn-primary-new:hover,
@@ -126,10 +126,10 @@ textarea {
 .btn-primary-new:active,
 .btn-primary-new.active,
 .open .dropdown-toggle.btn-primary-new {
-    color: #428bca;
-    border: #428bca solid 1px;
+    color: #006f26;
+    border: #006f26 solid 1px;
     background-color:#FFF;
-    background-color: rgba(255,255,255,.5);
+    background-color: rgba(255,255,255,.75);
     -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     text-align: center;

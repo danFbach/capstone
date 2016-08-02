@@ -1,20 +1,20 @@
 ﻿@model ClassAnalytics.Models.Survey_Models.SurveyQuestion
 
 @{
-    ViewBag.Title = "Add a Question to " + Model.survey.SurveyName;
+    ViewBag.Title = "Edit question for the '" + ViewBag.surveyName + "' survey.";
 }
 
-<h3>@ViewBag.Title</h3>
-
-@using (Html.BeginForm()) 
+<h4>@ViewBag.Title</h4>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.question_Id)
         @Html.HiddenFor(model => model.survey_Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.question, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -25,12 +25,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Question" class="btn btn-primary-new" />
+                <input type="submit" value="Save" class="btn btn-primary-new" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to Surveys", "Index")
+    @Html.ActionLink("Return to Questions", "QuestionList", new { id = Model.survey_Id })
 </div>

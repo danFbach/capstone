@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ClassAnalytics.Models.Survey_Models.SurveyJoinTableModel>
+﻿@model IEnumerable<ClassAnalytics.Models.Survey_Models.SurveyModel>
 
 @{
     ViewBag.Title = "Student Survey Home";
@@ -9,10 +9,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ClassModel.className)
+            @Html.DisplayNameFor(model => model.classModel.className)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SurveyModel.SurveyName)
+            @Html.DisplayNameFor(model => model.SurveyName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.active)
@@ -35,10 +35,10 @@
     }
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ClassModel.className)
+            @Html.DisplayFor(modelItem => item.classModel.className)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SurveyModel.SurveyName)
+            @Html.DisplayFor(modelItem => item.SurveyName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.active)

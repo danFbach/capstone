@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
+using System.Linq;
 using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using ClassAnalytics.Models;
 
 namespace ClassAnalytics.Controllers

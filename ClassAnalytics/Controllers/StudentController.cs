@@ -1,23 +1,23 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
 using System.Web;
-using System.Net.Mail;
-using SendGrid;
+using System.Net;
+using System.Data;
+using System.Linq;
 using System.Web.Mvc;
+using System.Net.Mail;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using SendGrid;
 using ClassAnalytics.Models;
 using ClassAnalytics.Models.Task_Models;
 using ClassAnalytics.Models.Misc_Models;
-using ClassAnalytics.Models.Gradebook_Models;
 using ClassAnalytics.Models.Class_Models;
+using ClassAnalytics.Models.Gradebook_Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ClassAnalytics.Controllers
 {
@@ -27,6 +27,50 @@ namespace ClassAnalytics.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
         
+        public ActionResult listStudentPartial(int? id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+            List<StudentModels> students = db.studentModels.ToList();
+            List<studentListViewModel> _students = new List<studentListViewModel>();
+            ViewBag.this_class = db.classmodel.Find(id).className;
+            foreach(StudentModels student in students)
+            {
+                if(student.class_Id == id)
+                {
+                    studentListViewModel thisStudent = new studentListViewModel();
+                    ApplicationUser user = db.Users.Find(student.student_account_Id);
+                    thisStudent.student = student;
+                    thisStudent.email = "No Email";
+                    if(user != null)
+                    {
+                        thisStudent.email = user.Email;
+                    }
+                    _students.Add(thisStudent);
+                }
+            }
+            return PartialView(_students);
+        }
+        public ActionResult newStudentPartial(int? id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+            ClassStudentViewModel viewModel = new ClassStudentViewModel();
+            viewModel.class_Id = Convert.ToInt16(id);
+            return PartialView(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> newStudentPartial(ClassStudentViewModel viewModel)
+        {
+            await createStudent(viewModel);
+            return RedirectToAction("Index", "Class");
+        }
 
         public async Task studentConfirmationEmail(string emailaddress, string Password, string fName, string lName,string username)
         {
@@ -38,9 +82,9 @@ namespace ClassAnalytics.Controllers
             myMessage.From = new MailAddress("no-reply@devHax.prod", "Edulytics Account Services");
             myMessage.AddTo(emailaddress);
             myMessage.Subject = "Hey " + fName + "! Edulytics Account Activation Enclosed";
-            var credentials = new NetworkCredential(/*UserName*/"", /*Password*/"");
+            var credentials = new NetworkCredential("", ""); ///UNAME/PW
             var transportWeb = new Web(credentials);
-            await transportWeb.DeliverAsync(myMessage);
+            //await transportWeb.DeliverAsync(myMessage);
         }
 
         public void AccountController(ApplicationUserManager userManager)
@@ -111,12 +155,13 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ClassStudentViewModel viewModel)
+        public async Task Create(ClassStudentViewModel viewModel)
         {
-            if (!this.User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Home");
-            }            
+            await createStudent(viewModel);
+        }
+        
+        public async Task<ActionResult> createStudent(ClassStudentViewModel viewModel)
+        {
             if (ModelState.IsValid)
             {
                 StudentModels student = new StudentModels();
@@ -129,28 +174,37 @@ namespace ClassAnalytics.Controllers
                 newUser.Email = viewModel.newEmail;
                 newUser.Password = "R3$et_this";
                 newUser.ConfirmPassword = newUser.Password;
-                string username = makeUserName(student.fName,student.lName,0);
-                var user = new ApplicationUser { UserName = username, Email = newUser.Email };
+                string username = makeUserName(student.fName, student.lName, 0);
+                ApplicationUser user = new ApplicationUser { UserName = username, Email = newUser.Email };
                 var result = await UserManager.CreateAsync(user, newUser.Password);
                 if (result.Succeeded)
                 {
-                    student.student_account_Id = user.Id;
-                    db.studentModels.Add(student);
-                    Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
-                    addRole(user);
-                    //studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName); //Commented out while trouble shooting, uncomment to enable confirmation emails, username/password for send grid also required in function
-                    welcomeMessage(student, user);
-                    createGrades(student); //create gradebook entries retroactively for tasks already assigned to class
-                    db.SaveChanges();                
+                    await createStudentStep2(student, user, newUser);
                     return RedirectToAction("Index", "Class");
                 }
-                viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
-                ViewBag.StatusMessage = "Email is already in use or Invalid.";
-                return View(viewModel);
+                else
+                {
+                    viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
+                    ViewBag.StatusMessage = "Email is already in use or Invalid.";
+                    return PartialView(viewModel);
+                }
             }
             viewModel.ClassModel = db.classmodel.Find(viewModel.class_Id);
-            return View(viewModel);
+            return PartialView(viewModel);
         }
+
+        public async Task createStudentStep2(StudentModels student,ApplicationUser user, RegisterViewModel newUser)
+        {
+            student.student_account_Id = user.Id;
+            db.studentModels.Add(student);
+            Directory.CreateDirectory(Server.MapPath("~//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id));
+            addRole(user);
+            await studentConfirmationEmail(user.Email, newUser.Password, student.fName, student.lName, user.UserName); //Commented out while trouble shooting, uncomment to enable confirmation emails, username/password for send grid also required in function
+            welcomeMessage(student, user);
+            createGrades(student); //create gradebook entries retroactively for tasks already assigned to class
+            db.SaveChanges();
+        }
+
         public void createGrades(StudentModels student)
         {
             List<ClassTaskJoinModel> classTask = db.classTask.ToList();

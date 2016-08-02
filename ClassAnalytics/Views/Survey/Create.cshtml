@@ -39,5 +39,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Return to Surveys", "Index","Survey", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })
 </div>

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Web;
-using ClassAnalytics.Models;
-using ClassAnalytics.Models.Uploads_Models;
-using ClassAnalytics.Models.Misc_Models;
-using ClassAnalytics.Models.Class_Models;
+using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
-using System.Net;
+using System.Collections.Generic;
+using ClassAnalytics.Models;
+using ClassAnalytics.Models.Misc_Models;
+using ClassAnalytics.Models.Class_Models;
+using ClassAnalytics.Models.Uploads_Models;
 using Microsoft.AspNet.Identity;
 
 namespace ClassAnalytics.Controllers

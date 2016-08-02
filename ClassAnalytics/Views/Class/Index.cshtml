@@ -6,9 +6,12 @@
     string c1 = "c1-";
     string t = "t-";
     string g = "g-";
-    string hide = "hide";
-    string upBtn = "upBtn";
-    string upload = "upload";
+    string students = "students";
+    string studentDrop = "studentDrop";
+    string studentUp = "studentUp";
+    string uploadUp = "uploadUp";
+    string uploadDrop = "uploadDrop";
+    string uploads = "uploads";
     string c1down = "c1down";
     string tright = "tright";
     string tdown = "tdown";
@@ -25,7 +28,7 @@
 <h4 style="font-size:18px;">
     @ViewBag.Title
     <div style="text-align:right;margin-top:-15px;">
-        @Html.ActionLink("Create Class", "Create", "Class")
+        @Html.ActionLink("New Class", "Create", "Class")
     </div>
 </h4>
 <hr />
@@ -55,48 +58,66 @@
                         <img id="@c1right@item._class.class_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                         <img id="@c1down@item._class.class_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <div class="row">
                             <a class="iIndex_links" id="@c0@item._class.class_Id">
                                 <div class="col-md-4">
                                     @Html.DisplayFor(m => item._class.className)
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     @Html.DisplayFor(m => item.program.programName)
                                 </div>
                             </a>
-                            <div class="col-md-3">
-                                <a class="iIndex_links" id="@upBtn@item._class.class_Id">Uploads</a>
+                            <div class="col-md-2">
+                                <a class="iIndex_links" id="@uploadDrop@item._class.class_Id">Uploads</a>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="iIndex_links" id="@studentDrop@item._class.class_Id">Students</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="btn-group" style="margin:0px;">
-                            <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Class Management</button>
-                            <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("New Student", "Create", "Student", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("View Students", "Index", "Student", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Update Class", "Edit", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Remove Class", "Delete", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
-                        </div>
+                    <div class="col-md-2">
                         <div class="btn-group" style="margin:0px;">
                             <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
-                            <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index_Class_Survey", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Management", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
+                            <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("New Survey", "Create", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
                         </div>
                     </div>
-                    <div class="row" id="@upload@item._class.class_Id" style="width:100%;padding:10px;margin: 0 auto;">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <button style="margin-top:5px;" class="btn-primary-2" id="@hide@item._class.class_Id">Hide</button>
-                            </div>
-                            <div class="col-md-11" style="padding-left:0px;">
+                    <div class="row" id="@uploads@item._class.class_Id" style="width:100%;padding:10px;">
+                        <div class="row" style="width:100%;margin-left:20px;">
+                            <div class="col-md-11" style="padding-left:0px;padding-right:0px;">
                                 @{
                                     Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
                                 }
                             </div>
+                            <div class="col-md-1" style="margin-left:-10px;padding-left:0px;">
+                                <button style="margin-top:5px;" class="btn-primary-new" id="@uploadUp@item._class.class_Id">Cancel</button>
+                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="width:100%;margin-left:15px;">
                             <div class="col-md-12" style="padding:0px;">
                                 @{
                                     Html.RenderAction("uploadList", "upload", new { id = item._class.class_Id });
                                 }
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" id="@students@item._class.class_Id" style="width:100%;padding:10px;">
+                        <div class="row" style="width:100%;margin-left:20px;">
+                            <div class="col-md-10" style="padding-right:0px;">
+                                @{
+                                    Html.RenderAction("newStudentPartial", "Student", new { id = item._class.class_Id });
+                                }
+
+                            </div>
+                            <div class="col-md-1" style="margin-left:-80px;padding-left:0px;">
+                                <button style="margin-top:5px;" class="btn-primary-new" id="@studentUp@item._class.class_Id">Cancel</button>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row" style="width:100%;margin-left:5px;">
+                            @{ 
+                                Html.RenderAction("listStudentPartial", "Student", new { id = item._class.class_Id });
+                            }
                         </div>
                     </div>
                     @foreach (var _course in item.courses)
@@ -129,8 +150,7 @@
                         {
                             <script type="text/javascript">
                                 $("document").ready(function () {
-                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@upload@item._class.class_Id").hide(
-                                    );
+                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide();
                                     $("#@c0@item._class.class_Id").click(function () {
                                         $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
                                     });
@@ -149,11 +169,17 @@
                                             });
                                         });
                                     });
-                                    $("#@upBtn@item._class.class_Id").click(function () {
-                                        $("#@upload@item._class.class_Id").slideDown();
+                                    $("#@uploadDrop@item._class.class_Id").click(function () {
+                                        $("#@uploads@item._class.class_Id").slideDown();
                                     });
-                                    $("#@hide@item._class.class_Id").click(function () {
-                                        $("#@upload@item._class.class_Id").slideUp();
+                                    $("#@uploadUp@item._class.class_Id").click(function () {
+                                        $("#@uploads@item._class.class_Id").slideUp();
+                                    });
+                                    $("#@studentDrop@item._class.class_Id").click(function () {
+                                        $("#@students@item._class.class_Id").slideDown();
+                                    });
+                                    $("#@studentUp@item._class.class_Id").click(function () {
+                                        $("#@students@item._class.class_Id").slideUp();
                                     });
                                 });
                             </script>
@@ -162,6 +188,11 @@
                         {
                             foreach (var _task in _course.tasks)
                             {
+                                string gradeLabel = "";
+                                if(_task.grades.Count() == 0)
+                                {
+                                    gradeLabel = " - No Grades";
+                                }
                                 <div class="row" style="width:100%;height:100%;margin-left:0px;margin-right:0px;">
                                     <div class="col-md-3" id="@gRow@item._class.class_Id-@_task.task.task_Id">
                                         @if (_task.grades.Count() != 0)
@@ -176,7 +207,7 @@
                                                 @Html.DisplayFor(m => _task.task.TaskTypeModels.taskType)
                                             </div>
                                             <div class="col-md-4">
-                                                @Html.DisplayFor(m => _task.task.taskName)
+                                                @Html.DisplayFor(m => _task.task.taskName)@gradeLabel
                                             </div>
                                             <div class="col-md-5">
                                                 @Html.ActionLink("View Chart", "AdminCharts", "GradeBook", new { id = item._class.class_Id, task_id = _task.task.task_Id }, null)
@@ -188,8 +219,7 @@
                                 {
                                     <script type="text/javascript">
                                         $("document").ready(function () {
-                                            $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@upload@item._class.class_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").hide(
-                                            );
+                                            $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@uploads@item._class.class_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@students@item._class.class_Id").hide();
                                             $("#@c0@item._class.class_Id").click(function () {
                                                 $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
                                             });
@@ -220,8 +250,8 @@
                                                     });
                                                 });
                                             });
-                                            $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
-                                                $("#@t@item._class.class_Id-@_task.task.task_Id").slideUp(function () {
+                                            $("#@tRow@item._class.class_Id-@tRow").click(function () {
+                                                $("#@t@item._class.class_Id-@_course.course.course_Id").slideUp(function () {
                                                     $("#@gRow@item._class.class_Id-@_task.task.task_Id").slideUp();
                                                 });
                                             });
@@ -230,11 +260,17 @@
                                                     $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeIn();
                                                 });
                                             });
-                                            $("#@upBtn@item._class.class_Id").click(function () {
-                                                $("#@upload@item._class.class_Id").slideDown();
+                                            $("#@uploadDrop@item._class.class_Id").click(function () {
+                                                $("#@uploads@item._class.class_Id").slideDown();
                                             });
-                                            $("#@hide@item._class.class_Id").click(function () {
-                                                $("#@upload@item._class.class_Id").slideUp();
+                                            $("#@uploadUp@item._class.class_Id").click(function () {
+                                                $("#@uploads@item._class.class_Id").slideUp();
+                                            });
+                                            $("#@studentDrop@item._class.class_Id").click(function () {
+                                                $("#@students@item._class.class_Id").slideDown();
+                                            });
+                                            $("#@studentUp@item._class.class_Id").click(function () {
+                                                $("#@students@item._class.class_Id").slideUp();
                                             });
                                         });
                                     </script>
@@ -273,7 +309,7 @@
                                         </div>
                                         <script type="text/javascript">
                                             $("document").ready(function () {
-                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@upload@item._class.class_Id").hide(
+                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide(
                                                 );
                                                 $("#@c0@item._class.class_Id").click(function () {
                                                     $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
@@ -335,11 +371,17 @@
                                                         $("#@gRight@_task.task.task_Id").fadeIn();
                                                     });
                                                 });
-                                                $("#@upBtn@item._class.class_Id").click(function () {
-                                                    $("#@upload@item._class.class_Id").slideDown();
+                                                $("#@uploadDrop@item._class.class_Id").click(function () {
+                                                    $("#@uploads@item._class.class_Id").slideDown();
                                                 });
-                                                $("#@hide@item._class.class_Id").click(function () {
-                                                    $("#@upload@item._class.class_Id").slideUp();
+                                                $("#@uploadUp@item._class.class_Id").click(function () {
+                                                    $("#@uploads@item._class.class_Id").slideUp();
+                                                });
+                                                $("#@studentDrop@item._class.class_Id").click(function () {
+                                                    $("#@students@item._class.class_Id").slideDown();
+                                                });
+                                                $("#@studentUp@item._class.class_Id").click(function () {
+                                                    $("#@students@item._class.class_Id").slideUp();
                                                 });
                                             });
                                         </script>

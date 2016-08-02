@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ClassAnalytics.Models.Survey_Models.SurveyQuestion>
+
+@{ 
+    ViewBag.Title = ViewBag.surveyName + " Survey Questions";
+}
+
+<h3 style="text-align:center;">@ViewBag.Title</h3>
+<div style="text-align:right;margin-top:-25px;">
+    @Html.ActionLink("Return to Surveys", "Index", "Survey", new { survey_id = ViewContext.RouteData.Values["id"] }, new { @class = "a" })
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.question)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.question)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditQuestion", new { id=item.question_Id }) |
+            @Html.ActionLink("Remove", "DeleteQuestion", new { id=item.question_Id })
+        </td>
+    </tr>
+}
+
+</table>

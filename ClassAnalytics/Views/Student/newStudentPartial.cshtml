@@ -1,0 +1,28 @@
+﻿@model ClassAnalytics.Models.Class_Models.ClassStudentViewModel
+
+@using (Html.BeginForm("newStudentPartial","Student"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.class_Id)
+    <div class="row" style="width:100%;">
+        <div class="col-md-3" style="padding:5px;">
+            @Html.EditorFor(model => model.fName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name - Required" } })
+            @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3" style="padding:5px;">
+            @Html.EditorFor(model => model.lName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name - Required" } })
+            @Html.ValidationMessageFor(model => model.lName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3" style="padding:5px;">
+            @Html.EditorFor(model => model.newEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Email - Required" } })
+            @Html.ValidationMessageFor(model => model.newEmail, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-3" style="padding-right:0px;padding-left:5px;">
+            <input type="submit" value="Add Student" class="btn btn-primary-new" />
+        </div>
+    </div>
+    <div class="row" style="text-align:center;font-size:12px;">
+        ** If New Student fails to add, E-mail Address is already in use or invalid.
+    </div>
+}
