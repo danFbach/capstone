@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="btn-group" style="margin:0px;">
-                            <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;" data-hover="dropdown">Surveys</button>
+                            <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;font-size:14px;" data-hover="dropdown">Surveys</button>
                             <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("New Survey", "Create", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
                         </div>
                     </div>
