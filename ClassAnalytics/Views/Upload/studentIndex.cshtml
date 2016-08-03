@@ -61,7 +61,7 @@
                         @Html.Label("View Upload: ", htmlAttributes: new { @class = "control-label" })
                     </td>
                     <td style="text-align:left;">
-                        @Html.ActionLink(item.file_name, "ViewFile", new { id = item.id })
+                        @Html.ActionLink(item.file_name, "ViewFile", new { student_up = item.id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.createDate)

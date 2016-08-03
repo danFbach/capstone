@@ -16,7 +16,7 @@ namespace ClassAnalytics.Models.Misc_Models
         public ApplicationUser sending_User { get; set; }
         
         [Display(Name = "Recipient")]
-        public string recieve_id { get; set; }
+        public string recieving_id { get; set; }
         public ApplicationUser receiving_User { get; set; }
         
         [Display(Name = "Message")]

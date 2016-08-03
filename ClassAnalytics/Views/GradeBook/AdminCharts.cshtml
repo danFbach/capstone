@@ -17,10 +17,13 @@
 
 
 <center><h3>Grade Charts</h3></center>
-<h4 style="margin-top:-30px;padding-right:20px;text-align:right;">@Html.ActionLink("Return to Classes","Index","Class")</h4>
+<h5 style="margin-top:-25px;padding-right:20px;text-align:right;">@Html.ActionLink("Return to Dashboard","Index","Class")</h5>
 @using (Html.BeginForm())
 {
-    <div class="row" style="margin-top:-35px;padding-bottom:10px;padding-left:20px;">
+    <h5 style="text-align:left;margin-top:-35px;padding-left:20px;">
+        Assignment Selection
+    </h5>
+    <div class="row" style="margin-top:-5px;padding-bottom:10px;padding-left:20px;">
         <div class="col-xs-4" style="width:200px;">
             @Html.DropDownListFor(m => m.task_id, Model.taskList, "Student Averages", new { @class = "form-control" } )
         </div>

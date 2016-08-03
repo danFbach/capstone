@@ -60,6 +60,10 @@ namespace ClassAnalytics.Controllers
         }
         public ActionResult Index(string status)
         {
+            if (this.User.IsInRole("Student"))
+            {
+                return RedirectToAction("studentIndex","Upload");
+            }
             List<programListViewModel> listViewModel = new List<programListViewModel>();
             courseListViewModel courseModel = new courseListViewModel();
             programListViewModel programListView = new programListViewModel();

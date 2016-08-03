@@ -8,7 +8,7 @@
     <div class="col-md-12">
         <h4 style="text-align:center;">@ViewBag.Title</h4>
     </div>
-    <div class="col-md-6" style="height:200px;overflow-y:auto;">
+    <div class="col-md-6" style="max-height:200px;overflow-y:auto;">
         <table class="table" style="">
             <tr>
                 <th style="text-align:left;">
@@ -37,7 +37,7 @@
             }
         </table>
     </div>
-    <div class="col-md-6" style="height:200px;overflow-y:auto;">
+    <div class="col-md-6" style="max-height     :200px;overflow-y:auto;">
         <table class="table">
             <tr>
                 <th style="text-align:left;">
@@ -64,7 +64,7 @@
                         @Html.DisplayFor(m => name)
                 </td>
                 <td>
-                    @Html.ActionLink(item.file_name, "viewStudentFile", new { id = item.id })
+                    @Html.ActionLink(item.file_name, "ViewFile", new { student_up = item.id })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => taskName)

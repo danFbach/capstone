@@ -207,25 +207,9 @@
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskTypeController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
-    <Compile Include="Migrations\201607080818220_v2_5.cs" />
-    <Compile Include="Migrations\201607080818220_v2_5.Designer.cs">
-      <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607091825413_classTask.cs" />
-    <Compile Include="Migrations\201607091825413_classTask.Designer.cs">
-      <DependentUpon>201607091825413_classTask.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607211305133_student upload modified.cs" />
-    <Compile Include="Migrations\201607211305133_student upload modified.Designer.cs">
-      <DependentUpon>201607211305133_student upload modified.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.cs" />
-    <Compile Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.Designer.cs">
-      <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608021145250_survey structure simplification.cs" />
-    <Compile Include="Migrations\201608021145250_survey structure simplification.Designer.cs">
-      <DependentUpon>201608021145250_survey structure simplification.cs</DependentUpon>
+    <Compile Include="Migrations\201608030317091_v3.cs" />
+    <Compile Include="Migrations\201608030317091_v3.Designer.cs">
+      <DependentUpon>201608030317091_v3.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Class Models\assignTaskViewModel.cs" />
     <Compile Include="Models\Class Models\classListViewModel.cs" />
@@ -539,20 +523,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607080818220_v2_5.resx">
-      <DependentUpon>201607080818220_v2_5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607091825413_classTask.resx">
-      <DependentUpon>201607091825413_classTask.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607211305133_student upload modified.resx">
-      <DependentUpon>201607211305133_student upload modified.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607221425154_upload collumn filePath changed to relativePath.resx">
-      <DependentUpon>201607221425154_upload collumn filePath changed to relativePath.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608021145250_survey structure simplification.resx">
-      <DependentUpon>201608021145250_survey structure simplification.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608030317091_v3.resx">
+      <DependentUpon>201608030317091_v3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

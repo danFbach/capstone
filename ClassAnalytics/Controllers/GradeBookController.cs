@@ -159,6 +159,17 @@ namespace ClassAnalytics.Controllers
             return grade_list;
         }
 
+        public ActionResult StudentDetails(int? id)
+        {
+            if(id == null)
+            {
+                return RedirectToAction("Student_Index");
+            }
+            GradeBookModel grade = db.gradeBookModel.Find(id);
+            grade.TaskModel = db.taskModel.Find(grade.task_Id);
+            return View(grade);
+        }
+
         public ActionResult Student_Index()
         {
             if (!this.User.IsInRole("Student"))

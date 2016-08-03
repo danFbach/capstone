@@ -97,35 +97,23 @@ namespace ClassAnalytics.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TaskViewModel viewModel)
+        public ActionResult Create(TaskModel taskModel)
         {
             if (!this.User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            CourseModels course = db.coursemodels.Find(viewModel.course_Id);
-            TaskModel taskModel = new TaskModel();
             if (ModelState.IsValid)
             {
-                int course_id = Convert.ToInt32(viewModel.course_Id);
-                int taskTypeid = Convert.ToInt16(viewModel.taskType_Id);
-                taskModel.task_Id = viewModel.Id;
-                taskModel.taskName = viewModel.taskName;
-                taskModel.taskType_Id = taskTypeid;
-                taskModel.points = viewModel.points;
-                taskModel.startDate = viewModel.startDate;
-                taskModel.endDate = viewModel.endDate;
-                taskModel.course_Id = course_id;
-                taskModel.taskNotes = viewModel.taskNotes;
                 db.taskModel.Add(taskModel);
                 db.SaveChanges();
-
-                return RedirectToAction("Index/" + viewModel.course_Id, "Task");
+                return RedirectToAction("Index/" + taskModel.course_Id, "Task");
             }
+            CourseModels course = db.coursemodels.Find(taskModel.course_Id);
             ViewBag.course = course.courseName;
             ViewBag.date = course.startDate + " - " + course.endDate;
             ViewBag.taskType_Id = new SelectList(db.TaskTypeModels, "taskType_Id", "taskType");
-            return RedirectToAction("Index","ProgramModels");
+            return View(taskModel);
         }
        
         // GET: Task/Edit/5

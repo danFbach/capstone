@@ -178,20 +178,38 @@ namespace ClassAnalytics.Controllers
             }
             return View(ViewModel);
         }
-        public ActionResult ViewFile(int? id)
+        public ActionResult ViewFile(int? id, int? student_up)
         {
-            if(id != null)
+            if(student_up != null)
+            {
+                studentUploads upload = db.studentUpload.Find(student_up);
+                var strs = upload.file_name.Split('.');
+                string exts = strs[strs.Count() - 1];
+                if (exts == "pdf")
+                {
+                    return RedirectToAction("PDFView", new { student_up = student_up });
+                }
+                else if (exts == "txt" || exts == "css" || exts == "js" || exts == "html")
+                {
+                    return RedirectToAction("textView", new { student_up = student_up });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Class");
+                }
+            }
+            else if(id != null)
             {
                 UploadModel upload = db.uploadModel.Find(id);
                 var strs = upload.uploadName.Split('.');
                 string exts = strs[strs.Count() - 1];
                 if(exts == "pdf")
                 {
-                    return RedirectToAction("PDFView/" + id);
+                    return RedirectToAction("PDFView", new { id = id });
                 }
                 else if(exts == "txt" || exts == "css" || exts == "js" || exts == "html")
                 {
-                    return RedirectToAction("textView/" + id);
+                    return RedirectToAction("textView", new { id = id });
                 }
                 else
                 {
@@ -203,8 +221,18 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Class");
             }
         }
-        public ActionResult textView(int? id)
+        public ActionResult textView(int? id, int? student_up)
         {
+            if(student_up != null)
+            {
+                studentUploads upload = db.studentUpload.Find(student_up);
+                UploadModel _upload = new UploadModel();
+                StudentModels student = db.studentModels.Find(upload.student_id);
+                student.ClassModel = db.classmodel.Find(student.class_Id);
+                _upload.relativePath = "//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id + "//" + upload.file_name;
+                _upload.uploadName = upload.file_name;
+                return View(_upload);
+            }
             if (id != null)
             {
                 UploadModel upload = db.uploadModel.Find(id);
@@ -215,8 +243,18 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Class");
             }
         }
-        public ActionResult PDFView(int? id)
+        public ActionResult PDFView(int? id, int? student_up)
         {
+            if(student_up != null)
+            {
+                studentUploads upload = db.studentUpload.Find(student_up);
+                UploadModel _upload = new UploadModel();
+                StudentModels student = db.studentModels.Find(upload.student_id);
+                student.ClassModel = db.classmodel.Find(student.class_Id);
+                _upload.relativePath = "//Uploads//classData//" + student.ClassModel.className + "//" + student.student_account_Id + "//" + upload.file_name;
+                _upload.uploadName = upload.file_name;
+                return View(_upload);
+            }
             if (id != null)
             {
                 UploadModel upload = db.uploadModel.Find(id);

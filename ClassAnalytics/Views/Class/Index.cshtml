@@ -25,12 +25,13 @@
 }
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<h4 style="font-size:18px;">
+<h3 style="text-align:center;">
     @ViewBag.Title
-    <div style="text-align:right;margin-top:-15px;">
-        @Html.ActionLink("New Class", "Create", "Class")
-    </div>
-</h4>
+</h3>
+<h5 style="text-align:right;margin-top:-25px;">
+    @Html.ActionLink("New Class", "Create", "Class") |
+    @Html.ActionLink("New Program", "Create", "ProgramModels")
+</h5>
 <hr />
 <div class="container">
     <div class="col-md-1"></div>
@@ -76,14 +77,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="btn-group" style="margin:0px;">
+                    <div class="col-md-1">
+                        <div class="btn-group">
                             <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;font-size:14px;" data-hover="dropdown">Surveys</button>
                             <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Class Surveys", "Index", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("Survey Charts", "SurveyBarChart", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("New Survey", "Create", "Survey", new { id = item._class.class_Id }, new { @class = "navbar_links" })</div>
                         </div>
                     </div>
+                    <div class="col-md-1">
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm" type="button" style="margin-top:-8px;padding:10px;color:#FFF;font-size:14px;" data-hover="dropdown">Program</button>
+                            <div class="dropdown-menu" style="margin-top:-10px;">@Html.ActionLink("Courses", "Index", "Course", new { id = item.program.program_Id }, new { @class = "navbar_links" })<br>@Html.ActionLink("New Course", "Create", "Course", new { id = item.program.program_Id }, new { @class = "navbar_links" })</div>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
                     <div class="row" id="@uploads@item._class.class_Id" style="width:100%;padding:10px;">
-                        <div class="row" style="width:100%;margin-left:20px;">
+                        <div class="row" style="margin-left:20px;">
                             <div class="col-md-11" style="padding-left:0px;padding-right:0px;">
                                 @{
                                     Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
@@ -93,7 +101,7 @@
                                 <button style="margin-top:5px;" class="btn-primary-new" id="@uploadUp@item._class.class_Id">Cancel</button>
                             </div>
                         </div>
-                        <div class="row" style="width:100%;margin-left:15px;">
+                        <div class="row" style="margin-left:15px;">
                             <div class="col-md-12" style="padding:0px;">
                                 @{
                                     Html.RenderAction("uploadList", "upload", new { id = item._class.class_Id });
@@ -102,7 +110,7 @@
                         </div>
                     </div>
                     <div class="row" id="@students@item._class.class_Id" style="width:100%;padding:10px;">
-                        <div class="row" style="width:100%;margin-left:20px;">
+                        <div class="row" style="margin-left:20px;">
                             <div class="col-md-10" style="padding-right:0px;">
                                 @{
                                     Html.RenderAction("newStudentPartial", "Student", new { id = item._class.class_Id });
@@ -114,8 +122,8 @@
                             </div>
                             <div class="col-md-1"></div>
                         </div>
-                        <div class="row" style="width:100%;margin-left:5px;">
-                            @{ 
+                        <div class="row" style="margin-left:5px;">
+                            @{
                                 Html.RenderAction("listStudentPartial", "Student", new { id = item._class.class_Id });
                             }
                         </div>
@@ -189,7 +197,7 @@
                             foreach (var _task in _course.tasks)
                             {
                                 string gradeLabel = "";
-                                if(_task.grades.Count() == 0)
+                                if (_task.grades.Count() == 0)
                                 {
                                     gradeLabel = " - No Grades";
                                 }
@@ -198,7 +206,7 @@
                                         @if (_task.grades.Count() != 0)
                                         {
                                             <img id="@gRight@_task.task.task_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
-                                            <img id="@gDown@_task.task.task_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                                <img id="@gDown@_task.task.task_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                                         }
                                     </div>
                                     <div class="col-md-9" id="@t@item._class.class_Id-@_task.task.task_Id" style="border:solid 1px #FFF;border-radius:5px;">
@@ -307,84 +315,84 @@
                                                 @{ Html.RenderPartial("partialEdit", _grade);}
                                             </div>
                                         </div>
-                                        <script type="text/javascript">
-                                            $("document").ready(function () {
-                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide(
-                                                );
-                                                $("#@c0@item._class.class_Id").click(function () {
-                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
-                                                });
-                                                $("#@c0@item._class.class_Id").click(function () {
-                                                    $("#@c1right@item._class.class_Id").fadeOut(function () {
-                                                        $("#@c1down@item._class.class_Id").fadeIn();
+                                            <script type="text/javascript">
+                                                $("document").ready(function () {
+                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide(
+                                                    );
+                                                    $("#@c0@item._class.class_Id").click(function () {
+                                                        $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
                                                     });
-                                                });
-                                                $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
-                                                    $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideDown()
-                                                });
-                                                $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
-                                                    $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
-                                                        $("#@tdown@item._class.class_Id-@_course.course.course_Id, @gRight@_task.task.task_Id").fadeIn();
-                                                    });
-                                                });
-                                                $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
-                                                    $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideDown()
-                                                });
-                                                $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
-                                                    $("#@gRight@_task.task.task_Id").fadeOut(function () {
-                                                        $("#@gDown@_task.task.task_Id").fadeIn();
-                                                    });
-                                                });
-                                                $("#@c1Row@item._class.class_Id").click(function () {
-                                                    $("#@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
-                                                        $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
-                                                            $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideUp(600);
+                                                    $("#@c0@item._class.class_Id").click(function () {
+                                                        $("#@c1right@item._class.class_Id").fadeOut(function () {
+                                                            $("#@c1down@item._class.class_Id").fadeIn();
                                                         });
                                                     });
-                                                });
-                                                $("#@c1Row@item._class.class_Id").click(function () {
-                                                    $("#@c1down@item._class.class_Id").fadeOut(function () {
-                                                        $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
-                                                            $("#@gDown@_task.task.task_Id").fadeOut(function () {
-                                                                $("#@c1right@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@gRight@_task.task.task_Id").fadeIn();
+                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                        $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideDown()
+                                                    });
+                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                        $("#@tright@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
+                                                            $("#@tdown@item._class.class_Id-@_course.course.course_Id, @gRight@_task.task.task_Id").fadeIn();
+                                                        });
+                                                    });
+                                                    $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                        $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideDown()
+                                                    });
+                                                    $("#@t@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                        $("#@gRight@_task.task.task_Id").fadeOut(function () {
+                                                            $("#@gDown@_task.task.task_Id").fadeIn();
+                                                        });
+                                                    });
+                                                    $("#@c1Row@item._class.class_Id").click(function () {
+                                                        $("#@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
+                                                            $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
+                                                                $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideUp(600);
                                                             });
                                                         });
                                                     });
-                                                });
-                                                $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
-                                                    $("#@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
-                                                        $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideUp(600);
-                                                    });
-                                                });
-                                                $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
-                                                    $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
-                                                        $("#@gDown@_task.task.task_Id").fadeOut(function () {
-                                                            $("#@tright@item._class.class_Id-@_course.course.course_Id, #@gRight@_task.task.task_Id").fadeIn();
+                                                    $("#@c1Row@item._class.class_Id").click(function () {
+                                                        $("#@c1down@item._class.class_Id").fadeOut(function () {
+                                                            $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
+                                                                $("#@gDown@_task.task.task_Id").fadeOut(function () {
+                                                                    $("#@c1right@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@gRight@_task.task.task_Id").fadeIn();
+                                                                });
+                                                            });
                                                         });
                                                     });
-                                                });
-                                                $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
-                                                    $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideUp(600);
-                                                });
-                                                $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
-                                                    $("#@gDown@_task.task.task_Id").fadeOut(function () {
-                                                        $("#@gRight@_task.task.task_Id").fadeIn();
+                                                    $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                        $("#@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id").slideUp(600, function () {
+                                                            $("#@t@item._class.class_Id-@_task.task.task_Id, #@gRow@item._class.class_Id-@_task.task.task_Id").slideUp(600);
+                                                        });
+                                                    });
+                                                    $("#@tRow@item._class.class_Id-@_course.course.course_Id").click(function () {
+                                                        $("#@tdown@item._class.class_Id-@_course.course.course_Id").fadeOut(function () {
+                                                            $("#@gDown@_task.task.task_Id").fadeOut(function () {
+                                                                $("#@tright@item._class.class_Id-@_course.course.course_Id, #@gRight@_task.task.task_Id").fadeIn();
+                                                            });
+                                                        });
+                                                    });
+                                                    $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                        $("#@gradeRow@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id").slideUp(600);
+                                                    });
+                                                    $("#@gRow@item._class.class_Id-@_task.task.task_Id").click(function () {
+                                                        $("#@gDown@_task.task.task_Id").fadeOut(function () {
+                                                            $("#@gRight@_task.task.task_Id").fadeIn();
+                                                        });
+                                                    });
+                                                    $("#@uploadDrop@item._class.class_Id").click(function () {
+                                                        $("#@uploads@item._class.class_Id").slideDown();
+                                                    });
+                                                    $("#@uploadUp@item._class.class_Id").click(function () {
+                                                        $("#@uploads@item._class.class_Id").slideUp();
+                                                    });
+                                                    $("#@studentDrop@item._class.class_Id").click(function () {
+                                                        $("#@students@item._class.class_Id").slideDown();
+                                                    });
+                                                    $("#@studentUp@item._class.class_Id").click(function () {
+                                                        $("#@students@item._class.class_Id").slideUp();
                                                     });
                                                 });
-                                                $("#@uploadDrop@item._class.class_Id").click(function () {
-                                                    $("#@uploads@item._class.class_Id").slideDown();
-                                                });
-                                                $("#@uploadUp@item._class.class_Id").click(function () {
-                                                    $("#@uploads@item._class.class_Id").slideUp();
-                                                });
-                                                $("#@studentDrop@item._class.class_Id").click(function () {
-                                                    $("#@students@item._class.class_Id").slideDown();
-                                                });
-                                                $("#@studentUp@item._class.class_Id").click(function () {
-                                                    $("#@students@item._class.class_Id").slideUp();
-                                                });
-                                            });
-                                        </script>
+                                            </script>
                                                                     }
                                                                 }
                                                             }

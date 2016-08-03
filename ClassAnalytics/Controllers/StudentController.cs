@@ -236,7 +236,7 @@ namespace ClassAnalytics.Controllers
             MessagingModel message = new MessagingModel();
             message.subject = "Welcome to Edulytics " + student.fName + "!";
             message.message = "Welcome " + student.fName + "! This is your direct message section which allows you to privately message anyone in your school with just the click of a mouse. You're in the \"" + student.ClassModel.className + "\" class which is part of the " + student.ClassModel.ProgramModels.programName + " program. Have a great start to this new program and once again welcome from all of us here at Edulytics.";
-            message.recieve_id = user.Id;
+            message.recieving_id = user.Id;
             message.sending_id = this.User.Identity.GetUserId();
             message.dateSent = DateTime.Now;
             db.messagingModel.Add(message);
@@ -332,9 +332,20 @@ namespace ClassAnalytics.Controllers
                 return RedirectToAction("Index", "Home");
             }
             StudentModels studentModels = db.studentModels.Find(id);
+            if(studentModels == null)
+            {
+                return RedirectToAction("Index", "Class");
+            }
             db.studentModels.Remove(studentModels);
+            ApplicationUser user = db.Users.Find(studentModels.student_account_Id);
+            if(user == null)
+            {
+                db.SaveChanges();
+                return RedirectToAction("Index", "Class");
+            }
+            db.Users.Remove(user);
             db.SaveChanges();
-            return RedirectToAction("Index/" + studentModels.class_Id);
+            return RedirectToAction("Index", "Class");
         }
 
         protected override void Dispose(bool disposing)

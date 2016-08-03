@@ -10,14 +10,15 @@ namespace ClassAnalytics.Controllers
     {
         public ActionResult Index()
         {
-            if(this.User.IsInRole("Student") || this.User.IsInRole("Admin"))
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            return View();
+            //if(this.User.IsInRole("Student") || this.User.IsInRole("Admin"))
+            //{
+            //    return View();
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
         }
 
         public ActionResult About()

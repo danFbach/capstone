@@ -33,7 +33,7 @@ namespace ClassAnalytics.Controllers
             foreach (MessagingModel message in messages)
             {
                 MessagingViewModel this_message = new MessagingViewModel();
-                if (message.recieve_id == UserId)
+                if (message.recieving_id == UserId)
                 {
                     foreach(StudentModels student in students)
                     {
@@ -42,7 +42,7 @@ namespace ClassAnalytics.Controllers
                             this_message.sender = student.lName + ", " + student.fName;
 
                         }
-                        else if(student.student_account_Id == message.recieve_id)
+                        else if(student.student_account_Id == message.recieving_id)
                         {
                             this_message.recip = student.lName + ", " + student.fName;
                         }
@@ -53,7 +53,7 @@ namespace ClassAnalytics.Controllers
                         {
                             this_message.sender = instructor.lName + ", " + instructor.fName;
                         }
-                        else if(instructor.instructor_account_Id == message.recieve_id)
+                        else if(instructor.instructor_account_Id == message.recieving_id)
                         {
                             this_message.recip = instructor.lName + ", " + instructor.fName;
                         }
@@ -86,7 +86,7 @@ namespace ClassAnalytics.Controllers
                             this_message.sender = student.lName + ", " + student.fName;
 
                         }
-                        else if (student.student_account_Id == message.recieve_id)
+                        else if (student.student_account_Id == message.recieving_id)
                         {
                             this_message.recip = student.lName + ", " + student.fName;
                         }
@@ -97,7 +97,7 @@ namespace ClassAnalytics.Controllers
                         {
                             this_message.sender = instructor.lName + ", " + instructor.fName;
                         }
-                        else if (instructor.instructor_account_Id == message.recieve_id)
+                        else if (instructor.instructor_account_Id == message.recieving_id)
                         {
                             this_message.recip = instructor.lName + ", " + instructor.fName;
                         }
@@ -126,14 +126,14 @@ namespace ClassAnalytics.Controllers
             List<StudentModels> students = db.studentModels.ToList();
             List<InstructorModel> instructors = db.instructorModel.ToList();
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            if (message.recieve_id == UserId)
+            if (message.recieving_id == UserId)
             {
                 message.read = true;
             }
             foreach(StudentModels student in students)
             {
                 string name = student.fName + " " + student.lName;
-                if (student.student_account_Id == message.recieve_id)
+                if (student.student_account_Id == message.recieving_id)
                 {
                     viewModel.recip = name;
                 }
@@ -145,7 +145,7 @@ namespace ClassAnalytics.Controllers
             foreach(InstructorModel instructor in instructors)
             {
                 string name = instructor.fName + " " + instructor.lName;
-                if (instructor.instructor_account_Id == message.recieve_id)
+                if (instructor.instructor_account_Id == message.recieving_id)
                 {
                     viewModel.recip = name;
                 }
@@ -154,7 +154,7 @@ namespace ClassAnalytics.Controllers
                     viewModel.sender = name;
                 }
             }
-            message.receiving_User = db.Users.Find(message.recieve_id);
+            message.receiving_User = db.Users.Find(message.recieving_id);
             message.sending_User = db.Users.Find(message.sending_id);
             viewModel.Message = message;
             db.SaveChanges();
@@ -198,8 +198,8 @@ namespace ClassAnalytics.Controllers
             string UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
             message.subject = viewModel.Message.subject;
             message.message = viewModel.Message.message;
-            message.recieve_id = viewModel.Message.recieve_id;
-            message.receiving_User = db.Users.Find(message.recieve_id);
+            message.recieving_id = viewModel.Message.recieving_id;
+            message.receiving_User = db.Users.Find(message.recieving_id);
             message.sending_id = UserId;
             message.sending_User = db.Users.Find(message.sending_id);
             message.dateSent = DateTime.Now;

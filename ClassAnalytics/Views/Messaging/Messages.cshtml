@@ -6,7 +6,7 @@
     string by_line = "";
     foreach(var item in Model)
     {
-        if (item.recieve_id == some_Data)
+        if (item.recieving_id == some_Data)
         {
             by_line = "From: ";
             
@@ -49,13 +49,13 @@
     {
         <tr>
             <td>                
-                @if (item.recieve_id == some_Data)
+                @if (item.recieving_id == some_Data)
                 {
                     @Html.DisplayFor(modelItem => item.sending_id)
                 }
                 else if (item.sending_id == some_Data)
                 {
-                    @Html.DisplayFor(modelItem => item.recieve_id)
+                    @Html.DisplayFor(modelItem => item.recieving_id)
                 }
             </td>
             <td>

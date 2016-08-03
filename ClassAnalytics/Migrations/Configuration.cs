@@ -38,10 +38,7 @@ namespace ClassAnalytics.Migrations
             //context.classmodel.AddOrUpdate(x => x.class_Id,
             //    new ClassModel { className = "Flourine", program_id = 1 },
             //    new ClassModel { className = "Oxygen", program_id = 1 },
-            //    new ClassModel { className = "Magnesium", program_id = 1 },
-            //    new ClassModel { className = "Gold", program_id = 1 },
-            //    new ClassModel { className = "Plutonium", program_id = 2 },
-            //    new ClassModel { className = "Barium", program_id = 2 }
+            //    new ClassModel { className = "Section 204-103", program_id = 1 }
             //);
             //context.coursemodels.AddOrUpdate(x => x.course_Id,
             //    new CourseModels { courseName = "Python", startDate = "06/07/2017", endDate = "06/12/2017", program_Id = 1 },
@@ -55,8 +52,8 @@ namespace ClassAnalytics.Migrations
             //    new TaskModel { taskType_Id = 3, taskName = "Lemonade Stand", startDate = Convert.ToDateTime("06/09/2017"), endDate = Convert.ToDateTime("06/12/2017"), points = 30, course_Id = 1, taskNotes = "" }
             //    );
             //context.surveyModel.AddOrUpdate(x => x.survey_Id,
-            //    new SurveyModel { SurveyName = "Python Progress", course_Id = 1 },
-            //    new SurveyModel { SurveyName = "C# Progress", course_Id = 2 }
+            //    new SurveyModel { SurveyName = "Python Progress", course_Id = 1, active = false, class_id = 1 },
+            //    new SurveyModel { SurveyName = "C# Progress", course_Id = 2, active = false, class_id = 2 }
             //);
             //context.surveyQuestion.AddOrUpdate(x => x.question_Id,
             //    new SurveyQuestion { question = "Question 1", survey_Id = 1 },
@@ -69,12 +66,6 @@ namespace ClassAnalytics.Migrations
             //    new SurveyQuestion { question = "Question 3", survey_Id = 2 },
             //    new SurveyQuestion { question = "Question 4", survey_Id = 2 },
             //    new SurveyQuestion { question = "Question 5", survey_Id = 2 }
-            //    );
-            //context.surveyJoinTableModel.AddOrUpdate(x => x.survey_join_Id,
-            //    new SurveyJoinTableModel { class_Id = 1, survey_Id = 1, active = false },
-            //    new SurveyJoinTableModel { class_Id = 1, survey_Id = 2, active = false },
-            //    new SurveyJoinTableModel { class_Id = 2, survey_Id = 1, active = false },
-            //    new SurveyJoinTableModel { class_Id = 2, survey_Id = 2, active = false }
             //    );
         }
     }
