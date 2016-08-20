@@ -20,7 +20,46 @@ namespace ClassAnalytics.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        
+        public ActionResult dashboard()
+        {
+            List<programListViewModel> classList = new List<programListViewModel>();
+            List<ClassModel> classes = db.classmodel.ToList();
+            List<StudentModels> students = db.studentModels.ToList();
+            List<CourseModels> courses = db.coursemodels.ToList();
+            List<ClassTaskJoinModel> tasks = db.classTask.ToList();
+            foreach(ClassModel _class in classes)
+            {
+                programListViewModel _thisClass = new programListViewModel();
+                _thisClass.studentCount = 0;
+                _thisClass.courseCount = 0;
+                _thisClass.taskCount = 0;
+                foreach (StudentModels student in students)
+                {
+                    if(student.class_Id == _class.class_Id)
+                    {
+                        _thisClass.studentCount += 1;
+                    }
+                }
+                foreach(CourseModels course in courses)
+                {
+                    if(course.program_Id == _class.program_id)
+                    {
+                        _thisClass.courseCount += 1;
+                    }
+                }
+                foreach(ClassTaskJoinModel _task in tasks)
+                {
+                    if(_task.class_id == _class.class_Id)
+                    {
+                        _thisClass.taskCount += 1;
+                    }
+                }
+                _thisClass._class = _class;
+                _thisClass.program = db.programModels.Find(_class.program_id);
+                classList.Add(_thisClass);
+            }
+            return View(classList);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult partialEdit(GradeBookModel gradeBookModel)
@@ -55,7 +94,6 @@ namespace ClassAnalytics.Controllers
             grade.StudentModels = db.studentModels.Find(grade.student_Id);
             grade.TaskModel = db.taskModel.Find(grade.task_Id);
             grade.possiblePoints = grade.TaskModel.points;
-
             return View(grade);
         }
         public ActionResult Index(string status)

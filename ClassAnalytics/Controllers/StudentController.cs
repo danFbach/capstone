@@ -75,7 +75,7 @@ namespace ClassAnalytics.Controllers
         public async Task studentConfirmationEmail(string emailaddress, string Password, string fName, string lName,string username)
         {
 
-            var myMessage = new SendGridMessage();
+            SendGridMessage myMessage = new SendGridMessage();
             string resetURL = "http://localhost:5753/Account/Login";
             string a_message = "Hey " + fName + " " + lName + ", your account for school has been created. <br><br>Your login is: <b>" + username + "</b><br>Your Password is: <b>" + Password + "</b><br><br>Activate your account and reset your password <a href=\"" +  resetURL + "\">Here!</a>";
             myMessage.Html = a_message;

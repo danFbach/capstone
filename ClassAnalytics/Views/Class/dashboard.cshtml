@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ClassAnalytics.Models.Class_Models.programListViewModel>
+@{
+    Layout = "~/Views/Shared/_Admin_Dashboard_Layout.cshtml";
+    int dashCount = 1;
+    string dash = "dash";
+    string dashClass = "";
+    string dblink = "dblink-";
+    string linkClass = "";
+}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<div class="container mainBoard">
+    @foreach (var thisClass in Model)
+    {
+        if (dashCount == 4)
+        {
+            dashCount = 1;
+        }
+        dashClass = dash + dashCount;
+        linkClass = dblink + dashCount;
+        <div class="boxContainer">
+            <div class="@dashClass">
+                <h3 class="dt-@dashCount">
+                    @Html.DisplayFor(m => thisClass._class.className)
+                </h3>
+                <div class="classInfo">
+                    <b>Program: </b>@Html.DisplayFor(m => thisClass.program.programName)
+                    <br />
+                    @*<dd>
+                            <a class="@linkClass"><b>Tasks: </b>@Html.DisplayFor(m => thisClass.taskCount)</a> - <a class="@linkClass"><b>Students: </b>@Html.DisplayFor(m => thisClass.studentCount)</a>
+                        </dd>*@
+                </div>
+                <div class="courseBox">
+                    <a class="@linkClass">
+                        <b>Courses: </b>@Html.DisplayFor(m => thisClass.courseCount)
+                    </a>
+                    <div class="courseInfo">
+                        This is a Course.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="classDetails">
+            details
+        </div>
+        dashCount += 1;
+    }
+</div>
+<script type="text/javascript">
+    $("document").ready(function () {
+        //$(".courseBox").hover(
+        //    function () {
+        //        $(".courseInfo", this).slideDown(750);
+        //    }, function () {
+        //        $(".courseInfo", this).slideUp(750);
+        //    }
+        //);
+        $(".boxContainer").hover(
+            function () {
+                $(".dash1", this).animate({ height: 50 }, 750, function () {
+                    $(".classInfo, .courseBox", this).hide();
+                });
+            }, function () {
+                $(".dash1", this).animate({height:300},750, function () {
+                    $(".classInfo, .courseBox", this).show();
+                });
+            }
+        );
+        $(".boxContainer").hover(
+            function () {
+                $(".dash2", this).animate({ height: 50 }, 750, function () {
+                    $(".classInfo, .courseBox", this).hide();
+                });
+            }, function () {
+                $(".dash2", this).animate({ height: 300 }, 750, function () {
+                    $(".classInfo, .courseBox", this).show();
+                });
+            }
+        );
+        $(".boxContainer").hover(
+            function () {
+                $(".dash3", this).animate({ height: 50 }, 750, function () {
+                    $(".classInfo, .courseBox", this).hide();
+                });
+            }, function () {
+                $(".dash3", this).animate({ height: 300 }, 750, function () {
+                    $(".classInfo, .courseBox", this).show();
+                });
+            }
+        );
+    });
+</script>

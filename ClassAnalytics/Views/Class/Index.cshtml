@@ -22,9 +22,9 @@
     string gRow = "gRow";
     string gRight = "gRight";
     string gradeRow = "gradeRow";
-}
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    }
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <h3 style="text-align:center;">
     @ViewBag.Title
 </h3>
@@ -56,8 +56,8 @@
             {
                 <div class="row" style="margin-left:0px;margin-right:0px;border-top:solid 1px #FFF;padding-top:10px;height:100%;width:100%;">
                     <div class="col-md-1" id="@c1Row@item._class.class_Id">
-                        <img id="@c1right@item._class.class_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
-                        <img id="@c1down@item._class.class_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                        <img id="@c1right@item._class.class_Id" src="~/Content/media/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                        <img id="@c1down@item._class.class_Id" src="~/Content/media/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -90,8 +90,8 @@
                         </div>
                     </div>
                     <div class="col-md-1"></div>
-                    <div class="row" id="@uploads@item._class.class_Id" style="width:100%;padding:10px;">
-                        <div class="row" style="margin-left:20px;">
+                    <div class="row" id="@uploads@item._class.class_Id" style="width:100%;padding:10px;display:none;">
+                        <div class="row" style="margin-left:20px;height:100%;width:100%;">
                             <div class="col-md-11" style="padding-left:0px;padding-right:0px;">
                                 @{
                                     Html.RenderAction("uploadPartial", "upload", new { id = item._class.class_Id });
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" id="@students@item._class.class_Id" style="width:100%;padding:10px;">
+                    <div class="row" id="@students@item._class.class_Id" style="width:100%;padding:10px;display:none;">
                         <div class="row" style="margin-left:20px;">
                             <div class="col-md-10" style="padding-right:0px;">
                                 @{
@@ -136,11 +136,11 @@
                             courseLabel += " - No Tasks";
                         }
                         <div class="row" style="width:100%;height:auto;margin-left:0px;margin-right:0px;">
-                            <div class="col-md-2" id="@tRow@item._class.class_Id-@_course.course.course_Id">
-                                <img id="@tright@item._class.class_Id-@_course.course.course_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
-                                <img id="@tdown@item._class.class_Id-@_course.course.course_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                            <div class="col-md-2" id="@tRow@item._class.class_Id-@_course.course.course_Id" style="display:none;">
+                                <img id="@tright@item._class.class_Id-@_course.course.course_Id" src="~/Content/media/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                <img id="@tdown@item._class.class_Id-@_course.course.course_Id" src="~/Content/media/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                             </div>
-                            <div class="col-md-10" id="@c1@item._class.class_Id-@_course.course.course_Id" style="border:solid 1px #FFF;border-radius:5px;">
+                            <div class="col-md-10" id="@c1@item._class.class_Id-@_course.course.course_Id" style="display:none;border:solid 1px #FFF;border-radius:5px;">
                                 <a class="iIndex_links">
                                     <div class="col-md-4">
                                         @Html.Label(courseLabel)
@@ -158,9 +158,9 @@
                         {
                             <script type="text/javascript">
                                 $("document").ready(function () {
-                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide();
+                                    $("#@c1down@item._class.class_Id, #@tright@item._class.class_Id-@_course.course.course_Id, #@tdown@item._class.class_Id-@_course.course.course_Id").hide();
                                     $("#@c0@item._class.class_Id").click(function () {
-                                        $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
+                                        $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown(100)
                                     });
                                     $("#@c0@item._class.class_Id").click(function () {
                                         $("#@c1right@item._class.class_Id").fadeOut(500, function () {
@@ -202,14 +202,14 @@
                                     gradeLabel = " - No Grades";
                                 }
                                 <div class="row" style="width:100%;height:100%;margin-left:0px;margin-right:0px;">
-                                    <div class="col-md-3" id="@gRow@item._class.class_Id-@_task.task.task_Id">
+                                    <div class="col-md-3" id="@gRow@item._class.class_Id-@_task.task.task_Id" style="display:none;">
                                         @if (_task.grades.Count() != 0)
                                         {
-                                            <img id="@gRight@_task.task.task_Id" src="~/Content/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
-                                                <img id="@gDown@_task.task.task_Id" src="~/Content/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                            <img id="@gRight@_task.task.task_Id" src="~/Content/media/right-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
+                                                <img id="@gDown@_task.task.task_Id" src="~/Content/media/down-pointer.png" style="padding-right:5px;vertical-align:middle;margin-left:50%;margin-right:50%;" />
                                         }
                                     </div>
-                                    <div class="col-md-9" id="@t@item._class.class_Id-@_task.task.task_Id" style="border:solid 1px #FFF;border-radius:5px;">
+                                    <div class="col-md-9" id="@t@item._class.class_Id-@_task.task.task_Id" style="border:solid 1px #FFF;border-radius:5px;display:none;">
                                         <a class="iIndex_links">
                                             <div class="col-md-3">
                                                 @Html.DisplayFor(m => _task.task.TaskTypeModels.taskType)
@@ -227,7 +227,7 @@
                                 {
                                     <script type="text/javascript">
                                         $("document").ready(function () {
-                                            $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id, #@uploads@item._class.class_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@students@item._class.class_Id").hide();
+                                            $("#@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id").hide();
                                             $("#@c0@item._class.class_Id").click(function () {
                                                 $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()
                                             });
@@ -285,7 +285,7 @@
                                 }
                                 else
                                 {
-                                    <div class="row" id="@gradeRow@item._class.class_Id-@_task.task.task_Id" style="width:100%;margin-left:0px;margin-right:0px;">
+                                    <div class="row" id="@gradeRow@item._class.class_Id-@_task.task.task_Id" style="width:100%;margin-left:0px;margin-right:0px;display:none;">
                                         <div class="col-md-4"></div>
                                         <div class="col-md-8" style="border:solid 1px #FFF;border-radius:5px;padding:0px;">
                                             <div class="col-md-9">
@@ -308,7 +308,7 @@
                                     foreach (var _grade in _task.grades)
                                     {
                                         string updateGrade = "updateGrade";
-                                        <div class="row" id="@g@_grade.grade_Id" style="margin-left:0px;margin-right:0px;">
+                                        <div class="row" id="@g@_grade.grade_Id" style="margin-left:0px;margin-right:0px;display:none;">
                                             <div class="col-md-4">
                                             </div>
                                             <div class="col-md-8" id="@updateGrade@_grade.grade_Id" style="border:solid 1px #FFF;border-radius:5px;">
@@ -317,7 +317,7 @@
                                         </div>
                                             <script type="text/javascript">
                                                 $("document").ready(function () {
-                                                    $("#@c1@item._class.class_Id-@_course.course.course_Id, #@t@item._class.class_Id-@_task.task.task_Id, #@g@_grade.grade_Id, #@gradeRow@item._class.class_Id-@_task.task.task_Id, #@c1down@item._class.class_Id, #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id,  #@tRow@item._class.class_Id-@_course.course.course_Id, #@gRow@item._class.class_Id-@_task.task.task_Id, #@uploads@item._class.class_Id, #@students@item._class.class_Id").hide(
+                                                    $(" #@tdown@item._class.class_Id-@_course.course.course_Id, #@gDown@_task.task.task_Id, #@c1down@item._class.class_Id").hide(
                                                     );
                                                     $("#@c0@item._class.class_Id").click(function () {
                                                         $("#@c1@item._class.class_Id-@_course.course.course_Id, #@tRow@item._class.class_Id-@_course.course.course_Id").slideDown()

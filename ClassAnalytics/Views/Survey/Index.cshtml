@@ -53,9 +53,10 @@
             @Html.DisplayFor(modelItem => questionCount)
         </td>
         <td style="text-align:right;">
-            @Html.ActionLink("View Questions", "QuestionList", new { id=item.survey_Id}) | 
+            @Html.ActionLink("View Chart", "SurveyBarChart", new { survey_id = item.survey_Id, id = ViewContext.RouteData.Values["id"] }) | 
+            @Html.ActionLink("View Questions", "QuestionList", new { id = item.survey_Id }) | 
             @Html.ActionLink("Add Question", "Create_Question", new { id=item.survey_Id }) | 
-            @Html.ActionLink(active, active, new { id = item.survey_Id })
+            @Html.ActionLink(active, active, new { id = item.survey_Id }) 
         </td>
     </tr>
 }

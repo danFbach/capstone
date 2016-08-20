@@ -1,5 +1,5 @@
 body {
-    background-image: url(chalkboard.jpg);
+    background-image: url(media/chalkboard.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: bottom left;
@@ -14,8 +14,6 @@ th {
 .body-content {
     color: #FFF;
     margin-top: 35px;
-    padding-left: 15px;
-    padding-right: 15px;
     background: rgb(0, 111, 38);
     background: rgba(0, 111, 38, 0.85);
     border-radius: 10px;
